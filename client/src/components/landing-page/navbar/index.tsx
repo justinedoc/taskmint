@@ -1,0 +1,25 @@
+import NavActions from "@/components/landing-page/navbar/nav-actions";
+import NavigationLinks from "@/components/landing-page/navbar/nav-links";
+import { Link } from "@tanstack/react-router";
+
+function Navbar() {
+  return (
+    <nav className="z-50 sticky top-0 left-0 bg-background/10 backdrop-blur-md flex items-center justify-between px-8 py-4">
+      <Link to="/">
+        <div className="flex items-center gap-0.5">
+          <img src="/task-mint.svg" alt="Task mint logo" className="size-10" />
+          <h1 className="font-serif text-xl font-extrabold">
+            Task<span className="text-primary">mint</span>
+          </h1>
+        </div>
+      </Link>
+
+      <div className="flex items-center gap-8">
+        <NavigationLinks />
+        <NavActions />
+      </div>
+    </nav>
+  );
+}
+
+export default Navbar;
