@@ -8,7 +8,7 @@ function Navbar() {
       <Link to="/">
         <div className="flex items-center gap-0.5">
           <img src="/task-mint.svg" alt="Task mint logo" className="size-10" />
-          <h1 className="font-serif text-xl font-extrabold">
+          <h1 className="font-heading text-2xl font-extrabold">
             Task<span className="text-primary">mint</span>
           </h1>
         </div>

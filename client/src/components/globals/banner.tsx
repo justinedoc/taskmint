@@ -7,7 +7,7 @@ function Banner({ ...props }: ComponentProps<"section">) {
     <section
       {...props}
       className={cn(
-        "relative z-0 flex h-[40rem] w-full items-center overflow-hidden rounded-md bg-black/[0.96] md:justify-center",
+        "bg-hero-grad relative z-0 flex min-h-[32rem] w-full items-center overflow-hidden rounded-md md:items-start md:justify-center",
         props.className,
       )}
     />
@@ -32,7 +32,7 @@ Banner.Title = function ({ ...props }: ComponentProps<"h1">) {
     <h1
       {...props}
       className={cn(
-        "bg-opacity-50 font-base bg-gradient-to-b from-neutral-50 to-neutral-400 bg-clip-text text-center text-4xl font-extrabold text-transparent md:text-7xl",
+        "bg-opacity-50 bg-gradient-to-b from-neutral-50 to-neutral-300 bg-clip-text text-center text-5xl font-extrabold text-transparent md:text-8xl",
         props.className,
       )}
     />
@@ -44,7 +44,7 @@ Banner.Description = function ({ ...props }: ComponentProps<"p">) {
     <p
       {...props}
       className={cn(
-        "text-foreground/70 mx-auto mt-2 max-w-lg text-center text-base",
+        "text-foreground/70 mx-auto mt-2 w-sm text-center text-base md:max-w-md",
         props.className,
       )}
     />

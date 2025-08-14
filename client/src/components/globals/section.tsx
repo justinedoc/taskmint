@@ -38,7 +38,7 @@ Section.Title = function SectionTitle({
     <h2
       {...props}
       className={cn(
-        "text-center text-3xl font-bold md:text-4xl md:tracking-wide",
+        "font-heading text-center text-5xl font-bold md:text-6xl md:tracking-wide",
         className,
       )}
     />
@@ -53,7 +53,7 @@ Section.Description = function SectionDescription({
     <p
       {...props}
       className={cn(
-        "text-muted-foreground max-w-[32rem] text-center text-sm leading-relaxed",
+        "text-muted-foreground max-w-md text-center leading-relaxed",
         className,
       )}
     />

@@ -86,7 +86,9 @@ export default function NavigationLinks() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger variant={"ghost"}>Components</NavigationMenuTrigger>
+          <NavigationMenuTrigger variant={"ghost"}>
+            Components
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
               {components.map((component) => (
@@ -102,7 +104,10 @@ export default function NavigationLinks() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink
+            asChild
+            className={navigationMenuTriggerStyle({ variant: "ghost" })}
+          >
             <Link to="/">Docs</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -140,7 +145,9 @@ export default function NavigationLinks() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger variant={"ghost"}>Simple</NavigationMenuTrigger>
+          <NavigationMenuTrigger variant={"ghost"}>
+            Simple
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[200px] gap-4">
               <li>
@@ -158,7 +165,9 @@ export default function NavigationLinks() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger variant={"ghost"}>With Icon</NavigationMenuTrigger>
+          <NavigationMenuTrigger variant={"ghost"}>
+            With Icon
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[200px] gap-4">
               <li>

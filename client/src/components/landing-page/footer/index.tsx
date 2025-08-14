@@ -1,5 +1,11 @@
+import SubscribeNewsLetter from "@/components/landing-page/footer/news-letter";
+
 function Footer() {
-  return <div>Footer here</div>;
+  return <footer>
+    <SubscribeNewsLetter />
+  </footer>;
 }
+
+
 
 export default Footer;

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -39,7 +39,8 @@
   --sidebar-accent-foreground: oklch(0 0 0);
   --sidebar-border: oklch(0.9401 0 0);
   --sidebar-ring: oklch(0 0 0);
-  --font-sans: "Space Grotesk", sans-serif;
+  --font-base: "Space Grotesk", sans-serif;
+  --font-heading: "Inter", sans-serif;
   --font-serif: "Lora", serif;
   --font-mono: "Space Mono", monospace;
   --tracking-normal: -0.025em;
@@ -80,7 +81,8 @@
   --sidebar-accent-foreground: oklch(0.6132 0.2294 291.7437);
   --sidebar-border: oklch(0.3289 0.0092 268.3843);
   --sidebar-ring: oklch(0.6132 0.2294 291.7437);
-  --font-sans: "Space Grotesk", sans-serif;
+  --font-base: "Space Grotesk", sans-serif;
+  --font-heading: "Inter", sans-serif;
   --font-serif: "Lora", serif;
   --font-mono: "Space Mono", monospace;
 }
@@ -119,7 +121,8 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-sans: var(--font-sans);
+  --font-base: var(--font-base);
+  --font-heading: var(--font-heading);
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
 }
@@ -129,8 +132,11 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground font-base;
     letter-spacing: var(--tracking-normal);
+  }
+  button {
+    cursor: pointer;
   }
 }
 
@@ -139,8 +145,8 @@
     to bottom,
     #000000 0%,
     #200d42 34%,
-    #4f21a1 65%,
-    #a46edb 82%
+    #4e20a1 65%,
+    #622cc7 82%
   );
 }
 
