@@ -69,7 +69,7 @@ function FaqAccordion({
           height: isOpen ? `${contentRef.current?.scrollHeight}px` : "0px",
         }}
       >
-        <p className="text-muted-foreground py-2">{faq.answer}</p>
+        <p className="text-muted-foreground py-2 font-mono">{faq.answer}</p>
       </div>
     </div>
   );

@@ -19,7 +19,7 @@ function Features() {
 
       <Section.Body className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {featuresInfo.map((f) => (
-          <FeaturesCard features={f} />
+          <FeaturesCard key={f.title} features={f} />
         ))}
       </Section.Body>
     </Section>

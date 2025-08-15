@@ -16,7 +16,7 @@ function SubscribeNewsLetter() {
       <Section.Body>
         <div className="relative mx-auto max-w-md">
           <Input
-            placeholder="email"
+            placeholder="yourname@email.com"
             type="email"
             required
             className="h-12 rounded-full pl-4"

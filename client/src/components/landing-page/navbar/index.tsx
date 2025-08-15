@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 
 function Navbar() {
   return (
-    <nav className="z-50 sticky top-0 left-0 bg-background/10 backdrop-blur-md flex items-center justify-between px-8 py-4">
+    <nav className="bg-background/10 sticky top-0 left-0 z-50 flex items-center justify-between px-8 py-4 backdrop-blur-md">
       <Link to="/">
         <div className="flex items-center gap-0.5">
           <img src="/task-mint.svg" alt="Task mint logo" className="size-10" />

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 function NavActions() {
@@ -8,8 +9,8 @@ function NavActions() {
         Get Started <ArrowRight />
       </Button>
 
-      <Button variant={"outline"} size="lg">
-        Sign In
+      <Button asChild variant={"outline"} size="lg">
+        <Link to="/signin">Sign In</Link>
       </Button>
     </div>
   );

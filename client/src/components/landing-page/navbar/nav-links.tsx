@@ -1,4 +1,3 @@
-import { CircleCheckIcon, CircleHelpIcon, CircleIcon } from "lucide-react";
 import * as React from "react";
 
 import {
@@ -14,39 +13,37 @@ import { Link } from "@tanstack/react-router";
 
 const components: { title: string; to: string; description: string }[] = [
   {
-    title: "Alert Dialog",
-    to: "/docs/primitives/alert-dialog",
+    title: "Focus Mode",
+    to: "/features/focus",
     description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
+      "Pick one task to focus on each day — fewer distractions, more momentum.",
   },
   {
-    title: "Hover Card",
-    to: "/docs/primitives/hover-card",
+    title: "Streaks",
+    to: "/features/streaks",
     description:
-      "For sighted users to preview content available behind a link.",
+      "Track consecutive completions and celebrate consistent progress.",
   },
   {
-    title: "Progress",
-    to: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+    title: "Rewards & Badges",
+    to: "/features/rewards",
+    description: "Earn small rewards and badges to keep motivation high.",
   },
   {
-    title: "Scroll-area",
-    to: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
+    title: "Tasks",
+    to: "/features/tasks",
+    description: "Create, edit, and organize tasks with priorities and notes.",
   },
   {
-    title: "Tabs",
-    to: "/docs/primitives/tabs",
+    title: "Analytics",
+    to: "/features/analytics",
     description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+      "See your weekly and monthly progress, best streaks and completion trends.",
   },
   {
-    title: "Tooltip",
-    to: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+    title: "Integrations",
+    to: "/features/integrations",
+    description: "Connect calendars, notifications, and sync across devices.",
   },
 ];
 
@@ -61,33 +58,34 @@ export default function NavigationLinks() {
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
                   <a
-                    className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
+                    className="from-card to-background flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-4 no-underline outline-hidden select-none focus:shadow-md"
                     href="/"
                   >
-                    <div className="mt-4 mb-2 text-lg font-medium">
-                      shadcn/ui
+                    <div className="mt-4 mb-2 text-xl font-bold">
+                      Task<span className="text-primary">mint</span>
                     </div>
                     <p className="text-muted-foreground text-sm leading-tight">
-                      Beautifully designed components built with Tailwind CSS.
+                      Celebrate small wins. One-task focus, streaks, and easy
+                      habit tracking.
                     </p>
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem to="/docs" title="Introduction">
-                Re-usable components built using Radix UI and Tailwind CSS.
+              <ListItem to="/about" title="What is TaskMint">
+                Learn how TaskMint helps you build momentum with one-task focus.
               </ListItem>
-              <ListItem to="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
+              <ListItem to="/getting-started" title="Getting Started">
+                Quick setup guide to create your first task and start a streak.
               </ListItem>
-              <ListItem to="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
+              <ListItem to="/style" title="Style & Theme">
+                Customize themes, typography, and app appearance.
               </ListItem>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger variant={"ghost"}>
-            Components
+            Features
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
@@ -108,35 +106,37 @@ export default function NavigationLinks() {
             asChild
             className={navigationMenuTriggerStyle({ variant: "ghost" })}
           >
-            <Link to="/">Docs</Link>
+            <Link to="/about">About</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuTrigger variant={"ghost"}>List</NavigationMenuTrigger>
+          <NavigationMenuTrigger variant={"ghost"}>
+            Explore
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[300px] gap-4">
               <li>
                 <NavigationMenuLink asChild>
-                  <Link to="/">
-                    <div className="font-medium">Components</div>
+                  <Link to="/features">
+                    <div className="font-medium">All Features</div>
                     <div className="text-muted-foreground">
-                      Browse all components in the library.
+                      Browse TaskMint capabilities and workflows.
                     </div>
                   </Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>
-                  <Link to="/">
-                    <div className="font-medium">Documentation</div>
+                  <Link to="/pricing">
+                    <div className="font-medium">Pricing</div>
                     <div className="text-muted-foreground">
-                      Learn how to use the library.
+                      See plans — Free, Flex, and Premium.
                     </div>
                   </Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>
-                  <Link to="/">
+                  <Link to="/blog">
                     <div className="font-medium">Blog</div>
                     <div className="text-muted-foreground">
-                      Read our latest blog posts.
+                      Tips, case studies, and productivity guides.
                     </div>
                   </Link>
                 </NavigationMenuLink>
@@ -146,48 +146,19 @@ export default function NavigationLinks() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger variant={"ghost"}>
-            Simple
+            Resources
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[200px] gap-4">
               <li>
                 <NavigationMenuLink asChild>
-                  <Link to="/">Components</Link>
+                  <Link to="/blogs">Blogs</Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>
-                  <Link to="/">Documentation</Link>
+                  <Link to="/guides">Guides</Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>
-                  <Link to="/">Blocks</Link>
-                </NavigationMenuLink>
-              </li>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger variant={"ghost"}>
-            With Icon
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[200px] gap-4">
-              <li>
-                <NavigationMenuLink asChild>
-                  <Link to="/" className="flex-row items-center gap-2">
-                    <CircleHelpIcon />
-                    Backlog
-                  </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link to="/" className="flex-row items-center gap-2">
-                    <CircleIcon />
-                    To Do
-                  </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link to="/" className="flex-row items-center gap-2">
-                    <CircleCheckIcon />
-                    Done
-                  </Link>
+                  <Link to="/community">Community</Link>
                 </NavigationMenuLink>
               </li>
             </ul>

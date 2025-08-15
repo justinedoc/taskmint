@@ -64,7 +64,7 @@ const navigationMenuTriggerStyle = cva(
     variants: {
       variant: {
         ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 bg-transparent",
+          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 bg-transparent rounded-full",
       },
     },
   },

@@ -5,6 +5,8 @@ import Footer from "@/components/landing-page/footer";
 import Hero from "@/components/landing-page/hero";
 import Interface from "@/components/landing-page/interface";
 import Navbar from "@/components/landing-page/navbar";
+import Pricing from "@/components/landing-page/pricing";
+import Testimonial from "@/components/landing-page/testimonial";
 import { createFileRoute } from "@tanstack/react-router";
 // import { hcWithType } from "server/dist/client";
 
@@ -20,6 +22,8 @@ function Index() {
       <Cooperations />
       <Features />
       <Interface />
+      <Testimonial />
+      <Pricing />
       <Faqs />
       <Footer />
     </>
