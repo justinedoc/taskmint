@@ -108,7 +108,8 @@ PricingCard.Button = function PricingCardButton({
     <Button
       {...props}
       className={cn(
-        plan !== "pro" && buttonVariants({ variant: "outline" }),
+        plan !== "pro" &&
+          `${buttonVariants({ variant: "outline" })} bg-transparent`,
         props.className,
       )}
     />
