@@ -1,9 +1,32 @@
-import { createFileRoute } from '@tanstack/react-router'
+import ForgotPasswordTab from "@/components/auth/forgot-password/forgot-password-tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_auth/forgot-password')({
+export const Route = createFileRoute("/_auth/forgot-password")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/_auth/forgot-password"!</div>
+  return (
+    <Card className="mx-auto w-full max-w-sm">
+      <CardHeader>
+        <CardTitle className="font-heading text-3xl font-bold">
+          Forgot Password
+        </CardTitle>
+        <CardDescription>
+          Enter your email to initate forgotten password
+        </CardDescription>
+      </CardHeader>
+
+      <CardContent>
+        <ForgotPasswordTab />
+      </CardContent>
+    </Card>
+  );
 }

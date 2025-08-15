@@ -48,7 +48,6 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       [strength],
     );
 
-    // Show strength UI only after user starts typing
     const showStrength = value.length > 0;
 
     return (
@@ -77,11 +76,6 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           </button>
         </div>
 
-        {/* Strength bar (hidden until user types) */}
-        {/*
-          Option A: simple conditional render (fast).
-          Option B: keep in DOM and animate height/opacity — uncomment wrapper classes below if you want smoother transition.
-        */}
         {showStrength && (
           <>
             <div
@@ -111,7 +105,11 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
             </p>
 
             {/* Requirement list */}
-            <ul className="space-y-1.5" aria-label="Password requirements" aria-hidden={!showStrength}>
+            <ul
+              className="space-y-1.5"
+              aria-label="Password requirements"
+              aria-hidden={!showStrength}
+            >
               {strength.map((req, i) => (
                 <li key={i} className="flex items-center gap-2">
                   {req.met ? (
@@ -132,7 +130,9 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
                   >
                     {req.text}
                     <span className="sr-only">
-                      {req.met ? " - Requirement met" : " - Requirement not met"}
+                      {req.met
+                        ? " - Requirement met"
+                        : " - Requirement not met"}
                     </span>
                   </span>
                 </li>

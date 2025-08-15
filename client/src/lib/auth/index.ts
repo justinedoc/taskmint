@@ -1,3 +1,4 @@
+import { ForgotPasswordFormData } from "@/components/auth/forgot-password/forgot-password-form";
 import { SignInFormData } from "@/components/auth/signin/signin-form";
 import { sleep } from "@/lib/sleep";
 
@@ -38,9 +39,14 @@ export async function resendOTP() {
   };
 }
 
-
 //  USER SIGNUP
 export async function signUpUser(data: SignInFormData) {
   console.log("Sign up data", data);
+  await sleep(2000);
+}
+
+//  USER FORGOT PASSWORD
+export async function forgotPassword(data: ForgotPasswordFormData) {
+  console.log("forgot password data", data);
   await sleep(2000);
 }
