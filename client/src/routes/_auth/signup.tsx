@@ -1,4 +1,4 @@
-import SigninTabs from "@/components/auth/signin/signin-tabs";
+import SignUpFormTabs from "@/components/auth/signup/signup-tabs";
 import {
   Card,
   CardContent,
@@ -8,24 +8,22 @@ import {
 } from "@/components/ui/card";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_auth/signin")({
-  component: Signin,
+export const Route = createFileRoute("/_auth/signup")({
+  component: RouteComponent,
 });
 
-function Signin() {
+function RouteComponent() {
   return (
-    <Card className="mx-auto w-full max-w-sm">
+    <Card className="mx-auto w-full max-w-sm md:mt-10">
       <CardHeader>
         <CardTitle className="font-heading text-4xl font-bold">
-          Signin
+          Signup
         </CardTitle>
-        <CardDescription>
-          Welcome back!, let continue where we left off
-        </CardDescription>
+        <CardDescription>Join us and start enjoying tiny wins</CardDescription>
       </CardHeader>
 
       <CardContent>
-        <SigninTabs />
+        <SignUpFormTabs />
       </CardContent>
     </Card>
   );

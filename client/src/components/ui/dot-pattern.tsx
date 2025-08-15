@@ -4,10 +4,10 @@ function DotPattern() {
   return (
     <div
       className={cn(
-        "absolute inset-0",
+        "absolute inset-0 -z-10",
         "[background-size:20px_20px]",
         "[background-image:radial-gradient(#d4d4d4_1px,transparent_1px)]",
-        "dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]",
+        "dark:[background-image:radial-gradient(#4e20a2ce_1px,transparent_1px)]",
       )}
     />
   );
