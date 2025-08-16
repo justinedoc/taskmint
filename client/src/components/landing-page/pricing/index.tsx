@@ -1,6 +1,7 @@
 import Section from "@/components/globals/section";
 import PricingCard from "@/components/landing-page/pricing/pricing-card";
-import { pricingPlans } from "@/constants/pricing";
+import { isPopularPlan, pricingPlans } from "@/constants/pricing";
+import { cn } from "@/lib/utils";
 
 function Pricing() {
   return (
@@ -18,7 +19,13 @@ function Pricing() {
           <PricingCard key={p.id} {...p}>
             <PricingCard.Header>
               <div className="flex items-center justify-between">
-                <h3 className="text-muted-foreground font-heading font-semibold capitalize">
+                <h3
+                  className={cn(
+                    "font-heading font-semibold capitalize",
+                    p.plan === isPopularPlan?.plan &&
+                      "bg-gradient-to-br from-emerald-400/80 via-indigo-500/75 to-rose-400/70 bg-clip-text text-transparent",
+                  )}
+                >
                   {p.plan}
                 </h3>
 

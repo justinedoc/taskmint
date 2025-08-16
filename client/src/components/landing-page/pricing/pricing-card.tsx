@@ -44,7 +44,7 @@ function PricingCard({
         "to-background rounded-2xl bg-gradient-to-b from-transparent p-6 shadow-2xl",
         {
           "from-background to-card scale-[1.05] bg-gradient-to-b shadow-none":
-            isPopularPlan,
+            plan === isPopularPlan?.plan,
         },
         className,
       )}
