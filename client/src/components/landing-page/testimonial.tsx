@@ -1,12 +1,12 @@
 import Section from "@/components/globals/section";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { testimonialInfo } from "@/constants/Testimonials";
+import { testimonialInfo } from "@/constants/testimonials";
 import Marquee from "react-fast-marquee";
 
 function Testimonial() {
   return (
-    <Section className="from-primary to-background bg-gradient-to-b px-0 md:px-0 md:max-w-none">
+    <Section className="from-primary to-background bg-gradient-to-b px-0 md:max-w-none md:px-0">
       <Section.Header>
         <Section.Title>Testimonials</Section.Title>
         <Section.Description>See what people say about us!</Section.Description>
@@ -20,7 +20,7 @@ function Testimonial() {
           className="inline-flex"
         >
           {testimonialInfo.map((testimonial, idx) => (
-            <Card key={idx} className="mx-2 max-w-sm">
+            <Card key={idx} className="bg-card/30 mx-2 max-w-sm">
               <CardContent>{testimonial.content}</CardContent>
 
               <CardFooter className="gap-2">
