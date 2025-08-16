@@ -4,8 +4,14 @@ import { sleep } from "@/lib/sleep";
 
 /* USER SIGN IN */
 export async function signInUser(data: SignInFormData) {
-  console.log("Sign in data", data);
   await sleep(2000);
+
+  console.log("Sign in data", data);
+
+  return {
+    success: true,
+    message: "Signin successful",
+  };
 }
 
 export async function verifyOTP(pin: number) {
@@ -41,12 +47,20 @@ export async function resendOTP() {
 
 //  USER SIGNUP
 export async function signUpUser(data: SignInFormData) {
-  console.log("Sign up data", data);
   await sleep(2000);
+  console.log("Sign up data", data);
+  return {
+    success: true,
+    message: "Signup successful",
+  };
 }
 
 //  USER FORGOT PASSWORD
 export async function forgotPassword(data: ForgotPasswordFormData) {
-  console.log("forgot password data", data);
   await sleep(2000);
+  console.log("forgot password data", data);
+  return {
+    success: true,
+    message: "Password reset link sent successfully",
+  };
 }

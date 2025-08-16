@@ -1,4 +1,4 @@
-import ForgotPasswordTab from "@/components/auth/forgot-password/forgot-password-tabs";
+import ForgotPasswordForm from "@/components/auth/forgot-password/forgot-password-form";
 import {
   Card,
   CardContent,
@@ -25,7 +25,7 @@ function RouteComponent() {
       </CardHeader>
 
       <CardContent>
-        <ForgotPasswordTab />
+        <ForgotPasswordForm />
       </CardContent>
     </Card>
   );

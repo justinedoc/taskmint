@@ -1,4 +1,3 @@
-import { FormTabs } from "@/components/auth/signup/signup-tabs";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,16 +23,15 @@ const formSchema = z.object({
 
 export type ForgotPasswordFormData = z.infer<typeof formSchema>;
 
-export default function ForgotPasswordForm({
-  onHandleTabSwitch,
-}: {
-  onHandleTabSwitch: (FormTabs: FormTabs) => void;
-}) {
+export default function ForgotPasswordForm() {
   const [isPending, startTransition] = useTransition();
   const { mutate } = useMutation({
     mutationFn: forgotPassword,
     onError(error) {
       toast.error(error.message);
+    },
+    onSuccess(data) {
+      toast.success(data.message);
     },
   });
 
@@ -48,8 +46,6 @@ export default function ForgotPasswordForm({
     startTransition(async () => {
       mutate(data);
     });
-
-    onHandleTabSwitch("form-otp");
   }
 
   return (
