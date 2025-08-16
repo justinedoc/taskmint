@@ -1,6 +1,8 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
+import { isPopularPlan, PricingPlan } from "@/constants/pricing";
 import { cn } from "@/lib/utils";
+import { Link } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import {
   ComponentProps,
@@ -9,25 +11,26 @@ import {
   useContext,
 } from "react";
 
-interface TCardContext {
-  plan: "free" | "pro" | "business";
-  duration?: "monthly" | "yearly" | "weekly";
-  currency?: string;
-  features: string[];
-}
+type TCardContext = Pick<
+  PricingPlan,
+  "plan" | "duration" | "currency" | "features" | "to"
+>;
 
 const CardContext = createContext<TCardContext | undefined>(undefined);
 
 const usePricingCardContext = () => {
   const context = useContext(CardContext);
   if (!context)
-    throw new Error("Card context must be used in a Card context provider!");
+    throw new Error(
+      "Price Card context must be used in a Price Card context provider!",
+    );
   return context;
 };
 
 function PricingCard({
   duration = "monthly",
   currency = "$",
+  to,
   features,
   plan,
   children,
@@ -41,12 +44,12 @@ function PricingCard({
         "to-background rounded-2xl bg-gradient-to-b from-transparent p-6 shadow-2xl",
         {
           "from-background to-card scale-[1.05] bg-gradient-to-b shadow-none":
-            plan === "pro",
+            isPopularPlan,
         },
         className,
       )}
     >
-      <CardContext.Provider value={{ duration, currency, features, plan }}>
+      <CardContext.Provider value={{ duration, currency, features, plan, to }}>
         {children}
       </CardContext.Provider>
     </Card>
@@ -102,13 +105,15 @@ PricingCard.Price = function PricingCardPrice({
 
 PricingCard.Button = function PricingCardButton({
   ...props
-}: ComponentProps<typeof Button>) {
-  const { plan } = usePricingCardContext();
+}: ComponentProps<typeof Link>) {
+  const { to, plan } = usePricingCardContext();
   return (
-    <Button
+    <Link
       {...props}
+      to={to}
       className={cn(
-        plan !== "pro" &&
+        buttonVariants(),
+        plan !== isPopularPlan?.plan &&
           `${buttonVariants({ variant: "outline" })} bg-transparent`,
         props.className,
       )}

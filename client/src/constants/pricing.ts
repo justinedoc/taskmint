@@ -1,10 +1,11 @@
 export type PlanDuration = "monthly" | "yearly" | "weekly";
-export type PlanName = "free" | "pro" | "business";
+export type PlanName = "free" | "basic" | "pro";
 
 export type PricingPlan = {
   id: string;
   plan: PlanName;
   price: number;
+  to: string;
   currency?: string;
   duration?: PlanDuration;
   cta?: string;
@@ -16,6 +17,7 @@ export const pricingPlans: PricingPlan[] = [
   {
     id: "plan-free",
     plan: "free",
+    to: "/signup?ref=pricing",
     price: 0,
     currency: "$",
     duration: "monthly",
@@ -29,10 +31,11 @@ export const pricingPlans: PricingPlan[] = [
     ],
   },
   {
-    id: "plan-pro",
-    plan: "pro",
+    id: "plan-basic",
+    plan: "basic",
     price: 3,
     currency: "$",
+    to: "/signup?plan=basic",
     duration: "monthly",
     cta: "Signup now!",
     badge: "Most popular",
@@ -45,10 +48,11 @@ export const pricingPlans: PricingPlan[] = [
     ],
   },
   {
-    id: "plan-business",
-    plan: "business",
+    id: "plan-pro",
+    plan: "pro",
     price: 7,
     currency: "$",
+    to: "/signup?plan=pro",
     duration: "monthly",
     cta: "Get Started",
     badge: null,
@@ -63,3 +67,5 @@ export const pricingPlans: PricingPlan[] = [
     ],
   },
 ];
+
+export const isPopularPlan = pricingPlans.find((p) => p.plan === "basic");

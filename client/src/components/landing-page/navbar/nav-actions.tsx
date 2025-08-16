@@ -1,17 +1,20 @@
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 
 function NavActions() {
   return (
     <div className="flex items-center gap-4">
-      <Button size="lg">
+      <Link to="/signup" className={buttonVariants({ size: "lg" })}>
         Get Started <ArrowRight />
-      </Button>
+      </Link>
 
-      <Button asChild variant={"outline"} size="lg">
-        <Link to="/signin">Sign In</Link>
-      </Button>
+      <Link
+        to="/signin"
+        className={buttonVariants({ variant: "outline", size: "lg" })}
+      >
+        Sign In
+      </Link>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import Banner from "@/components/globals/banner";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 // import GridPattern from "@/components/ui/grid-pattern";
 import Tag from "@/components/ui/tag";
 import { TextShimmer } from "@/components/ui/text-shimmer";
@@ -29,16 +29,15 @@ function Hero() {
         </Banner.Description>
 
         <Banner.CTA>
-          <Link to="/signin">
-            <Button size="lg">
-              Get Started <ArrowRight />
-            </Button>
+          <Link to="/signin" className={buttonVariants({ size: "lg" })}>
+            Get Started <ArrowRight />
           </Link>
 
-          <Link to="/">
-            <Button variant="outline" size="lg">
-              How It Works <ArrowUpRight />
-            </Button>
+          <Link
+            to="/"
+            className={buttonVariants({ variant: "outline", size: "lg" })}
+          >
+            How It Works <ArrowUpRight />
           </Link>
         </Banner.CTA>
       </Banner.Header>

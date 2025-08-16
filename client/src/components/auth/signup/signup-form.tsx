@@ -111,15 +111,14 @@ export default function SignupForm({
 
         <p className="text-muted-foreground text-center text-sm">
           Already have an account?{" "}
-          <Link to="/signin">
-            <Button
-              type="button"
-              variant={"link"}
-              className="text-foreground px-1"
-            >
-              Signin
-            </Button>
-          </Link>
+          <Button
+            type="button"
+            variant={"link"}
+            className="text-foreground px-1"
+            asChild
+          >
+            <Link to="/signin">Signin</Link>
+          </Button>
         </p>
       </form>
     </Form>

@@ -1,5 +1,5 @@
 import { FormTabs } from "@/components/auth/signin/signin-tabs";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signInUser } from "@/lib/auth";
+import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
@@ -106,13 +107,15 @@ export default function SigninForm({
           )}
         />
         <div className="-mt-4 flex items-center justify-between text-sm">
-          <Button
-            type="button"
-            variant="link"
-            className="text-muted-foreground"
+          <Link
+            to="/forgot-password"
+            className={cn(
+              buttonVariants({ variant: "link" }),
+              "text-foreground",
+            )}
           >
-            <Link to="/forgot-password">Forgot password?</Link>
-          </Button>
+            Forgot password?
+          </Link>
 
           <FormField
             control={form.control}
@@ -135,14 +138,14 @@ export default function SigninForm({
         </Button>
         <p className="text-muted-foreground text-center text-sm">
           Don't have an account?{" "}
-          <Link to="/signup">
-            <Button
-              type="button"
-              variant={"link"}
-              className="text-foreground px-1"
-            >
-              Signup
-            </Button>
+          <Link
+            to="/signup"
+            className={cn(
+              buttonVariants({ variant: "link" }),
+              "text-foreground px-1",
+            )}
+          >
+            Signup
           </Link>
         </p>
       </form>
