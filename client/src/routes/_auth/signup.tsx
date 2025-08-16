@@ -1,4 +1,5 @@
-import SignUpFormTabs from "@/components/auth/signup/signup-tabs";
+import AuthFormTabs from "@/components/auth/auth-form-tabs";
+import SignupForm from "@/components/auth/signup-form";
 import {
   Card,
   CardContent,
@@ -23,7 +24,7 @@ function RouteComponent() {
       </CardHeader>
 
       <CardContent>
-        <SignUpFormTabs />
+        <AuthFormTabs FormComponent={SignupForm} />
       </CardContent>
     </Card>
   );

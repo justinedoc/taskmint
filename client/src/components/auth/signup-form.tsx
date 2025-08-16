@@ -1,4 +1,4 @@
-import { FormTabs } from "@/components/auth/signup/signup-tabs";
+import { FormTabs } from "@/components/auth/auth-form-tabs";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -21,11 +21,15 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
-  fullname: z.string().min(1, { error: "fullname is required" }),
+  name: z.string().min(1, { error: "fullname is required" }),
   email: z.email({ message: "Please enter a valid email address" }),
   password: z
     .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
+    .regex(/.{6,}/, { error: "Password must be at least 6 characters" })
+    .regex(/[0-9]/, { error: "Password must contain at least 1 number" })
+    .regex(/[A-Z]/, {
+      error: "Password must contain at least 1 uppercase letter",
+    }),
 });
 
 type SignUpFormData = z.infer<typeof formSchema>;
@@ -36,17 +40,20 @@ export default function SignupForm({
   onHandleTabSwitch: (FormTabs: FormTabs) => void;
 }) {
   const [isPending, startTransition] = useTransition();
-  const { mutate } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: signUpUser,
     onError(error) {
       toast.error(error.message);
+    },
+    onSuccess() {
+      onHandleTabSwitch("form-otp");
     },
   });
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullname: "",
+      name: "",
       email: "",
       password: "",
     },
@@ -54,10 +61,8 @@ export default function SignupForm({
 
   function onSubmit(data: SignUpFormData) {
     startTransition(async () => {
-      mutate(data);
+      await mutateAsync(data);
     });
-
-    onHandleTabSwitch("form-otp");
   }
 
   return (
@@ -65,7 +70,7 @@ export default function SignupForm({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="fullname"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Fullname</FormLabel>
@@ -100,13 +105,12 @@ export default function SignupForm({
               <FormControl>
                 <PasswordInput {...field} />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
 
         <Button disabled={isPending} type="submit" className="w-full">
-          Signup <ChevronRight />
+          {isPending ? "Signing up..." : "Signup"} <ChevronRight />
         </Button>
 
         <p className="text-muted-foreground text-center text-sm">

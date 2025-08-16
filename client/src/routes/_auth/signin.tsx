@@ -1,4 +1,5 @@
-import SigninTabs from "@/components/auth/signin/signin-tabs";
+import AuthFormTabs from "@/components/auth/auth-form-tabs";
+import SigninForm from "@/components/auth/signin-form";
 import {
   Card,
   CardContent,
@@ -25,7 +26,7 @@ function Signin() {
       </CardHeader>
 
       <CardContent>
-        <SigninTabs />
+        <AuthFormTabs FormComponent={SigninForm} />
       </CardContent>
     </Card>
   );

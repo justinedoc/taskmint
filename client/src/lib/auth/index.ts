@@ -1,5 +1,6 @@
-import { ForgotPasswordFormData } from "@/components/auth/forgot-password/forgot-password-form";
-import { SignInFormData } from "@/components/auth/signin/signin-form";
+import { ForgotPasswordFormData } from "@/components/auth/forgot-password-form";
+import { ResetPasswordFormData } from "@/components/auth/reset-password-form";
+import { SignInFormData } from "@/components/auth/signin-form";
 import { sleep } from "@/lib/sleep";
 
 /* USER SIGN IN */
@@ -62,5 +63,16 @@ export async function forgotPassword(data: ForgotPasswordFormData) {
   return {
     success: true,
     message: "Password reset link sent successfully",
+  };
+}
+
+export async function resetPassword(
+  data: Pick<ResetPasswordFormData, "password"> & { token: string },
+) {
+  await sleep(2000);
+  console.log("reset password data", data);
+  return {
+    success: true,
+    message: "Password reset was successful",
   };
 }

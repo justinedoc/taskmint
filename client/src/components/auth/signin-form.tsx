@@ -1,4 +1,4 @@
-import { FormTabs } from "@/components/auth/signin/signin-tabs";
+import { FormTabs } from "@/components/auth/auth-form-tabs";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { ChevronRight, Eye, EyeOff } from "lucide-react";
+import { ChevronRight, EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -38,10 +38,13 @@ export default function SigninForm({
 }) {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isPending, startTransition] = useTransition();
-  const { mutate } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: signInUser,
     onError(error) {
       toast.error(error.message);
+    },
+    onSuccess() {
+      onHandleTabSwitch("form-otp");
     },
   });
 
@@ -57,10 +60,8 @@ export default function SigninForm({
 
   function onSubmit(data: SignInFormData) {
     startTransition(async () => {
-      mutate(data);
+      await mutateAsync(data);
     });
-
-    onHandleTabSwitch("form-otp");
   }
 
   return (
@@ -94,12 +95,20 @@ export default function SigninForm({
                   />
                 </FormControl>
 
-                <span
-                  className="absolute top-[48%] right-2 -translate-y-1/2 cursor-pointer text-sm"
-                  onClick={() => setIsPasswordHidden((cur) => !cur)}
+                <button
+                  type="button"
+                  onClick={() => setIsPasswordHidden((s) => !s)}
+                  aria-label={
+                    isPasswordHidden ? "Hide password" : "Show password"
+                  }
+                  className="text-muted-foreground/80 hover:text-foreground absolute inset-y-0 end-0 flex h-full w-9 items-center justify-center rounded-e-md transition-all"
                 >
-                  {isPasswordHidden ? <Eye /> : <EyeOff />}
-                </span>
+                  {isPasswordHidden ? (
+                    <EyeOffIcon size={16} />
+                  ) : (
+                    <EyeIcon size={16} />
+                  )}
+                </button>
               </div>
 
               <FormMessage />
@@ -134,7 +143,7 @@ export default function SigninForm({
           />
         </div>
         <Button disabled={isPending} type="submit" size="lg" className="w-full">
-          Sign in <ChevronRight />
+          {isPending ? "Signing in..." : "Signin"} <ChevronRight />
         </Button>
         <p className="text-muted-foreground text-center text-sm">
           Don't have an account?{" "}

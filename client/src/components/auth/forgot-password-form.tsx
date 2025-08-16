@@ -25,7 +25,7 @@ export type ForgotPasswordFormData = z.infer<typeof formSchema>;
 
 export default function ForgotPasswordForm() {
   const [isPending, startTransition] = useTransition();
-  const { mutate } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: forgotPassword,
     onError(error) {
       toast.error(error.message);
@@ -44,7 +44,7 @@ export default function ForgotPasswordForm() {
 
   function onSubmit(data: ForgotPasswordFormData) {
     startTransition(async () => {
-      mutate(data);
+      await mutateAsync(data);
     });
   }
 
@@ -66,7 +66,7 @@ export default function ForgotPasswordForm() {
         />
 
         <Button disabled={isPending} type="submit" className="w-full">
-          Submit <ChevronRight />
+          {isPending ? "Submitting" : "Submit"} <ChevronRight />
         </Button>
       </form>
     </Form>

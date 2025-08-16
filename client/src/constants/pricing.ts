@@ -17,7 +17,7 @@ export const pricingPlans: PricingPlan[] = [
   {
     id: "plan-free",
     plan: "free",
-    to: "/signup?ref=pricing",
+    to: "/signup",
     price: 0,
     currency: "$",
     duration: "monthly",
@@ -35,7 +35,8 @@ export const pricingPlans: PricingPlan[] = [
     plan: "flex",
     price: 3,
     currency: "$",
-    to: "/signup?plan=basic",
+    to: "/signup",
+
     duration: "monthly",
     cta: "Signup now!",
     badge: "Most popular",

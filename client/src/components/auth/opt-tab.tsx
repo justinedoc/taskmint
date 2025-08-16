@@ -37,14 +37,14 @@ export default function FormOTP() {
   const [isResendPending, startResendTransition] = useTransition();
   const location = useLocation();
 
-  const { mutate: mutateVerifyOTP } = useMutation({
+  const { mutateAsync: mutateVerifyOTP } = useMutation({
     mutationFn: verifyOTP,
     onSuccess(data) {
       toast.success(data.message);
     },
   });
 
-  const { mutate: mutateResendOTP } = useMutation({
+  const { mutateAsync: mutateResendOTP } = useMutation({
     mutationFn: resendOTP,
     onError(err) {
       toast.error(err.message);
@@ -95,10 +95,10 @@ export default function FormOTP() {
   }, [resendCooldown]);
 
   function onSubmitOTP(data: TOTPForm) {
-    startTransition(() => {
+    startTransition(async () => {
       const signinData = location.state;
       console.log("Location state: ", signinData);
-      mutateVerifyOTP(Number(data.pin));
+      await mutateVerifyOTP(Number(data.pin));
       navigate({ to: "/dashboard" });
     });
   }
@@ -106,8 +106,8 @@ export default function FormOTP() {
   function handleResendOTP() {
     if (resendCooldown > 0) return;
 
-    startResendTransition(() => {
-      mutateResendOTP();
+    startResendTransition(async () => {
+      await mutateResendOTP();
 
       const expiresAt = Date.now() + 30_000;
       localStorage.setItem("otp_cooldown_expires_at", expiresAt.toString());
