@@ -32,7 +32,7 @@ export const Route = createFileRoute("/_landing/signin/modal")({
       { property: "og:url", content: "http://localhost:5173/signin" },
       {
         property: "og:image",
-        content: "https://taskmint.com/task-mint.svg",
+        content: "http://localhost:5173/taskmint-half.svg",
       },
 
       // misc

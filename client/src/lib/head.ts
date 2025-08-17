@@ -36,7 +36,7 @@ export function createAuthHead(opts: AuthHeadOptions) {
       { property: "og:url", content: url },
       {
         property: "og:image",
-        content: baseUrl + (opts.image || "/task-mint.svg"),
+        content: baseUrl + (opts.image || "/taskmint-half.svg"),
       },
 
       // Twitter
@@ -48,7 +48,7 @@ export function createAuthHead(opts: AuthHeadOptions) {
       { name: "twitter:description", content: opts.description },
       {
         name: "twitter:image",
-        content: baseUrl + (opts.image || "/task-mint.svg"),
+        content: baseUrl + (opts.image || "/taskmint-half.svg"),
       },
 
       // misc

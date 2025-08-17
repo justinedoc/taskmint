@@ -34,7 +34,7 @@ export const Route = createFileRoute("/_auth/signup")({
       { property: "og:url", content: "http://localhost:5173/signup" },
       {
         property: "og:image",
-        content: "https://taskmint.com/task-mint.svg",
+        content: "http://localhost:5173/taskmint-half.svg",
       },
 
       { name: "robots", content: "noindex, nofollow" },
