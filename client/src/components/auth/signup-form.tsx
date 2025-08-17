@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import PasswordInput from "@/components/ui/password-input";
+import { PlanName } from "@/constants/pricing";
 import { signUpUser } from "@/lib/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -36,8 +37,10 @@ type SignUpFormData = z.infer<typeof formSchema>;
 
 export default function SignupForm({
   onHandleTabSwitch,
+  plan
 }: {
   onHandleTabSwitch: (FormTabs: FormTabs) => void;
+  plan?: PlanName;
 }) {
   const [isPending, startTransition] = useTransition();
   const { mutateAsync } = useMutation({
@@ -61,7 +64,7 @@ export default function SignupForm({
 
   function onSubmit(data: SignUpFormData) {
     startTransition(async () => {
-      await mutateAsync(data);
+      await mutateAsync({...data, plan });
     });
   }
 

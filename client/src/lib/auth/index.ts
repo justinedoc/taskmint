@@ -1,6 +1,7 @@
 import { ForgotPasswordFormData } from "@/components/auth/forgot-password-form";
 import { ResetPasswordFormData } from "@/components/auth/reset-password-form";
 import { SignInFormData } from "@/components/auth/signin-form";
+import { PlanName } from "@/constants/pricing";
 import { sleep } from "@/lib/sleep";
 
 /* USER SIGN IN */
@@ -47,7 +48,7 @@ export async function resendOTP() {
 }
 
 //  USER SIGNUP
-export async function signUpUser(data: SignInFormData) {
+export async function signUpUser(data: SignInFormData & { plan?: PlanName }) {
   await sleep(2000);
   console.log("Sign up data", data);
   return {

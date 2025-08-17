@@ -6,19 +6,47 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { createFileRoute, Navigate } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import z from "zod";
 
 export const Route = createFileRoute("/_auth/reset-password")({
   component: RouteComponent,
   validateSearch: zodValidator(z.object({ token: z.string().optional() })),
+  beforeLoad: ({ search }) => {
+    if (!search.token) return redirect({ to: "/" });
+  },
+  head: () => ({
+    meta: [
+      { title: "Reset password — TaskMint" },
+      {
+        name: "description",
+        content:
+          "Choose a new password to secure your TaskMint account and continue building momentum.",
+      },
+
+      // Open Graph
+      { property: "og:title", content: "Reset password — TaskMint" },
+      {
+        property: "og:description",
+        content:
+          "Choose a new password to secure your TaskMint account and continue building momentum.",
+      },
+      { property: "og:type", content: "website" },
+      {
+        property: "og:url",
+        content: "http://localhost:5173/reset-password",
+      },
+
+      // misc
+      { name: "robots", content: "noindex, nofollow" },
+      { name: "theme-color", content: "#4f21a1" },
+    ],
+  }),
 });
 
 function RouteComponent() {
   const { token } = Route.useSearch();
-
-  if (!token) return <Navigate to="/" />;
 
   return (
     <Card className="mx-auto w-full max-w-sm">
@@ -30,7 +58,7 @@ function RouteComponent() {
       </CardHeader>
 
       <CardContent>
-        <ResetPasswordForm token={token} />
+        <ResetPasswordForm token={token!} />
       </CardContent>
     </Card>
   );

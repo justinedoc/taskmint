@@ -1,5 +1,6 @@
 export type PlanDuration = "monthly" | "yearly" | "weekly";
-export type PlanName = "free" | "flex" | "premium";
+export const PLANS = ["free", "flex", "premium"] as const;
+export type PlanName = (typeof PLANS)[number];
 
 export type PricingPlan = {
   id: string;

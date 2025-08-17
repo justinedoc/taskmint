@@ -1,5 +1,6 @@
 import FormOTP from "@/components/auth/opt-tab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PlanName } from "@/constants/pricing";
 import React, { useCallback, useMemo, useState } from "react";
 
 export type FormTabs = "form-details" | "form-otp";
@@ -7,7 +8,7 @@ export type FormTabs = "form-details" | "form-otp";
 type OnHandleTabSwitch = (value: FormTabs) => void;
 
 export type FormComponentType<Props extends object> = React.ComponentType<
-  Props & { onHandleTabSwitch: OnHandleTabSwitch }
+  Props & { onHandleTabSwitch: OnHandleTabSwitch, plan?: PlanName }
 >;
 
 export type AuthFormTabsProps<FormProps extends object> = {
