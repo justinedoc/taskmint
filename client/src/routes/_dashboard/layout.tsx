@@ -1,3 +1,6 @@
+import Navbar from "@/components/dashboard/navbar";
+import DashboardSidebar from "@/components/dashboard/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_dashboard")({
@@ -6,9 +9,12 @@ export const Route = createFileRoute("/_dashboard")({
 
 function RouteComponent() {
   return (
-    <div>
-      Hello dahboard layout
-      <Outlet />
-    </div>
+    <SidebarProvider>
+      <DashboardSidebar />
+      <SidebarInset>
+        <Navbar />
+        <Outlet />
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

@@ -12,16 +12,20 @@ function Logo({
 }) {
   return (
     <>
-      <Link to="/">
+      <Link to="/" className="flex items-center gap-1">
         <img
-          width={90}
-          height={90}
+          width={50}
+          height={50}
           {...props}
           src={src}
           alt="Task mint's logo"
           loading="eager"
           className={cn(className)}
         />
+
+        <h1 className="text-2xl font-extrabold group-data-[collapsible=icon]:hidden">
+          Task<span className="text-primary">mint</span>
+        </h1>
       </Link>
     </>
   );
