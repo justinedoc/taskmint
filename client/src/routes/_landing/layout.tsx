@@ -7,14 +7,13 @@ import Interface from "@/components/landing-page/interface";
 import Navbar from "@/components/landing-page/navbar";
 import Pricing from "@/components/landing-page/pricing";
 import Testimonial from "@/components/landing-page/testimonial";
-import { createFileRoute } from "@tanstack/react-router";
-// import { hcWithType } from "server/dist/client";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/")({
-  component: Index,
+export const Route = createFileRoute("/_landing")({
+  component: RouteComponent,
 });
 
-function Index() {
+function RouteComponent() {
   return (
     <>
       <Navbar />
@@ -26,8 +25,7 @@ function Index() {
       <Pricing />
       <Faqs />
       <Footer />
+      <Outlet />
     </>
   );
 }
-
-export default Index;

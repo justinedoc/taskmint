@@ -10,7 +10,7 @@ function NavActions() {
       </Link>
 
       <Link
-        to="/signin"
+        to="/signin/modal"
         className={buttonVariants({ variant: "outline", size: "lg" })}
       >
         Sign In

@@ -7,10 +7,21 @@ import "./index.css";
 const queryClient = new QueryClient();
 
 // Import the generated route tree
+import { createRouteMask } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
+const signinModalToSigninMask = createRouteMask({
+  routeTree,
+  from: "/signin/modal",
+  to: "/signin",
+  unmaskOnReload: true,
+});
+
 // Create a new router instance
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  routeMasks: [signinModalToSigninMask],
+});
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
