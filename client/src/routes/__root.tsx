@@ -8,7 +8,7 @@ export const Route = createRootRoute({
       <HeadContent />
       <Outlet />
       <Toaster richColors theme="dark" position="top-right" />
-      <TanStackRouterDevtools />
+      <TanStackRouterDevtools position="bottom-right"/>
     </>
   ),
 });

@@ -9,37 +9,44 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DashboardLayoutRouteImport } from './routes/dashboard/layout'
 import { Route as LandingLayoutRouteImport } from './routes/_landing/layout'
-import { Route as DashboardLayoutRouteImport } from './routes/_dashboard/layout'
 import { Route as AuthLayoutRouteImport } from './routes/_auth/layout'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as LandingIndexRouteImport } from './routes/_landing/index'
-import { Route as DashboardDashboardRouteImport } from './routes/_dashboard/dashboard'
+import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
 import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthSigninRouteImport } from './routes/_auth/signin'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
 import { Route as LandingSigninModalRouteImport } from './routes/_landing/signin.modal'
 
-const LandingLayoutRoute = LandingLayoutRouteImport.update({
-  id: '/_landing',
+const DashboardLayoutRoute = DashboardLayoutRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardLayoutRoute = DashboardLayoutRouteImport.update({
-  id: '/_dashboard',
+const LandingLayoutRoute = LandingLayoutRouteImport.update({
+  id: '/_landing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthLayoutRoute = AuthLayoutRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardLayoutRoute,
+} as any)
 const LandingIndexRoute = LandingIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => LandingLayoutRoute,
 } as any)
-const DashboardDashboardRoute = DashboardDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => DashboardLayoutRoute,
 } as any)
 const AuthSignupRoute = AuthSignupRouteImport.update({
@@ -69,12 +76,14 @@ const LandingSigninModalRoute = LandingSigninModalRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/signin': typeof AuthSigninRoute
   '/signup': typeof AuthSignupRoute
-  '/dashboard': typeof DashboardDashboardRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/': typeof LandingIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/signin/modal': typeof LandingSigninModalRoute
 }
 export interface FileRoutesByTo {
@@ -82,32 +91,36 @@ export interface FileRoutesByTo {
   '/reset-password': typeof AuthResetPasswordRoute
   '/signin': typeof AuthSigninRoute
   '/signup': typeof AuthSignupRoute
-  '/dashboard': typeof DashboardDashboardRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/': typeof LandingIndexRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/signin/modal': typeof LandingSigninModalRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthLayoutRouteWithChildren
-  '/_dashboard': typeof DashboardLayoutRouteWithChildren
   '/_landing': typeof LandingLayoutRouteWithChildren
+  '/dashboard': typeof DashboardLayoutRouteWithChildren
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_auth/signin': typeof AuthSigninRoute
   '/_auth/signup': typeof AuthSignupRoute
-  '/_dashboard/dashboard': typeof DashboardDashboardRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
   '/_landing/': typeof LandingIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/_landing/signin/modal': typeof LandingSigninModalRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/dashboard'
     | '/forgot-password'
     | '/reset-password'
     | '/signin'
     | '/signup'
-    | '/dashboard'
+    | '/dashboard/settings'
     | '/'
+    | '/dashboard/'
     | '/signin/modal'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -115,43 +128,45 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signin'
     | '/signup'
-    | '/dashboard'
+    | '/dashboard/settings'
     | '/'
+    | '/dashboard'
     | '/signin/modal'
   id:
     | '__root__'
     | '/_auth'
-    | '/_dashboard'
     | '/_landing'
+    | '/dashboard'
     | '/_auth/forgot-password'
     | '/_auth/reset-password'
     | '/_auth/signin'
     | '/_auth/signup'
-    | '/_dashboard/dashboard'
+    | '/dashboard/settings'
     | '/_landing/'
+    | '/dashboard/'
     | '/_landing/signin/modal'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthLayoutRoute: typeof AuthLayoutRouteWithChildren
-  DashboardLayoutRoute: typeof DashboardLayoutRouteWithChildren
   LandingLayoutRoute: typeof LandingLayoutRouteWithChildren
+  DashboardLayoutRoute: typeof DashboardLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_landing': {
       id: '/_landing'
       path: ''
       fullPath: ''
       preLoaderRoute: typeof LandingLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_dashboard': {
-      id: '/_dashboard'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof DashboardLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth': {
@@ -161,6 +176,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardLayoutRoute
+    }
     '/_landing/': {
       id: '/_landing/'
       path: '/'
@@ -168,11 +190,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LandingIndexRouteImport
       parentRoute: typeof LandingLayoutRoute
     }
-    '/_dashboard/dashboard': {
-      id: '/_dashboard/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardDashboardRouteImport
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsRouteImport
       parentRoute: typeof DashboardLayoutRoute
     }
     '/_auth/signup': {
@@ -231,18 +253,6 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
   AuthLayoutRouteChildren,
 )
 
-interface DashboardLayoutRouteChildren {
-  DashboardDashboardRoute: typeof DashboardDashboardRoute
-}
-
-const DashboardLayoutRouteChildren: DashboardLayoutRouteChildren = {
-  DashboardDashboardRoute: DashboardDashboardRoute,
-}
-
-const DashboardLayoutRouteWithChildren = DashboardLayoutRoute._addFileChildren(
-  DashboardLayoutRouteChildren,
-)
-
 interface LandingLayoutRouteChildren {
   LandingIndexRoute: typeof LandingIndexRoute
   LandingSigninModalRoute: typeof LandingSigninModalRoute
@@ -257,10 +267,24 @@ const LandingLayoutRouteWithChildren = LandingLayoutRoute._addFileChildren(
   LandingLayoutRouteChildren,
 )
 
+interface DashboardLayoutRouteChildren {
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardLayoutRouteChildren: DashboardLayoutRouteChildren = {
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardLayoutRouteWithChildren = DashboardLayoutRoute._addFileChildren(
+  DashboardLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   AuthLayoutRoute: AuthLayoutRouteWithChildren,
-  DashboardLayoutRoute: DashboardLayoutRouteWithChildren,
   LandingLayoutRoute: LandingLayoutRouteWithChildren,
+  DashboardLayoutRoute: DashboardLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

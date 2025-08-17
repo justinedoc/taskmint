@@ -4,14 +4,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Link } from "@tanstack/react-router";
-import { CircleQuestionMark, Settings } from "lucide-react";
+import { CircleQuestionMark } from "lucide-react";
 
 const data = [
-  {
-    title: "Settings",
-    icon: Settings,
-    url: "/dashboard/settings",
-  },
   {
     title: "Help & Support",
     icon: CircleQuestionMark,

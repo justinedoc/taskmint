@@ -27,14 +27,14 @@ export default function DashboardBreadcrumb() {
 
   return (
     <Breadcrumb>
-      <BreadcrumbList>
+      <BreadcrumbList className="sm:gap-1.5">
         {segments.map((segment, idx) => {
           const isLast = idx === segments.length - 1;
           const title = formatSegment(segment);
 
           return (
             <React.Fragment key={paths[idx]}>
-              <BreadcrumbItem key={paths[idx]}>
+              <BreadcrumbItem className="truncate" key={paths[idx]}>
                 {isLast ? (
                   <BreadcrumbPage>
                     <TextShimmer duration={3}>{title}</TextShimmer>

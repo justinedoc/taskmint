@@ -3,7 +3,7 @@ import DashboardSidebar from "@/components/dashboard/sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_dashboard")({
+export const Route = createFileRoute("/dashboard")({
   component: RouteComponent,
 });
 
@@ -13,7 +13,9 @@ function RouteComponent() {
       <DashboardSidebar />
       <SidebarInset>
         <Navbar />
-        <Outlet />
+        <div className="p-4 md:p-8">
+          <Outlet />
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

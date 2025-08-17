@@ -43,7 +43,7 @@ function PricingCard({
       className={cn(
         "md:to-background from-background rounded-2xl bg-gradient-to-b to-transparent p-6 shadow-2xl md:from-transparent",
         {
-          "from-background to-card scale-[1.05] bg-gradient-to-b shadow-none":
+          "from-background md:from-background md:to-card to-card scale-[1.05] bg-gradient-to-b shadow-none":
             plan === isPopularPlan?.plan,
         },
         className,

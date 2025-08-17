@@ -16,7 +16,7 @@ function AuthLayout() {
         asChild
         size="icon"
         variant="outline"
-        className="absolute top-2 left-2 [&_svg]:group-hover:-translate-x-0.5!"
+        className="absolute top-2 left-2"
       >
         <Link to="..">
           <ChevronLeft />

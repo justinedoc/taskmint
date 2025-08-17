@@ -9,6 +9,7 @@ import { ChevronDown, Search } from "lucide-react";
 function Navbar() {
   return (
     <nav className="bg-background sticky top-0 flex h-16 w-full shrink-0 items-center gap-2 border-b px-4">
+      
       <SidebarTrigger className="-ml-1" />
 
       <Separator orientation="vertical" className="mr-2 h-4!" />
@@ -20,10 +21,12 @@ function Navbar() {
           <Input placeholder="Search for anything..." className="pl-8" />
           <Search
             size={16}
-            className="absolute text-muted-foreground top-1/2 left-2 -translate-y-1/2"
+            className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2"
           />
         </div>
-        <Box className="hover:bg-secondary ml-auto cursor-pointer gap-2 rounded-md p-1 transition-colors duration-300">
+
+
+        <Box className="hover:bg-secondary cursor-pointer gap-2 rounded-md p-1 transition-colors duration-300">
           <Avatar>
             {/* FIXME: update import */}
             <AvatarImage src="/src/assets/images/testimonial_2.png" />

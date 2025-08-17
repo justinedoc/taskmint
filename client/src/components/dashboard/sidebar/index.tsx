@@ -1,6 +1,5 @@
 import SidebarFooterMenu from "@/components/dashboard/sidebar/sidebar-footer-menu";
 import SidebarMenus from "@/components/dashboard/sidebar/sidebar-menus";
-import Logo from "@/components/globals/logo";
 import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
@@ -16,8 +15,8 @@ export default function DashboardSidebar({
 }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
-      <SidebarHeader className="mb-2 py-3.5">
-        <Logo />
+      <SidebarHeader className="mb-2 py-6">
+        <img src="/taskmint-half.svg" alt="Task mint's logo" width={50} />
 
         <Separator />
       </SidebarHeader>

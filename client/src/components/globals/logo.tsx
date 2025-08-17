@@ -3,13 +3,11 @@ import { Link } from "@tanstack/react-router";
 import { ClassValue } from "clsx";
 import { ComponentProps } from "react";
 
-function Logo({ className }: { className?: ClassValue; src?: string }) {
+function Logo({ className }: { className?: ClassValue }) {
   return (
-    <>
-      <Link to="/">
-        <SVGComponent className={cn(className)} />
-      </Link>
-    </>
+    <Link to="/" className={cn(className)}>
+      <SVGComponent />
+    </Link>
   );
 }
 
@@ -20,6 +18,7 @@ const SVGComponent = ({ ...props }: ComponentProps<"svg">) => (
     viewBox="0 0 249 40"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
+    className={cn(props.className)}
   >
     <style>{'.logo-text{font:800 28px/1"Inter",sans-serif}'}</style>
     <path

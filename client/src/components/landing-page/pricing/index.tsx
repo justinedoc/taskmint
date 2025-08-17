@@ -14,9 +14,9 @@ function Pricing() {
         </Section.Description>
       </Section.Header>
 
-      <Section.Body className="grid grid-cols-1 items-center gap-6 md:grid-cols-3">
+      <Section.Body className="grid grid-cols-1 items-center justify-items-center gap-6 md:grid-cols-3 md:justify-items-normal">
         {pricingPlans.map((p) => (
-          <PricingCard key={p.id} {...p}>
+          <PricingCard className="w-full max-w-sm" key={p.id} {...p}>
             <PricingCard.Header>
               <div className="flex items-center justify-between">
                 <h3

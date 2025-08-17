@@ -17,7 +17,7 @@ function Features() {
         </Section.Description>
       </Section.Header>
 
-      <Section.Body className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <Section.Body className="grid grid-cols-1 justify-items-center gap-6 md:grid-cols-3 md:justify-items-normal">
         {featuresInfo.map((f) => (
           <FeaturesCard key={f.title} features={f} />
         ))}
