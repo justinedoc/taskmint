@@ -2,6 +2,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import { isPopularPlan, PricingPlan } from "@/constants/pricing";
 import { cn } from "@/lib/utils";
+import { Route as SignupRoute } from "@/routes/_auth/signup";
 import { Link } from "@tanstack/react-router";
 import { Check } from "lucide-react";
 import {
@@ -106,11 +107,11 @@ PricingCard.Price = function PricingCardPrice({
 PricingCard.Button = function PricingCardButton({
   ...props
 }: ComponentProps<typeof Link>) {
-  const { to, plan } = usePricingCardContext();
+  const { plan } = usePricingCardContext();
   return (
     <Link
       {...props}
-      to={to}
+      to={`${SignupRoute.to}?plan=${plan}`}
       className={cn(
         buttonVariants(),
         plan !== isPopularPlan?.plan &&

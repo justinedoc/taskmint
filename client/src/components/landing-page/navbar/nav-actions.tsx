@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 function NavActions() {
   return (
     <div className="flex items-center gap-4">
-      <Link to="/signup" className={buttonVariants({ size: "lg" })}>
+      <Link to="/signup/modal" className={buttonVariants({ size: "lg" })}>
         Get Started <ArrowRight />
       </Link>
 

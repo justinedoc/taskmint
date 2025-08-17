@@ -36,7 +36,10 @@ const getStrengthText = (score: number) => {
 };
 
 export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
-  ({ value, onChange, placeholder = "Password", className }, ref) => {
+  (
+    { value, onChange, placeholder = "Enter your password", className },
+    ref,
+  ) => {
     const id = useId();
     const [isVisible, setIsVisible] = useState(false);
     const strength = useMemo(() => checkStrength(value), [value]);

@@ -17,10 +17,17 @@ const signinModalToSigninMask = createRouteMask({
   unmaskOnReload: true,
 });
 
+const signupModalToSignupMask = createRouteMask({
+  routeTree,
+  from: "/signup/modal",
+  to: "/signup",
+  unmaskOnReload: true,
+});
+
 // Create a new router instance
 const router = createRouter({
   routeTree,
-  routeMasks: [signinModalToSigninMask],
+  routeMasks: [signinModalToSigninMask, signupModalToSignupMask],
 });
 
 // Register the router instance for type safety

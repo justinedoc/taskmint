@@ -19,6 +19,7 @@ import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthSigninRouteImport } from './routes/_auth/signin'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
+import { Route as LandingSignupModalRouteImport } from './routes/_landing/signup.modal'
 import { Route as LandingSigninModalRouteImport } from './routes/_landing/signin.modal'
 
 const DashboardLayoutRoute = DashboardLayoutRouteImport.update({
@@ -69,6 +70,11 @@ const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
+const LandingSignupModalRoute = LandingSignupModalRouteImport.update({
+  id: '/signup/modal',
+  path: '/signup/modal',
+  getParentRoute: () => LandingLayoutRoute,
+} as any)
 const LandingSigninModalRoute = LandingSigninModalRouteImport.update({
   id: '/signin/modal',
   path: '/signin/modal',
@@ -85,6 +91,7 @@ export interface FileRoutesByFullPath {
   '/': typeof LandingIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/signin/modal': typeof LandingSigninModalRoute
+  '/signup/modal': typeof LandingSignupModalRoute
 }
 export interface FileRoutesByTo {
   '/forgot-password': typeof AuthForgotPasswordRoute
@@ -95,6 +102,7 @@ export interface FileRoutesByTo {
   '/': typeof LandingIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/signin/modal': typeof LandingSigninModalRoute
+  '/signup/modal': typeof LandingSignupModalRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -109,6 +117,7 @@ export interface FileRoutesById {
   '/_landing/': typeof LandingIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/_landing/signin/modal': typeof LandingSigninModalRoute
+  '/_landing/signup/modal': typeof LandingSignupModalRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -122,6 +131,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard/'
     | '/signin/modal'
+    | '/signup/modal'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/forgot-password'
@@ -132,6 +142,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/signin/modal'
+    | '/signup/modal'
   id:
     | '__root__'
     | '/_auth'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/_landing/'
     | '/dashboard/'
     | '/_landing/signin/modal'
+    | '/_landing/signup/modal'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -225,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof AuthLayoutRoute
     }
+    '/_landing/signup/modal': {
+      id: '/_landing/signup/modal'
+      path: '/signup/modal'
+      fullPath: '/signup/modal'
+      preLoaderRoute: typeof LandingSignupModalRouteImport
+      parentRoute: typeof LandingLayoutRoute
+    }
     '/_landing/signin/modal': {
       id: '/_landing/signin/modal'
       path: '/signin/modal'
@@ -256,11 +275,13 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
 interface LandingLayoutRouteChildren {
   LandingIndexRoute: typeof LandingIndexRoute
   LandingSigninModalRoute: typeof LandingSigninModalRoute
+  LandingSignupModalRoute: typeof LandingSignupModalRoute
 }
 
 const LandingLayoutRouteChildren: LandingLayoutRouteChildren = {
   LandingIndexRoute: LandingIndexRoute,
   LandingSigninModalRoute: LandingSigninModalRoute,
+  LandingSignupModalRoute: LandingSignupModalRoute,
 }
 
 const LandingLayoutRouteWithChildren = LandingLayoutRoute._addFileChildren(
