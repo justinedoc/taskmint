@@ -41,7 +41,7 @@ function PricingCard({
     <Card
       {...props}
       className={cn(
-        "to-background rounded-2xl bg-gradient-to-b from-transparent p-6 shadow-2xl",
+        "md:to-background from-background rounded-2xl bg-gradient-to-b to-transparent p-6 shadow-2xl md:from-transparent",
         {
           "from-background to-card scale-[1.05] bg-gradient-to-b shadow-none":
             plan === isPopularPlan?.plan,

@@ -4,7 +4,7 @@ import Section from "@/components/globals/section";
 function Interface() {
   return (
     <Section className="from-background to-primary bg-gradient-to-b">
-      <Section.Header>
+      <Section.Header className="max-w-xl">
         <Section.Title>Intuitive interface</Section.Title>
         <Section.Description>
           Feel the joy of accomplishment with an app designed to track your

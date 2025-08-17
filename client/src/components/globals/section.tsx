@@ -38,7 +38,7 @@ Section.Title = function SectionTitle({
     <h2
       {...props}
       className={cn(
-        "font-heading text-center text-5xl font-bold md:text-6xl md:tracking-wide",
+        "font-heading text-center text-4xl font-extrabold md:text-6xl md:font-bold md:tracking-wide",
         className,
       )}
     />
