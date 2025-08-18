@@ -20,7 +20,7 @@ Banner.Header = function ({ ...props }: ComponentProps<typeof Box>) {
       {...props}
       wrap={false}
       className={cn(
-        "mx-auto flex-col items-center gap-4 text-center md:mt-20 md:max-w-[45rem]",
+        "mx-auto flex-col items-center gap-4 text-center w-full md:mt-20 md:max-w-[45rem]",
         props.className,
       )}
     />
@@ -32,7 +32,7 @@ Banner.Title = function ({ ...props }: ComponentProps<"h1">) {
     <h1
       {...props}
       className={cn(
-        "bg-opacity-50 bg-gradient-to-b from-neutral-50 to-neutral-300 bg-clip-text text-center text-5xl font-extrabold text-transparent md:text-8xl",
+        "bg-opacity-50 bg-gradient-to-b from-neutral-50 to-neutral-300 bg-clip-text text-center text-6xl font-extrabold text-transparent md:text-8xl",
         props.className,
       )}
     />
@@ -44,7 +44,7 @@ Banner.Description = function ({ ...props }: ComponentProps<"p">) {
     <p
       {...props}
       className={cn(
-        "text-foreground/70 mx-auto mt-2 w-sm text-center text-base md:max-w-md",
+        "text-foreground/70 mx-auto mt-2 w-full text-center text-base md:max-w-md",
         props.className,
       )}
     />

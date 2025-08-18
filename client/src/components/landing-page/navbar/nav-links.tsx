@@ -49,7 +49,7 @@ const components: { title: string; to: string; description: string }[] = [
 
 export default function NavigationLinks() {
   return (
-    <NavigationMenu viewport={false}>
+    <NavigationMenu viewport={false} className="hidden md:flex">
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger variant={"ghost"}>Home</NavigationMenuTrigger>
