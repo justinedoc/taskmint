@@ -2,6 +2,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Link, useLocation } from "@tanstack/react-router";
 import {
@@ -67,6 +68,7 @@ const data: SidebarMenus = {
 
 function SidebarMenus() {
   const { pathname } = useLocation();
+  const { setOpenMobile } = useSidebar();
 
   function isActive(url: string) {
     return pathname.endsWith(url);
@@ -81,7 +83,7 @@ function SidebarMenus() {
             isActive={isActive(item.url)}
             asChild
           >
-            <Link to={item.url}>
+            <Link to={item.url} onClick={() => setOpenMobile(false)}>
               <item.icon />
               {item.title}
             </Link>

@@ -7,6 +7,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { TextShimmer } from "@/components/ui/text-shimmer";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useLocation } from "@tanstack/react-router";
 import React from "react";
 
@@ -18,6 +19,7 @@ const formatSegment = (segment: string) => {
 
 export default function DashboardBreadcrumb() {
   const { pathname } = useLocation();
+  const isMobile = useIsMobile();
 
   const segments = pathname ? pathname.split("/").filter(Boolean) : [];
 
@@ -28,28 +30,36 @@ export default function DashboardBreadcrumb() {
   return (
     <Breadcrumb>
       <BreadcrumbList className="sm:gap-1.5">
-        {segments.map((segment, idx) => {
-          const isLast = idx === segments.length - 1;
-          const title = formatSegment(segment);
+        {!isMobile ? (
+          segments.map((segment, idx) => {
+            const isLast = idx === segments.length - 1;
+            const title = formatSegment(segment);
 
-          return (
-            <React.Fragment key={paths[idx]}>
-              <BreadcrumbItem className="truncate" key={paths[idx]}>
-                {isLast ? (
-                  <BreadcrumbPage>
-                    <TextShimmer duration={3}>{title}</TextShimmer>
-                  </BreadcrumbPage>
-                ) : (
-                  <BreadcrumbLink href={paths[idx]}>{title}</BreadcrumbLink>
-                )}
-              </BreadcrumbItem>
-              <BreadcrumbSeparator
-                data-is-last={isLast}
-                className="hidden data-[is-last=true]:hidden md:block"
-              />
-            </React.Fragment>
-          );
-        })}
+            return (
+              <React.Fragment key={paths[idx]}>
+                <BreadcrumbItem key={paths[idx]}>
+                  {isLast ? (
+                    <BreadcrumbPage>
+                      <TextShimmer duration={3}>{title}</TextShimmer>
+                    </BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink href={paths[idx]}>{title}</BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+                <BreadcrumbSeparator
+                  data-is-last={isLast}
+                  className="hidden data-[is-last=true]:hidden md:block"
+                />
+              </React.Fragment>
+            );
+          })
+        ) : (
+          <BreadcrumbItem>
+            <TextShimmer duration={3} className="capitalize">
+              {pathname.split("/").slice(-1).join("")}
+            </TextShimmer>
+          </BreadcrumbItem>
+        )}
       </BreadcrumbList>
     </Breadcrumb>
   );

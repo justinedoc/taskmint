@@ -12,7 +12,7 @@ function DashboardTabs({ tab }: { tab: (typeof TABS)[number] }) {
     <Tabs defaultValue={tab} className="w-full">
       <div className="mb-2 flex items-center justify-between">
         <TabTriggers />
-        <Box>
+        <Box className="md:gap-1 gap-0.5">
           <Button variant={"ghost"} size={"icon"}>
             <RotateCcw size={16} />
           </Button>

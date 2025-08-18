@@ -19,7 +19,7 @@ function Dashboard() {
   const { tab } = Route.useSearch();
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6 w-full">
       <UserProgress />
       <DashboardTabs tab={tab} />
     </div>
