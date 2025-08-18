@@ -9,7 +9,6 @@ import { ChevronDown, Search } from "lucide-react";
 function Navbar() {
   return (
     <nav className="bg-background sticky top-0 flex h-16 w-full shrink-0 items-center gap-2 border-b px-4">
-      
       <SidebarTrigger className="-ml-1" />
 
       <Separator orientation="vertical" className="mr-2 h-4!" />
@@ -25,14 +24,13 @@ function Navbar() {
           />
         </div>
 
-
-        <Box className="hover:bg-secondary cursor-pointer gap-2 rounded-md p-1 transition-colors duration-300">
+        <Box className="hover:bg-secondary cursor-pointer gap-2 rounded-md p-1 text-sm font-medium transition-colors duration-300">
           <Avatar>
             {/* FIXME: update import */}
             <AvatarImage src="/src/assets/images/testimonial_2.png" />
             <AvatarFallback>OJ</AvatarFallback>
           </Avatar>
-          <h2 className="line-clamp-1 text-sm font-medium">Onyriuka Justin</h2>
+          <h2 className="line-clamp-1">Onyriuka Justin</h2>
           <ChevronDown size={16} />
         </Box>
       </div>

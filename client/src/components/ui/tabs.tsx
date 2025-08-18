@@ -1,7 +1,7 @@
-import * as React from "react"
-import * as TabsPrimitive from "@radix-ui/react-tabs"
+import * as TabsPrimitive from "@radix-ui/react-tabs";
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Tabs({
   className,
@@ -13,7 +13,7 @@ function Tabs({
       className={cn("flex flex-col gap-2", className)}
       {...props}
     />
-  )
+  );
 }
 
 function TabsList({
@@ -24,12 +24,12 @@ function TabsList({
     <TabsPrimitive.List
       data-slot="tabs-list"
       className={cn(
-        "bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]",
-        className
+        "text-muted-foreground inline-flex h-9 w-fit items-center justify-center gap-4 rounded-lg bg-transparent p-[3px] font-medium",
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
 function TabsTrigger({
@@ -40,12 +40,33 @@ function TabsTrigger({
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
       className={cn(
-        "data-[state=active]:bg-background dark:data-[state=active]:text-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:outline-ring dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 text-foreground dark:text-muted-foreground inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:shadow-sm [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        // Base styles
+        "relative inline-flex flex-1 items-center justify-center gap-1.5 px-4 py-1 pb-2",
+        "text-sm font-medium whitespace-nowrap transition-[color,box-shadow]",
+        "rounded-md border border-transparent overflow-x-hidden",
+        "text-foreground dark:text-muted-foreground",
+        "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+
+        // Focus / disabled
+        "focus-visible:outline-1 focus-visible:outline-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
+        "disabled:pointer-events-none disabled:opacity-50",
+
+        // Active state
+        "data-[state=active]:bg-background data-[state=active]:shadow-sm",
+        "dark:data-[state=active]:bg-input/30 dark:data-[state=active]:border-input border-0",
+        "dark:data-[state=active]:text-foreground",
+
+        // Decorative underline animation
+        "before:absolute before:-bottom-0 before:left-1/2 before:h-0.5 before:w-[90%]",
+        "before:translate-x-[-153%] before:rounded-2xl before:bg-primary",
+        "before:transition-all before:duration-300 before:ease-in-out before:will-change-transform before:content-['']",
+        "data-[state=active]:before:-translate-x-1/2 dark:data-[state=active]:bg-transparent",
+
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
 function TabsContent({
@@ -58,7 +79,7 @@ function TabsContent({
       className={cn("flex-1 outline-none", className)}
       {...props}
     />
-  )
+  );
 }
 
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+export { Tabs, TabsContent, TabsList, TabsTrigger };

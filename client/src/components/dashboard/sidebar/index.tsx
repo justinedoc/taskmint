@@ -8,20 +8,35 @@ import {
   SidebarGroup,
   SidebarHeader,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 export default function DashboardSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const { state } = useSidebar();
+
   return (
     <Sidebar {...props}>
-      <SidebarHeader className="mb-2 py-6">
-        <img src="/taskmint-half.svg" alt="Task mint's logo" width={50} />
+      <SidebarHeader className="py-[1.01rem] group-data-[collapsible=icon]:my-[0.33rem]">
+        <img
+          src="/taskmint-full.svg"
+          alt="Task mint's logo"
+          data-state={state}
+          className="data-[state=collapsed]:hidden"
+        />
 
-        <Separator />
+        <img
+          src="/taskmint-half.svg"
+          alt="Task mint's logo"
+          data-state={state}
+          className="scale-100 data-[state=expanded]:hidden data-[state=expanded]:scale-0"
+        />
       </SidebarHeader>
 
-      <SidebarContent>
+      <Separator />
+
+      <SidebarContent className="mt-4">
         <SidebarGroup>
           <SidebarMenus />
         </SidebarGroup>

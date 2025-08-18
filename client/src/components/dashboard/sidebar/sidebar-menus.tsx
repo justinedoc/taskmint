@@ -4,7 +4,16 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Link, useLocation } from "@tanstack/react-router";
-import { LayoutDashboard, LucideIcon, Settings } from "lucide-react";
+import {
+  ChartColumnIncreasing,
+  Grid2x2Check,
+  LayoutDashboard,
+  ListTodo,
+  LucideIcon,
+  Settings,
+  Trophy,
+  UsersRound,
+} from "lucide-react";
 
 const baseUrl = "/dashboard";
 
@@ -22,6 +31,31 @@ const data: SidebarMenus = {
       title: "Dashboard",
       icon: LayoutDashboard,
       url: baseUrl,
+    },
+    {
+      title: "Tasks",
+      icon: ListTodo,
+      url: "/dashboard/tasks",
+    },
+    {
+      title: "Performance",
+      icon: ChartColumnIncreasing,
+      url: "/dashboard/performance",
+    },
+    {
+      title: "Projects",
+      icon: Grid2x2Check,
+      url: "/dashboard/projects",
+    },
+    {
+      title: "Teams",
+      icon: UsersRound,
+      url: "/dashboard/teams",
+    },
+    {
+      title: "Leaderboards",
+      icon: Trophy,
+      url: "/dashboard/leaderboards",
     },
     {
       title: "Settings",
@@ -42,7 +76,11 @@ function SidebarMenus() {
     <SidebarMenu>
       {data.item.map((item) => (
         <SidebarMenuItem key={item.title}>
-          <SidebarMenuButton isActive={isActive(item.url)} asChild>
+          <SidebarMenuButton
+            tooltip={item.title}
+            isActive={isActive(item.url)}
+            asChild
+          >
             <Link to={item.url}>
               <item.icon />
               {item.title}
