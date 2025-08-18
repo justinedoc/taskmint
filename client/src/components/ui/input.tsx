@@ -6,7 +6,7 @@ import { cva, VariantProps } from "class-variance-authority";
 const inputVariants = cva("", {
   variants: {
     variant: {
-      default: "rounded-full h-10 px-4",
+      default: "rounded-full h-11 md:h-10 px-4",
       secondary: "rounded-md",
     },
   },
