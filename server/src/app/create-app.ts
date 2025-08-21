@@ -26,6 +26,7 @@ export async function createApp() {
   app.use(
     rateLimiter({
       windowMs: 15 * 60 * 1000,
+      limit: 100,
       keyGenerator: (c) =>
         c.req.header("CF-Connecting-IP") ||
         c.req.header("X-Forwarded-For") ||
