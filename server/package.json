@@ -5,7 +5,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc && tsc-alias",
-    "dev": "bun --watch run src/index.ts && tsc --watch"
+    "dev": "bun --watch run src/index.ts && tsc --watch | pino-pretty"
   },
   "dependencies": {
     "@hono/zod-openapi": "^1.1.0",

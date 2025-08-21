@@ -4,6 +4,7 @@
     "": {
       "name": "task-mint",
       "dependencies": {
+        "@hono/bun-compress": "^0.1.0",
         "zod": "^4.0.17",
       },
       "devDependencies": {
@@ -88,7 +89,6 @@
       "dependencies": {
         "@hono/zod-openapi": "^1.1.0",
         "@hono/zod-validator": "^0.7.2",
-        "@types/pino": "^7.0.5",
         "bcryptjs": "^3.0.2",
         "dotenv": "^17.2.1",
         "hono": "^4.9.2",
@@ -259,6 +259,8 @@
     "@floating-ui/react-dom": ["@floating-ui/react-dom@2.1.6", "", { "dependencies": { "@floating-ui/dom": "^1.7.4" }, "peerDependencies": { "react": ">=16.8.0", "react-dom": ">=16.8.0" } }, "sha512-4JX6rEatQEvlmgU80wZyq9RT96HZJa88q8hp0pBd+LrczeDI4o6uA2M+uvxngVHo4Ihr8uibXxH6+70zhAFrVw=="],
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.10", "", {}, "sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ=="],
+
+    "@hono/bun-compress": ["@hono/bun-compress@0.1.0", "", { "peerDependencies": { "hono": "*" } }, "sha512-wxy9PdC07Yc81NawIcdIiuGAEeDujwPWd01KdxubXJ33G9vdjUO85ec0UMjH0Cy7+zfNXlcWgJ+zoATjT/IfTg=="],
 
     "@hono/zod-openapi": ["@hono/zod-openapi@1.1.0", "", { "dependencies": { "@asteasolutions/zod-to-openapi": "^8.1.0", "@hono/zod-validator": "^0.7.2", "openapi3-ts": "^4.5.0" }, "peerDependencies": { "hono": ">=4.3.6", "zod": "^4.0.0" } }, "sha512-S4jVR+A/jI4MA/RKJqmpjdHAN2l/EsqLnKHBv68x3WxV1NGVe3Sh7f6LV6rHEGYNHfiqpD75664A/erc+r9dQA=="],
 
@@ -581,8 +583,6 @@
     "@types/json-schema": ["@types/json-schema@7.0.15", "", {}, "sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA=="],
 
     "@types/node": ["@types/node@22.17.2", "", { "dependencies": { "undici-types": "~6.21.0" } }, "sha512-gL6z5N9Jm9mhY+U2KXZpteb+09zyffliRkZyZOHODGATyC5B1Jt/7TzuuiLkFsSUMLbS1OLmlj/E+/3KF4Q/4w=="],
-
-    "@types/pino": ["@types/pino@7.0.5", "", { "dependencies": { "pino": "*" } }, "sha512-wKoab31pknvILkxAF8ss+v9iNyhw5Iu/0jLtRkUD74cNfOOLJNnqfFKAv0r7wVaTQxRZtWrMpGfShwwBjOcgcg=="],
 
     "@types/react": ["@types/react@19.1.10", "", { "dependencies": { "csstype": "^3.0.2" } }, "sha512-EhBeSYX0Y6ye8pNebpKrwFJq7BoQ8J5SO6NlvNwwHjSj6adXJViPQrKlsyPw7hLBLvckEMO1yxeGdR82YBBlDg=="],
 

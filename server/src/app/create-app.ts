@@ -1,8 +1,8 @@
+import { compress } from "@hono/bun-compress";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import connectDb from "@server/db";
 import { onError } from "@server/middlewares/on-error";
 import { rateLimiter } from "hono-rate-limiter";
-import { compress } from "hono/compress";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { prettyJSON } from "hono/pretty-json";
@@ -21,7 +21,7 @@ export async function createApp() {
   await connectDb();
   const app = createRouter();
 
-  app.use(serveEmojiFavicon("🎉"));
+  app.use(serveEmojiFavicon("🔥"));
 
   app.use(
     rateLimiter({
@@ -44,7 +44,7 @@ export async function createApp() {
 
   app.use(
     cors({
-      origin: ["http://localhost:5173"],
+      origin: ["*"],
       credentials: true,
     })
   );
@@ -54,4 +54,6 @@ export async function createApp() {
   app.use(logger());
 
   app.onError(onError);
+
+  return app;
 }

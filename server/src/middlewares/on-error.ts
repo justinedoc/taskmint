@@ -1,6 +1,6 @@
+import env from "@server/app/validate-env";
 import { AuthError } from "@server/errors/auth.error";
 import { handleZodError } from "@server/errors/handlers/zod-error.handler";
-import env from "@server/lib/app/validate-env";
 import logger from "@server/lib/logger";
 
 import type { ErrorHandler } from "hono";

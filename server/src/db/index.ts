@@ -1,4 +1,4 @@
-import env from "@server/lib/app/validate-env";
+import env from "@server/app/validate-env";
 import logger from "@server/lib/logger";
 import mongoose from "mongoose";
 

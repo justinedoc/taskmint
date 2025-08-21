@@ -1,21 +1,21 @@
-import pino from "pino";
+import pino from 'pino';
 
-const isProduction = process.env.ENV === "production";
+const isProduction = process.env.NODE_ENV === 'production';
 
 const pinoConfig = {
-  level: isProduction ? "info" : "debug",
+  level: isProduction ? 'info' : 'debug',
   formatters: {
     level: (label: string) => ({ level: label }),
   },
 };
 
 const transport = pino.transport({
-  target: "pino-pretty",
+  target: 'pino-pretty',
   options: {
     colorize: true,
   },
 });
 
-const logger = pino(isProduction ? pinoConfig : { ...pinoConfig, transport });
+const logger = pino(pinoConfig, isProduction ? undefined : transport);
 
 export default logger;
