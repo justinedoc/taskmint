@@ -2,8 +2,13 @@ import DashboardCalendar from "@/components/dashboard/dashboard-calendar";
 import Notifications from "@/components/dashboard/notifications";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Bell, Calendar } from "lucide-react";
+import { ComponentType } from "react";
 
-const TABS_Header = [
+const TABS_Header: {
+  label: ComponentType;
+  value: "calendar" | "notifications";
+  badge?: number;
+}[] = [
   {
     label: Calendar,
     value: "calendar",
@@ -24,7 +29,7 @@ function SecondarySidebarContent() {
             value={tab.value}
             className="dark:data-[state=active]:text-primary p-2 before:hidden"
           >
-            {<tab.label size={16} />}
+            {<tab.label />}
           </TabsTrigger>
         ))}
       </TabsList>
