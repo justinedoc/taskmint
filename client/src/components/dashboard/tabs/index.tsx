@@ -1,3 +1,5 @@
+import LongTermGoals from "@/components/dashboard/achievement-pie";
+import ProductivityChart from "@/components/dashboard/performance-chart";
 import UpcomingTasksTab from "@/components/dashboard/tabs/upcoming-tasks";
 import Box from "@/components/ui/box";
 import { Button } from "@/components/ui/button";
@@ -7,12 +9,27 @@ import { Route as DashboardRoute, TABS } from "@/routes/dashboard";
 import { Link } from "@tanstack/react-router";
 import { RotateCcw, SlidersHorizontal } from "lucide-react";
 
+export type ChartDataPoint = {
+  label: string;
+  value: number;
+};
+
+const chartData: ChartDataPoint[] = [
+  { label: "16 Mar", value: 23 },
+  { label: "17 Mar", value: 82 },
+  { label: "18 Mar", value: 97 },
+  { label: "19 Mar", value: 72 },
+  { label: "20 Mar", value: 48 },
+  { label: "21 Mar", value: 60 },
+  { label: "22 Mar", value: 58 },
+];
+
 function DashboardTabs({ tab }: { tab: (typeof TABS)[number] }) {
   return (
     <Tabs defaultValue={tab} className="w-full">
       <div className="mb-2 flex items-center justify-between">
         <TabTriggers />
-        <Box className="md:gap-1 gap-0.5">
+        <Box className="gap-0.5 md:gap-1">
           <Button variant={"ghost"} size={"icon"}>
             <RotateCcw size={16} />
           </Button>
@@ -30,6 +47,11 @@ function DashboardTabs({ tab }: { tab: (typeof TABS)[number] }) {
 
       <TabsContent value="board">Manage your task board here.</TabsContent>
       <TabsContent value="notes">View your notes here.</TabsContent>
+
+      <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-2">
+        <ProductivityChart data={chartData} />
+        <LongTermGoals />
+      </div>
     </Tabs>
   );
 }

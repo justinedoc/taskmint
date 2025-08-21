@@ -1,3 +1,4 @@
+import SecondarySidebarContent from "@/components/dashboard/sidebar/secondary-sidebar-content";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -21,7 +22,7 @@ function MobileSecondarySidebar() {
           <SheetTitle>Secondary Sidebar</SheetTitle>
         </SheetHeader>
         <div className="p-4">
-          <h2 className="text-lg font-semibold">Secondary Sidebar</h2>
+          <SecondarySidebarContent />
         </div>
       </SheetContent>
     </Sheet>

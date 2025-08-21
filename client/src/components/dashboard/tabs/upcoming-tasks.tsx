@@ -37,7 +37,7 @@ const sampleUpcomingTasks: upcomingTasks[] = [
 function UpcomingTasksTab() {
   return (
     <section className="space-y-4 py-4">
-      <h1 className="text-3xl font-semibold">Upcoming Tasks</h1>
+      <h1 className="text-3xl font-semibold font-heading">Upcoming Tasks</h1>
       <UpcomingTasks />
     </section>
   );

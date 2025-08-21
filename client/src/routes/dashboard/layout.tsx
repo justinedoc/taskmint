@@ -31,7 +31,7 @@ function Dashboard() {
 
           <ResizableHandle withHandle />
 
-          <ResizablePanel defaultSize={28} minSize={28} maxSize={35}>
+          <ResizablePanel defaultSize={32} minSize={32} maxSize={38}>
             <SecondarySidebar />
           </ResizablePanel>
         </ResizablePanelGroup>
