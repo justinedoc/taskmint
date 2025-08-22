@@ -1,3 +1,1 @@
-import app from "@server/app";
-
-export default app;
+export { default as app } from "@server/app";

@@ -2,7 +2,7 @@ import { UserRole, zBaseUser, type BaseUser } from "@server/db/schemas";
 import mongoose, { model, type Document } from "mongoose";
 import z from "zod";
 
-const zUserSchema = zBaseUser().extend({
+export const zUserSchema = zBaseUser().extend({
   role: UserRole.default("User"),
 });
 

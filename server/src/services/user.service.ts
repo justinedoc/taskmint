@@ -3,7 +3,7 @@ import UserModel from "@server/db/models/user.model";
 import { BaseUserService } from "@server/services/base-user.service";
 import type { Model } from "mongoose";
 
-class UserService extends BaseUserService<mUser> {
+export class UserService extends BaseUserService<mUser> {
   constructor(userModel: Model<mUser>) {
     super(userModel);
   }
