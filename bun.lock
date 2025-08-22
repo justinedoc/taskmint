@@ -4,7 +4,7 @@
     "": {
       "name": "task-mint",
       "dependencies": {
-        "@hono/bun-compress": "^0.1.0",
+        "hono": "^4.9.4",
         "zod": "^4.0.17",
       },
       "devDependencies": {
@@ -87,11 +87,11 @@
       "name": "server",
       "version": "0.0.1",
       "dependencies": {
+        "@hono/bun-compress": "^0.1.0",
         "@hono/zod-openapi": "^1.1.0",
         "@hono/zod-validator": "^0.7.2",
         "bcryptjs": "^3.0.2",
         "dotenv": "^17.2.1",
-        "hono": "^4.9.2",
         "hono-rate-limiter": "^0.4.2",
         "mongoose": "^8.17.2",
         "nodemailer": "^7.0.5",
@@ -840,7 +840,7 @@
 
     "help-me": ["help-me@5.0.0", "", {}, "sha512-7xgomUX6ADmcYzFik0HzAxh/73YlKR9bmFzf51CZwR+b6YtzU2m0u49hQCqV6SvlqIqsaxovfwdvbnsw3b/zpg=="],
 
-    "hono": ["hono@4.9.2", "", {}, "sha512-UG2jXGS/gkLH42l/1uROnwXpkjvvxkl3kpopL3LBo27NuaDPI6xHNfuUSilIHcrBkPfl4y0z6y2ByI455TjNRw=="],
+    "hono": ["hono@4.9.4", "", {}, "sha512-61hl6MF6ojTl/8QSRu5ran6GXt+6zsngIUN95KzF5v5UjiX/xnrLR358BNRawwIRO49JwUqJqQe3Rb2v559R8Q=="],
 
     "hono-rate-limiter": ["hono-rate-limiter@0.4.2", "", { "peerDependencies": { "hono": "^4.1.1" } }, "sha512-AAtFqgADyrmbDijcRTT/HJfwqfvhalya2Zo+MgfdrMPas3zSMD8SU03cv+ZsYwRU1swv7zgVt0shwN059yzhjw=="],
 

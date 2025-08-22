@@ -8,11 +8,11 @@
     "dev": "bun --watch run src/index.ts && tsc --watch | pino-pretty"
   },
   "dependencies": {
+    "@hono/bun-compress": "^0.1.0",
     "@hono/zod-openapi": "^1.1.0",
     "@hono/zod-validator": "^0.7.2",
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.1",
-    "hono": "^4.9.2",
     "hono-rate-limiter": "^0.4.2",
     "mongoose": "^8.17.2",
     "nodemailer": "^7.0.5",
