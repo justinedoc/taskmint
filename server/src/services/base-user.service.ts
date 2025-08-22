@@ -14,6 +14,10 @@ export class BaseUserService<T extends Document> {
     return this.model.exists({ [path]: value } as Record<string, unknown>);
   }
 
+  async findById(id: string) {
+    return this.model.findById(id);
+  }
+
   async findByField(path: FindableFields, value: string) {
     return this.model.findOne({ [path]: value } as Record<string, unknown>);
   }

@@ -1,7 +1,8 @@
 import { compress } from "@hono/bun-compress";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import connectDb from "@server/db";
-import { onError } from "@server/middlewares/on-error";
+import { onError } from "@server/middlewares/on-error.middleware";
+import type { TokenPayload } from "@server/services/token.service";
 import { rateLimiter } from "hono-rate-limiter";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
@@ -10,11 +11,17 @@ import { secureHeaders } from "hono/secure-headers";
 import { serveEmojiFavicon } from "stoker/middlewares";
 import { defaultHook } from "stoker/openapi";
 
+export type AppBindings = {
+  Variables: {
+    user: TokenPayload;
+  };
+};
+
 export function createRouter() {
   return new OpenAPIHono({
     strict: false,
     defaultHook,
-  });
+  }).basePath("/api");
 }
 
 export async function createApp() {

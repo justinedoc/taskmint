@@ -3,7 +3,7 @@ import z from "zod";
 
 export const UserRole = z.enum(["User", "Admin", "Guest", "Superadmin"]);
 
-export function zLogin() {
+export function zSignin() {
   return z.object({
     email: z.email(),
     password: z.string(),

@@ -1,4 +1,5 @@
 import { UserRole, zBaseUser, type BaseUser } from "@server/db/schemas";
+import { RolePermissions } from "@server/lib/permissions";
 import mongoose, { model, type Document } from "mongoose";
 import z from "zod";
 
@@ -10,7 +11,22 @@ export type User = BaseUser & z.infer<typeof zUserSchema> & {};
 
 export type mUser = User & Document;
 
-const mUserSchema = new mongoose.Schema<mUser>({});
+const mUserSchema = new mongoose.Schema<mUser>(
+  {
+    role: { type: String, required: true, enum: ["User"], default: "User" },
+    permissions: {
+      type: [String],
+      default: RolePermissions.user,
+    },
+    fullname: { type: String, required: true },
+    username: String,
+    email: { type: String, required: true, unique: true, trim: true },
+    password: { type: String, required: true, trim: true },
+    profileImg: String,
+    refreshToken: { type: [String], default: [] },
+  },
+  { timestamps: true }
+);
 
 mUserSchema.methods.comparePassword = async function (
   this: User,
@@ -28,7 +44,7 @@ mUserSchema.pre("save", async function (next) {
     this.password = hashedPassword;
   }
 
-  if (!this.username) {
+  if (!this.username && this.email) {
     const base = this.email.split("@")[0];
     let candidate = base;
     let count = 1;

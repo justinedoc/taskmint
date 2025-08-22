@@ -1,11 +1,13 @@
 import { zUserSchema } from "@server/db/models/user.model";
+import { zSignin } from "@server/db/schemas";
 import { AuthError } from "@server/errors/auth.error";
+import logger from "@server/lib/logger";
 import { zValidator } from "@server/lib/zod-validator";
 import { CookieService } from "@server/services/cookie.service";
 import tokenService from "@server/services/token.service";
 import userService from "@server/services/user.service";
 import { Hono } from "hono";
-import { CONFLICT } from "stoker/http-status-codes";
+import { CONFLICT, CREATED, OK } from "stoker/http-status-codes";
 
 const zUserSignup = zUserSchema.omit({
   role: true,
@@ -39,13 +41,51 @@ const app = new Hono()
 
     if (!updatedUser) throw new AuthError("Failed to update refresh token");
 
-    CookieService.setAuthCookies(c, { accessToken, refreshToken });
+    await CookieService.setAuthCookies(c, { accessToken, refreshToken });
+
+    logger.info(`User ${user.fullname} has been registered`);
 
     return c.json({
       message: "Signup successful",
       success: true,
       data: userService.profile(user),
+    }, CREATED);
+  })
+
+  .post("/signin", zValidator("json", zSignin()), async (c) => {
+    const userCredentials = c.req.valid("json");
+
+    const user = await userService.findByField("email", userCredentials.email);
+
+    if (!user) throw new AuthError("Incorrect credentials");
+
+    const isPasswordMatch = await user.comparePassword(
+      userCredentials.password
+    );
+
+    if (!isPasswordMatch) throw new AuthError("Incorrect credentials");
+
+    const { accessToken, refreshToken } = await tokenService.createTokenPair({
+      ...user,
+      id: user._id,
     });
+
+    const updatedUser = await userService.addRefreshToken(
+      user._id,
+      refreshToken
+    );
+
+    if (!updatedUser) throw new AuthError("Failed to update refresh token");
+
+    await CookieService.setAuthCookies(c, { refreshToken, accessToken });
+
+    logger.info(`${user.fullname} logged in`);
+
+    return c.json({
+      message: "Signin successful",
+      success: true,
+      data: userService.profile(user),
+    }, OK);
   });
 
 export default app;
