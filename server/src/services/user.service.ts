@@ -10,7 +10,8 @@ export class UserService extends BaseUserService<mUser> {
 
   profile(user: User) {
     const { _id, fullname, email, role, username, profileImg } = user;
-    return { id: _id, fullname, email, role, username, profileImg: profileImg };
+
+    return { id: _id, fullname, email, role, username, profileImg };
   }
 }
 

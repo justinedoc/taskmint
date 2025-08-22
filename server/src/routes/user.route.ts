@@ -4,7 +4,7 @@ import { authMiddleware } from "@server/middlewares/auth.middleware";
 import { requirePermission } from "@server/middlewares/require-permission.middleware";
 import userService from "@server/services/user.service";
 import { Hono } from "hono";
-import { NOT_FOUND, OK } from "stoker/http-status-codes";
+import { BAD_REQUEST, OK } from "stoker/http-status-codes";
 
 const app = new Hono<AppBindings>()
   .basePath("/user")
@@ -17,13 +17,17 @@ const app = new Hono<AppBindings>()
     const user = await userService.findById(currentUser.id);
 
     if (!user) {
-      return c.json({ success: false, message: "User not found " }, NOT_FOUND);
+      return c.json(
+        { success: false, message: "User not found " },
+        BAD_REQUEST
+      );
     }
 
     return c.json(
       {
         success: true,
         message: "successful",
+        data: userService.profile(user),
       },
       OK
     );

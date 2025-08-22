@@ -3,7 +3,7 @@ import { zSignin } from "@server/db/schemas";
 import { AuthError } from "@server/errors/auth.error";
 import logger from "@server/lib/logger";
 import { zValidator } from "@server/lib/zod-validator";
-import { CookieService } from "@server/services/cookie.service";
+import cookieService from "@server/services/cookie.service";
 import tokenService from "@server/services/token.service";
 import userService from "@server/services/user.service";
 import { Hono } from "hono";
@@ -30,8 +30,9 @@ const app = new Hono()
     const user = await userService.create(incomingUser);
 
     const { accessToken, refreshToken } = await tokenService.createTokenPair({
-      ...user,
       id: user._id,
+      role: user.role,
+      permissions: user.permissions,
     });
 
     const updatedUser = await userService.addRefreshToken(
@@ -41,15 +42,18 @@ const app = new Hono()
 
     if (!updatedUser) throw new AuthError("Failed to update refresh token");
 
-    await CookieService.setAuthCookies(c, { accessToken, refreshToken });
+    await cookieService.setAuthCookies(c, { accessToken, refreshToken });
 
     logger.info(`User ${user.fullname} has been registered`);
 
-    return c.json({
-      message: "Signup successful",
-      success: true,
-      data: userService.profile(user),
-    }, CREATED);
+    return c.json(
+      {
+        message: "Signup successful",
+        success: true,
+        data: userService.profile(user),
+      },
+      CREATED
+    );
   })
 
   .post("/signin", zValidator("json", zSignin()), async (c) => {
@@ -66,8 +70,9 @@ const app = new Hono()
     if (!isPasswordMatch) throw new AuthError("Incorrect credentials");
 
     const { accessToken, refreshToken } = await tokenService.createTokenPair({
-      ...user,
       id: user._id,
+      role: user.role,
+      permissions: user.permissions,
     });
 
     const updatedUser = await userService.addRefreshToken(
@@ -77,15 +82,18 @@ const app = new Hono()
 
     if (!updatedUser) throw new AuthError("Failed to update refresh token");
 
-    await CookieService.setAuthCookies(c, { refreshToken, accessToken });
+    await cookieService.setAuthCookies(c, { refreshToken, accessToken });
 
     logger.info(`${user.fullname} logged in`);
 
-    return c.json({
-      message: "Signin successful",
-      success: true,
-      data: userService.profile(user),
-    }, OK);
+    return c.json(
+      {
+        success: true,
+        message: "Signin successful",
+        data: userService.profile(user),
+      },
+      OK
+    );
   });
 
 export default app;

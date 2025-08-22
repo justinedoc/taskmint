@@ -17,6 +17,7 @@ const mUserSchema = new mongoose.Schema<mUser>(
     permissions: {
       type: [String],
       default: RolePermissions.user,
+      required: true,
     },
     fullname: { type: String, required: true },
     username: String,

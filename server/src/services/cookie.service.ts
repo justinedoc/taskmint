@@ -2,20 +2,17 @@ import env from "@server/app/validate-env";
 import type { Context } from "hono";
 import { deleteCookie, getSignedCookie, setSignedCookie } from "hono/cookie";
 
-export class CookieService {
-  private static readonly REFRESH_COOKIE_MAX_AGE = 7 * 24 * 60 * 60;
-  private static readonly ACCESS_COOKIE_MAX_AGE = 15 * 60;
+class CookieService {
+  private REFRESH_COOKIE_MAX_AGE = 7 * 24 * 60 * 60;
+  private ACCESS_COOKIE_MAX_AGE = 15 * 60;
 
-  private static readonly cookieOptions = {
+  private cookieOptions = {
     httpOnly: true,
     secure: env.ENV === "production",
     sameSite: "Lax",
   } as const;
 
-  public static async setAccessCookie(
-    c: Context,
-    accessToken: string
-  ): Promise<void> {
+  async setAccessCookie(c: Context, accessToken: string): Promise<void> {
     await setSignedCookie(
       c,
       "access_token",
@@ -28,10 +25,7 @@ export class CookieService {
     );
   }
 
-  public static async setRefreshCookie(
-    c: Context,
-    refreshToken: string
-  ): Promise<void> {
+  async setRefreshCookie(c: Context, refreshToken: string): Promise<void> {
     await setSignedCookie(
       c,
       "refresh_token",
@@ -44,7 +38,7 @@ export class CookieService {
     );
   }
 
-  public static async setAuthCookies(
+  async setAuthCookies(
     c: Context,
     tokens: { accessToken: string; refreshToken: string }
   ): Promise<void> {
@@ -54,24 +48,27 @@ export class CookieService {
     ]);
   }
 
-  public static deleteAccessCookie(c: Context): void {
+  deleteAccessCookie(c: Context): void {
     deleteCookie(c, "access_token");
   }
 
-  public static deleteRefreshCookie(c: Context): void {
+  deleteRefreshCookie(c: Context): void {
     deleteCookie(c, "refresh_token");
   }
 
-  public static deleteAuthCookies(c: Context): void {
+  deleteAuthCookies(c: Context): void {
     this.deleteAccessCookie(c);
     this.deleteRefreshCookie(c);
   }
 
-  public static async getAccessCookie(c: Context) {
+  async getAccessCookie(c: Context) {
     return getSignedCookie(c, env.ACCESS_COOKIE_SECRET, "access_token");
   }
 
-  public static async getRefreshCookie(c: Context) {
+  async getRefreshCookie(c: Context) {
     return getSignedCookie(c, env.REFRESH_COOKIE_SECRET, "refresh_token");
   }
 }
+
+const cookieService = new CookieService();
+export default cookieService;
