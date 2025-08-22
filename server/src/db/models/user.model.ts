@@ -1,16 +1,16 @@
-import type { BaseUser } from "@server/db/schemas";
-import mongoose, { type Document, model } from "mongoose";
+import { UserRole, zBaseUser, type BaseUser } from "@server/db/schemas";
+import mongoose, { model, type Document } from "mongoose";
+import z from "zod";
 
-export type User = BaseUser & {
-  role: "user";
-  // TODO: Add any additional fields or methods specific to the User model here
-};
+const zUserSchema = zBaseUser().extend({
+  role: UserRole.default("User"),
+});
+
+export type User = BaseUser & z.infer<typeof zUserSchema> & {};
 
 export type mUser = User & Document;
 
-const mUserSchema = new mongoose.Schema<mUser>({
-  // TODO: Add any additional fields or methods specific to the User model here
-});
+const mUserSchema = new mongoose.Schema<mUser>({});
 
 mUserSchema.methods.comparePassword = async function (
   this: User,
@@ -48,6 +48,6 @@ mUserSchema.post("findOneAndDelete", async function (deletedUser: User) {
   }
 });
 
-const User = mongoose.model<User>("User", mUserSchema);
+const UserModel = mongoose.model<mUser>("User", mUserSchema);
 
-export default User;
+export default UserModel;

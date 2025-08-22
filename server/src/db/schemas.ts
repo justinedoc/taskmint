@@ -1,6 +1,8 @@
 import { isValidObjectId, Types } from "mongoose";
 import z from "zod";
 
+export const UserRole = z.enum(["User", "Admin", "Guest", "Superadmin"]);
+
 export function zLogin() {
   return z.object({
     email: z.email(),
@@ -36,8 +38,8 @@ export function zUpdateUserData() {
 
 export function zBaseUser() {
   return z.object({
-    firstname: z.string().min(1).max(100),
-    lastname: z.string().min(1).max(100),
+    fullname: z.string().min(1).max(50),
+    permissions: z.array(z.string()).optional(),
     username: z.string().max(100).optional(),
     email: z.email("Please use a valid email"),
     refreshToken: z.array(z.string()).optional(),
@@ -59,7 +61,9 @@ export function zPasswordUpdate() {
   });
 }
 
-export type BaseUser = z.infer<ReturnType<typeof zBaseUser>> & {
+export type BaseUser = {
   _id: Types.ObjectId;
   comparePassword: (password: string) => Promise<boolean>;
 };
+
+export type Role = z.infer<typeof UserRole>;
