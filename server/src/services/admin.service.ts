@@ -8,7 +8,7 @@ export class AdminService extends BaseUserService<mAdmin> {
     super(adminModel);
   }
 
-  // some admin specific stuffs
+  //TODO: some admin specific stuffs
 }
 
 const adminService = new AdminService(UserModel);
