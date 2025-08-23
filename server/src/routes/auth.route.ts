@@ -46,7 +46,7 @@ const app = new Hono()
 
     await cookieService.setAuthCookies(c, { accessToken, refreshToken });
 
-    logger.info(`User ${user.fullname} has been registered`);
+    console.info(`User ${user.fullname} has been registered`);
 
     return c.json(
       {
@@ -86,7 +86,7 @@ const app = new Hono()
 
     await cookieService.setAuthCookies(c, { refreshToken, accessToken });
 
-    logger.info(`${user.fullname} logged in`);
+    console.info(`${user.fullname} logged in`);
 
     return c.json(
       {

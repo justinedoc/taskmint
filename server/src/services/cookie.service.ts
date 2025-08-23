@@ -43,7 +43,7 @@ class CookieService {
     tokens: { accessToken: string; refreshToken: string }
   ): Promise<void> {
     await Promise.all([
-      this.setAccessCookie(c, tokens.accessToken),
+      // this.setAccessCookie(c, tokens.accessToken),
       this.setRefreshCookie(c, tokens.refreshToken),
     ]);
   }
