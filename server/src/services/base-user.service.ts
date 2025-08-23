@@ -53,7 +53,7 @@ export class BaseUserService<T extends Document> {
     return this.model.findByIdAndUpdate(userId, { $pull: { refreshToken } });
   }
 
-  async findByRefreshToken(id: Types.ObjectId, token: string) {
+  async findByRefreshToken(id: Types.ObjectId | string, token: string) {
     return this.model.findOne({ _id: id, refreshToken: token });
   }
 }

@@ -3,24 +3,13 @@ import tokenService, {
   type TokenPayload,
 } from "@server/services/token.service";
 import { Types, type Document } from "mongoose";
-
-interface AuthenticatableService<T extends Document> {
-  findByRefreshToken(id: Types.ObjectId, token: string): Promise<T | null>;
-  addRefreshToken(
-    userId: string | Types.ObjectId,
-    refreshToken: string
-  ): Promise<T | null>;
-  removeRefreshToken(
-    userId: string | Types.ObjectId,
-    refreshToken: string
-  ): Promise<T | null>;
-}
+import type { BaseUserService } from "./base-user.service";
 
 export class AuthService<T extends Document> {
-  private readonly userService: AuthenticatableService<T>;
+  private readonly service: BaseUserService<T>;
 
-  constructor(userService: AuthenticatableService<T>) {
-    this.userService = userService;
+  constructor(userService: BaseUserService<T>) {
+    this.service = userService;
   }
 
   private async generateTokens(payload: TokenPayload) {
@@ -35,13 +24,10 @@ export class AuthService<T extends Document> {
     }
 
     const userId = new Types.ObjectId(decoded.id);
-    const user = await this.userService.findByRefreshToken(
-      userId,
-      refreshToken
-    );
+    const user = await this.service.findByRefreshToken(userId, refreshToken);
 
     if (!user) {
-      await this.userService.removeRefreshToken(userId, refreshToken);
+      await this.service.removeRefreshToken(userId, refreshToken);
       throw new AuthError("Invalid refresh token. Please log in again.");
     }
 
@@ -49,8 +35,8 @@ export class AuthService<T extends Document> {
       await this.generateTokens(decoded);
 
     await Promise.all([
-      this.userService.removeRefreshToken(String(user._id), refreshToken),
-      this.userService.addRefreshToken(String(user._id), newRefreshToken),
+      this.service.removeRefreshToken(String(user._id), refreshToken),
+      this.service.addRefreshToken(String(user._id), newRefreshToken),
     ]);
 
     return { accessToken, refreshToken: newRefreshToken };

@@ -17,11 +17,9 @@ export async function authMiddleware(c: Context, next: Next) {
   try {
     const decoded = await tokenService.verifyAccessToken(accessToken);
 
-    console.log(decoded);
-
     if (!decoded) {
       throw new AuthError(
-        "Invalid access token",
+        "Invalid Access token",
         UNAUTHORIZED,
         "INVALID_TOKEN"
       );

@@ -1,8 +1,10 @@
 import { zUserSchema } from "@server/db/models/user.model";
 import { zSignin } from "@server/db/schemas";
 import { AuthError } from "@server/errors/auth.error";
+import { tokenDecoder } from "@server/lib/decode-token";
 import logger from "@server/lib/logger";
 import { zValidator } from "@server/lib/zod-validator";
+import { getServiceForRole } from "@server/services";
 import cookieService from "@server/services/cookie.service";
 import tokenService from "@server/services/token.service";
 import userService from "@server/services/user.service";
@@ -94,6 +96,32 @@ const app = new Hono()
       },
       OK
     );
+  })
+
+  .post("/logout", async (c) => {
+    const refreshToken = await cookieService.getRefreshCookie(c);
+
+    if (!refreshToken) {
+      cookieService.deleteAuthCookies(c);
+      logger.info(`A user logged out`);
+      return c.json({ success: true, message: "Logout successful" });
+    }
+
+    const { role, id } = tokenDecoder(refreshToken);
+
+    if (!role || !id) {
+      logger.info(`A user logged out`);
+      return c.json({ success: true, message: "Logout successful" });
+    }
+
+    const service = getServiceForRole(role);
+    const user = await service.findByRefreshToken(id, refreshToken);
+
+    if (user) {
+      await service.removeRefreshToken(user._id, refreshToken);
+    }
+
+    return c.json({ success: true, message: "Logout successful" }, OK);
   });
 
 export default app;
