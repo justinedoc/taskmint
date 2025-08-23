@@ -52,7 +52,7 @@ const app = new Hono()
       {
         message: "Signup successful",
         success: true,
-        data: userService.profile(user),
+        data: { accessToken },
       },
       CREATED
     );
@@ -92,7 +92,7 @@ const app = new Hono()
       {
         success: true,
         message: "Signin successful",
-        data: userService.profile(user),
+        data: { accessToken },
       },
       OK
     );

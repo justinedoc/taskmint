@@ -4,7 +4,7 @@ import type { Document, Model, Types } from "mongoose";
 type FindableFields = "email" | "username" | "_id";
 
 export class BaseUserService<T extends Document> {
-  private readonly model: Model<T>;
+  public readonly model: Model<T>;
 
   constructor(model: Model<T>) {
     this.model = model;

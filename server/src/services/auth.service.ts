@@ -24,20 +24,24 @@ export class AuthService<T extends Document> {
     }
 
     const userId = new Types.ObjectId(decoded.id);
-    const user = await this.service.findByRefreshToken(userId, refreshToken);
+
+    const user = await this.service.model.findOneAndUpdate(
+      { _id: userId, refreshToken: refreshToken },
+      { $pull: { refreshToken: refreshToken } }
+    );
 
     if (!user) {
-      await this.service.removeRefreshToken(userId, refreshToken);
+      await this.service.model.updateOne(
+        { _id: userId },
+        { $set: { refreshToken: [] } }
+      );
       throw new AuthError("Invalid refresh token. Please log in again.");
     }
 
     const { accessToken, refreshToken: newRefreshToken } =
       await this.generateTokens(decoded);
 
-    await Promise.all([
-      this.service.removeRefreshToken(String(user._id), refreshToken),
-      this.service.addRefreshToken(String(user._id), newRefreshToken),
-    ]);
+    await this.service.addRefreshToken(String(user._id), newRefreshToken);
 
     return { accessToken, refreshToken: newRefreshToken };
   }

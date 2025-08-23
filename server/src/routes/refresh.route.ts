@@ -33,7 +33,7 @@ const app = new Hono()
       refreshToken: newRefreshToken,
     });
 
-    return c.json({ success: true, message: "Tokens refreshed" });
+    return c.json({ success: true, message: "Tokens refreshed", accessToken });
   });
 
 export default app;
