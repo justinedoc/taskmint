@@ -153,14 +153,3 @@
 @utility bg-about-grad {
   background: linear-gradient(to bottom, #000000 0%, #200d42 40%, #4f21a1 65%);
 }
-
-@utility bg-text-grad {
-  background: linear-gradient(
-    90deg,
-    #dd7dff 0%,
-    #e1cd86 29%,
-    #8bcb92 51%,
-    #71c2ef 76%,
-    #3bffff 100%
-  );
-}
