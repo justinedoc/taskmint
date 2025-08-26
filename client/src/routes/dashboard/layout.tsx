@@ -7,11 +7,17 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/dashboard")({
+  beforeLoad: ({ context }) => {
+    if (!context.auth.isAuthed || !context.auth.isOtpVerified) {
+      throw redirect({ to: "/signin" });
+    }
+  },
   component: Dashboard,
   notFoundComponent: () => <div>Layout - not found</div>,
+  
 });
 
 function Dashboard() {

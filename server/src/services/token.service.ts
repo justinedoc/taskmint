@@ -16,10 +16,6 @@ export interface TokenPair {
 }
 
 export class TokenService {
-  private readonly ACCESS_TOKEN_EXP = Math.floor(Date.now() / 1000) + 60 * 15;
-  private readonly REFRESH_TOKEN_EXP =
-    Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7;
-
   public async createTokenPair({
     id,
     role,
@@ -35,12 +31,16 @@ export class TokenService {
       permissions,
     };
 
+    const now = Math.floor(Date.now() / 1000);
+    const accessTokenExp = now + 60 * 15;
+    const refreshTokenExp = now + 60 * 60 * 24 * 7;
+
     const accessToken = await sign(
-      { ...payload, exp: this.ACCESS_TOKEN_EXP },
+      { ...payload, exp: accessTokenExp },
       env.ACCESS_TOKEN_SECRET
     );
     const refreshToken = await sign(
-      { ...payload, exp: this.REFRESH_TOKEN_EXP },
+      { ...payload, exp: refreshTokenExp },
       env.REFRESH_TOKEN_SECRET
     );
 
@@ -55,11 +55,11 @@ export class TokenService {
   }
 
   async verifyAccessToken(token: string) {
-    return this.verifyToken(token, env.ACCESS_TOKEN_SECRET);
+    return await this.verifyToken(token, env.ACCESS_TOKEN_SECRET);
   }
 
   async verifyRefreshToken(token: string) {
-    return this.verifyToken(token, env.REFRESH_TOKEN_SECRET);
+    return await this.verifyToken(token, env.REFRESH_TOKEN_SECRET);
   }
 }
 

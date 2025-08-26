@@ -2,32 +2,51 @@ import MobileMenu from "@/components/landing-page/navbar/mobile-menu";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/auth-store";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, LucideProps, XIcon } from "lucide-react";
 import { useState } from "react";
 
 function NavActions() {
   const [isOpen, setIsOpen] = useState(false);
+  const user = useAuthStore((state) => state.user);
   const isMobile = useIsMobile();
 
   return (
     <div className="flex items-center gap-4">
-      <Link
-        to="/signup/modal"
-        className={cn(buttonVariants({ size: "lg" }), "hidden md:inline-flex")}
-      >
-        Get Started <ArrowRight />
-      </Link>
+      {user ? (
+        <Link
+          to="/dashboard"
+          className={cn(
+            buttonVariants({ size: "lg" }),
+            "hidden md:inline-flex",
+          )}
+        >
+          Dashboard <ArrowRight />
+        </Link>
+      ) : (
+        <>
+          <Link
+            to="/signup/modal"
+            className={cn(
+              buttonVariants({ size: "lg" }),
+              "hidden md:inline-flex",
+            )}
+          >
+            Get Started <ArrowRight />
+          </Link>
 
-      <Link
-        to="/signin/modal"
-        className={buttonVariants({
-          variant: "outline",
-          size: isMobile ? "default" : "lg",
-        })}
-      >
-        Sign In
-      </Link>
+          <Link
+            to="/signin/modal"
+            className={buttonVariants({
+              variant: "outline",
+              size: isMobile ? "default" : "lg",
+            })}
+          >
+            Sign In
+          </Link>
+        </>
+      )}
 
       <Button
         size="icon"

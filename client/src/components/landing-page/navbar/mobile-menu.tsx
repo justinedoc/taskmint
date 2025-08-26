@@ -9,6 +9,7 @@ import {
 import Box from "@/components/ui/box";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/auth-store";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
@@ -83,6 +84,8 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
       document.body.style.overflow = "";
     };
   }, [isOpen]);
+
+  const user = useAuthStore((state) => state.user);
 
   const variants = {
     open: { opacity: 1, y: 20 },
@@ -167,19 +170,28 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             </AccordionItem>
           </Accordion>
 
-          <Box className="mt-4 w-full justify-center">
-            <Link to="/signup" className={buttonVariants({ size: "lg" })}>
-              Get Started
-              <ArrowRight />
-            </Link>
-
+          {user ? (
             <Link
-              to="/signin"
-              className={buttonVariants({ size: "lg", variant: "outline" })}
+              to="/dashboard"
+              className={cn(buttonVariants({ size: "lg" }), "mx-auto mt-6")}
             >
-              Sign in
+              Dashboard <ArrowRight />
             </Link>
-          </Box>
+          ) : (
+            <Box className="mt-4 w-full justify-center">
+              <Link to="/signup" className={buttonVariants({ size: "lg" })}>
+                Get Started
+                <ArrowRight />
+              </Link>
+
+              <Link
+                to="/signin"
+                className={buttonVariants({ size: "lg", variant: "outline" })}
+              >
+                Sign in
+              </Link>
+            </Box>
+          )}
         </ul>
       </motion.div>
     </div>

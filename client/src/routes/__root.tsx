@@ -1,8 +1,17 @@
 import { Toaster } from "@/components/ui/sonner";
-import { createRootRoute, HeadContent, Outlet } from "@tanstack/react-router";
+import { AuthState } from "@/store/auth-store";
+import {
+  createRootRouteWithContext,
+  HeadContent,
+  Outlet,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-export const Route = createRootRoute({
+interface RouterContext {
+  auth: AuthState;
+}
+
+export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
       <HeadContent />

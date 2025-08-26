@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { createRouter } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -7,6 +7,8 @@ import "./index.css";
 const queryClient = new QueryClient();
 
 // Import the generated route tree
+import App from "@/app";
+import AuthProvider from "@/components/providers/auth-provider";
 import { createRouteMask } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
@@ -25,9 +27,12 @@ const signupModalToSignupMask = createRouteMask({
 });
 
 // Create a new router instance
-const router = createRouter({
+export const router = createRouter({
   routeTree,
   routeMasks: [signinModalToSigninMask, signupModalToSignupMask],
+  context: {
+    auth: undefined!,
+  },
 });
 
 // Register the router instance for type safety
@@ -50,9 +55,11 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </AuthProvider>
     </StrictMode>,
   );
 }

@@ -1,3 +1,4 @@
+import { signUpUser } from "@/api/auth";
 import { FormTabs } from "@/components/auth/auth-form-tabs";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import PasswordInput from "@/components/ui/password-input";
 import { PlanName } from "@/constants/pricing";
-import { signUpUser } from "@/lib/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
@@ -33,11 +33,11 @@ const formSchema = z.object({
     }),
 });
 
-type SignUpFormData = z.infer<typeof formSchema>;
+export type SignUpFormData = z.infer<typeof formSchema>;
 
 export default function SignupForm({
   onHandleTabSwitch,
-  plan
+  plan,
 }: {
   onHandleTabSwitch: (FormTabs: FormTabs) => void;
   plan?: PlanName;
@@ -64,7 +64,7 @@ export default function SignupForm({
 
   function onSubmit(data: SignUpFormData) {
     startTransition(async () => {
-      await mutateAsync({...data, plan });
+      await mutateAsync({ ...data, plan });
     });
   }
 

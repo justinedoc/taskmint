@@ -1,3 +1,4 @@
+import { resendOTP, verifyOTP } from "@/api/auth";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,7 +15,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { resendOTP, verifyOTP } from "@/lib/auth";
+import { useAuthStore } from "@/store/auth-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "@tanstack/react-router";
@@ -37,10 +38,12 @@ export default function FormOTP() {
   const [isPending, startTransition] = useTransition();
   const [isResendPending, startResendTransition] = useTransition();
   const location = useLocation();
+  const markVerified = useAuthStore((state) => state.markVerified);
 
   const { mutateAsync: mutateVerifyOTP } = useMutation({
     mutationFn: verifyOTP,
-    onSuccess(data) {
+    onSuccess: async (data) => {
+      await markVerified();
       toast.success(data.message);
     },
   });
@@ -50,7 +53,8 @@ export default function FormOTP() {
     onError(err) {
       toast.error(err.message);
     },
-    onSuccess(data) {
+    onSuccess: async (data) => {
+      await markVerified()
       toast.success(data.message);
     },
   });
