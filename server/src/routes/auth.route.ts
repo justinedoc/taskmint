@@ -1,3 +1,4 @@
+import env from "@server/app/validate-env";
 import { zUserSchema } from "@server/db/models/user.model";
 import { zSignin } from "@server/db/schemas";
 import { AuthError } from "@server/errors/auth.error";
@@ -6,6 +7,7 @@ import logger from "@server/lib/logger";
 import { zValidator } from "@server/lib/zod-validator";
 import { getServiceForRole } from "@server/services";
 import cookieService from "@server/services/cookie.service";
+import otpService from "@server/services/otp.service";
 import tokenService from "@server/services/token.service";
 import userService from "@server/services/user.service";
 import { Hono } from "hono";
@@ -16,6 +18,8 @@ const zUserSignup = zUserSchema.omit({
   refreshToken: true,
   permissions: true,
 });
+
+const isDevMode = env.ENV !== "production";
 
 const app = new Hono()
   .basePath("/auth")
@@ -29,7 +33,9 @@ const app = new Hono()
       throw new AuthError("User with email already exists", CONFLICT);
     }
 
-    const user = await userService.create(incomingUser);
+    const otpSecret = otpService.generateUserSecret();
+
+    const user = await userService.create({ ...incomingUser, otpSecret });
 
     const { accessToken, refreshToken } = await tokenService.createTokenPair({
       id: user._id,
@@ -52,7 +58,11 @@ const app = new Hono()
       {
         message: "Signup successful",
         success: true,
-        data: { accessToken },
+        data: {
+          accessToken,
+          otp:
+            isDevMode && (await otpService.generateOtp(updatedUser.otpSecret)),
+        },
       },
       CREATED
     );
@@ -86,13 +96,17 @@ const app = new Hono()
 
     await cookieService.setAuthCookies(c, { refreshToken, accessToken });
 
-    console.info(`${user.fullname} logged in`);
+    console.info(`${updatedUser.fullname} logged in`);
 
     return c.json(
       {
         success: true,
         message: "Signin successful",
-        data: { accessToken },
+        data: {
+          accessToken,
+          otp:
+            isDevMode && (await otpService.generateOtp(updatedUser.otpSecret)),
+        },
       },
       OK
     );

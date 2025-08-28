@@ -2,7 +2,6 @@ import { signInUser, signOutUser, signUpUser } from "@/api/auth";
 import { SignInFormData } from "@/components/auth/signin-form";
 import { SignUpFormData } from "@/components/auth/signup-form";
 import { getCurrentUser } from "@/data/get-current-user";
-import { sleep } from "@/lib/sleep";
 import { User } from "@/types";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
@@ -52,7 +51,7 @@ export const useAuthStore = create<AuthState>()(
         },
 
         markVerified: async () => {
-          // add logic here
+          // TODO: add logic here
           set({ isOtpVerified: true });
           await get().checkAuth();
         },
@@ -92,10 +91,10 @@ export const useAuthStore = create<AuthState>()(
             error: null,
             isLoading: true,
             accessToken: null,
+            isOtpVerified: false,
           });
           try {
             await signOutUser();
-            await sleep(1000);
           } catch (err) {
             console.error("logging out on client.");
             throw err;

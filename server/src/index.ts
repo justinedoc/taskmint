@@ -2,11 +2,15 @@ import { createApp } from "@server/app/create-app";
 import authRoutes from "@server/routes/auth.route";
 import refreshRoute from "@server/routes/refresh.route";
 import userRoutes from "@server/routes/user.route";
+import verificationRoutes from "@server/routes/verify.route";
 import { NOT_FOUND, OK } from "stoker/http-status-codes";
 
+import { getCryptoService } from "@server/services/crypto.service";
 import "dotenv/config";
 
 const app = await createApp();
+
+export const CRYPTO = await getCryptoService();
 
 app.get("/", (c) => {
   return c.json({ success: true, message: "Welcome to TaskMint API!" }, OK);
@@ -33,6 +37,7 @@ app.doc("/doc", {
 app.route("/v1", authRoutes);
 app.route("/v1", userRoutes);
 app.route("/v1", refreshRoute);
+app.route("/v1", verificationRoutes);
 
 app.notFound((c) => {
   return c.json({ message: `Route not found - ${c.req.path}` }, NOT_FOUND);

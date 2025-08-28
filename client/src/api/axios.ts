@@ -15,7 +15,6 @@ export const API = axios.create({
 API.interceptors.request.use(
   (config) => {
     const accessToken = useAuthStore.getState().accessToken;
-    console.log("Stale accessToken: ", accessToken)
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -39,8 +38,6 @@ createAuthRefreshInterceptor(
       useAuthStore.getState().setAccessToken(newAccessToken);
 
       if (failedRequest.response) {
-        console.log("access token injected...", newAccessToken);
-
         failedRequest.response.config.headers["Authorization"] =
           `Bearer ${newAccessToken}`;
       }

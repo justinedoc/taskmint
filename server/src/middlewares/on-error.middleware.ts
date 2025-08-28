@@ -12,7 +12,7 @@ import {
 } from "stoker/http-status-codes";
 import { ZodError } from "zod";
 
-const isDevMode = env.ENV !== "development";
+const isDevMode = env.ENV === "development";
 
 export const onError: ErrorHandler = (err, c) => {
   if (err instanceof ZodError) {

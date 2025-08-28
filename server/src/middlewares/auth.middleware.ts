@@ -35,7 +35,6 @@ export async function authMiddleware(c: Context, next: Next) {
     }
 
     if (err instanceof JwtTokenExpired) {
-      logger.warn("Access token expired");
       return c.json(
         {
           success: false,

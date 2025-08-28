@@ -1,4 +1,5 @@
 import { UserRole, zBaseUser, type BaseUser } from "@server/db/schemas";
+import { CRYPTO } from "@server/index";
 import { RolePermissions } from "@server/lib/permissions";
 import mongoose, { model, type Document } from "mongoose";
 import z from "zod";
@@ -7,7 +8,7 @@ export const zUserSchema = zBaseUser().extend({
   role: UserRole.default("User"),
 });
 
-export type User = BaseUser & z.infer<typeof zUserSchema> & {};
+export type User = BaseUser & z.infer<typeof zUserSchema>;
 
 export type mUser = User & Document;
 
@@ -25,6 +26,10 @@ const mUserSchema = new mongoose.Schema<mUser>(
     password: { type: String, required: true, trim: true },
     profileImg: String,
     refreshToken: { type: [String], default: [] },
+    otpSecret: {
+      type: String,
+      require: true,
+    },
   },
   { timestamps: true }
 );
@@ -45,6 +50,10 @@ mUserSchema.pre("save", async function (next) {
     this.password = hashedPassword;
   }
 
+  next();
+});
+
+mUserSchema.pre("save", async function (next) {
   if (!this.username && this.email) {
     const base = this.email.split("@")[0];
     let candidate = base;
@@ -56,6 +65,14 @@ mUserSchema.pre("save", async function (next) {
     this.username = candidate;
   }
 
+  next();
+});
+
+mUserSchema.pre("save", async function (next) {
+  if (this.isModified("otpSecret")) {
+    const userSecret = await CRYPTO.encrypt(this.otpSecret);
+    this.otpSecret = userSecret;
+  }
   next();
 });
 

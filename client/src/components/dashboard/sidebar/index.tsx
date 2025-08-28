@@ -10,6 +10,7 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Link } from "@tanstack/react-router";
 
 export default function DashboardSidebar({
   ...props
@@ -19,19 +20,21 @@ export default function DashboardSidebar({
   return (
     <Sidebar {...props}>
       <SidebarHeader className="py-[1.01rem] group-data-[collapsible=icon]:my-[0.33rem]">
-        <img
-          src="/taskmint-full.svg"
-          alt="Task mint's logo"
-          data-state={state}
-          className="data-[state=collapsed]:hidden"
-        />
+        <Link to="/" from="/dashboard">
+          <img
+            src="/taskmint-full.svg"
+            alt="Task mint's logo"
+            data-state={state}
+            className="data-[state=collapsed]:hidden"
+          />
 
-        <img
-          src="/taskmint-half.svg"
-          alt="Task mint's logo"
-          data-state={state}
-          className="scale-100 data-[state=expanded]:hidden data-[state=expanded]:scale-0"
-        />
+          <img
+            src="/taskmint-half.svg"
+            alt="Task mint's logo"
+            data-state={state}
+            className="scale-100 data-[state=expanded]:hidden data-[state=expanded]:scale-0"
+          />
+        </Link>
       </SidebarHeader>
 
       <Separator />

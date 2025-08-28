@@ -21,6 +21,7 @@ const EnvSchema = z.object({
   REDIS_URL: z.string(),
   REDIS_PORT: z.string().transform(Number),
   REDIS_PASS: z.string(),
+  ENCRYPTION_KEY: z.string(),
 });
 
 const parsedEnv = EnvSchema.safeParse(process.env);

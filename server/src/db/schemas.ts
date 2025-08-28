@@ -63,6 +63,7 @@ export function zPasswordUpdate() {
 
 export type BaseUser = {
   _id: Types.ObjectId;
+  otpSecret: string;
   comparePassword: (password: string) => Promise<boolean>;
 };
 
