@@ -15,12 +15,13 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { parseAxiosError } from "@/lib/parse-axios-error";
 import { useAuthStore } from "@/store/auth-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useLocation, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -33,33 +34,41 @@ const OTPFormSchema = z.object({
 
 type TOTPForm = z.infer<typeof OTPFormSchema>;
 
-export default function FormOTP() {
+export default function FormOTP({ navigateTo = "/dashboard" }) {
   const [resendCooldown, setResendCooldown] = useState(0);
-  const [isPending, startTransition] = useTransition();
-  const [isResendPending, startResendTransition] = useTransition();
-  const location = useLocation();
   const markVerified = useAuthStore((state) => state.markVerified);
+  const navigate = useNavigate();
 
-  const { mutateAsync: mutateVerifyOTP } = useMutation({
+  const { mutate: tVerifyOTP, isPending: isVerifying } = useMutation({
     mutationFn: verifyOTP,
     onSuccess: async (data) => {
       await markVerified();
       toast.success(data.message);
+      navigate({
+        to: navigateTo,
+      });
+    },
+
+    onError(err) {
+      const { message } = parseAxiosError(err);
+      toast.error(message);
     },
   });
 
-  const { mutateAsync: mutateResendOTP } = useMutation({
+  const { mutate: tResendOTP, isPending: isResending } = useMutation({
     mutationFn: resendOTP,
     onError(err) {
-      toast.error(err.message);
+      const { message } = parseAxiosError(err);
+      toast.error(message);
     },
     onSuccess: async (data) => {
-      await markVerified()
       toast.success(data.message);
+
+      const expiresAt = Date.now() + 30_000;
+      localStorage.setItem("otp_cooldown_expires_at", expiresAt.toString());
+      setResendCooldown(30);
     },
   });
-
-  const navigate = useNavigate();
 
   const OTPForm = useForm<TOTPForm>({
     resolver: zodResolver(OTPFormSchema),
@@ -100,24 +109,12 @@ export default function FormOTP() {
   }, [resendCooldown]);
 
   function onSubmitOTP(data: TOTPForm) {
-    startTransition(async () => {
-      const signinData = location.state;
-      console.log("Location state: ", signinData);
-      await mutateVerifyOTP(Number(data.pin));
-      navigate({ to: "/dashboard" });
-    });
+    tVerifyOTP(Number(data.pin));
   }
 
   function handleResendOTP() {
     if (resendCooldown > 0) return;
-
-    startResendTransition(async () => {
-      await mutateResendOTP();
-
-      const expiresAt = Date.now() + 30_000;
-      localStorage.setItem("otp_cooldown_expires_at", expiresAt.toString());
-      setResendCooldown(30);
-    });
+    tResendOTP();
   }
 
   return (
@@ -152,13 +149,13 @@ export default function FormOTP() {
                 <Button
                   variant={"link"}
                   type="button"
-                  disabled={isResendPending || resendCooldown > 0}
+                  disabled={isResending || resendCooldown > 0}
                   onClick={handleResendOTP}
                   className="text-foreground disabled:text-foreground/50 px-1 font-medium underline disabled:cursor-not-allowed"
                 >
                   {resendCooldown > 0
                     ? `resend in ${resendCooldown}s`
-                    : isResendPending
+                    : isResending
                       ? "resending..."
                       : "resend OTP"}
                 </Button>
@@ -172,9 +169,9 @@ export default function FormOTP() {
           type="submit"
           size={"lg"}
           className="w-full rounded-full"
-          disabled={isPending}
+          disabled={isVerifying}
         >
-          {isPending ? "Verifying..." : "Verify"}
+          {isVerifying ? "Verifying..." : "Verify"}
         </Button>
       </form>
     </Form>

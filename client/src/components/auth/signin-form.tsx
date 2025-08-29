@@ -1,4 +1,3 @@
-import { signInUser } from "@/api/auth";
 import { FormTabs } from "@/components/auth/auth-form-tabs";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,9 +10,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { parseAxiosError } from "@/lib/parse-axios-error";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/auth-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ChevronRight, EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState, useTransition } from "react";
@@ -38,15 +38,8 @@ export default function SigninForm({
 }) {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const [isPending, startTransition] = useTransition();
-  const { mutateAsync } = useMutation({
-    mutationFn: signInUser,
-    onError(error) {
-      toast.error(error.message);
-    },
-    onSuccess() {
-      onHandleTabSwitch("form-otp");
-    },
-  });
+
+  const signInUser = useAuthStore((s) => s.signin);
 
   const form = useForm<SignInFormData>({
     resolver: zodResolver(formSchema),
@@ -60,7 +53,13 @@ export default function SigninForm({
 
   function onSubmit(data: SignInFormData) {
     startTransition(async () => {
-      await mutateAsync(data);
+      try {
+        await signInUser(data);
+        onHandleTabSwitch("form-otp");
+      } catch (err) {
+        const { message } = parseAxiosError(err);
+        toast.error(message);
+      }
     });
   }
 

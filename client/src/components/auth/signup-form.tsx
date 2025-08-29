@@ -1,4 +1,3 @@
-import { signUpUser } from "@/api/auth";
 import { FormTabs } from "@/components/auth/auth-form-tabs";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,8 +11,9 @@ import {
 import { Input } from "@/components/ui/input";
 import PasswordInput from "@/components/ui/password-input";
 import { PlanName } from "@/constants/pricing";
+import { parseAxiosError } from "@/lib/parse-axios-error";
+import { useAuthStore } from "@/store/auth-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { useTransition } from "react";
@@ -43,15 +43,7 @@ export default function SignupForm({
   plan?: PlanName;
 }) {
   const [isPending, startTransition] = useTransition();
-  const { mutateAsync } = useMutation({
-    mutationFn: signUpUser,
-    onError(error) {
-      toast.error(error.message);
-    },
-    onSuccess() {
-      onHandleTabSwitch("form-otp");
-    },
-  });
+  const signUpUser = useAuthStore((s) => s.signup);
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(formSchema),
@@ -64,7 +56,13 @@ export default function SignupForm({
 
   function onSubmit(data: SignUpFormData) {
     startTransition(async () => {
-      await mutateAsync({ ...data, plan });
+      try {
+        await signUpUser({ ...data, plan });
+        onHandleTabSwitch("form-otp");
+      } catch (err) {
+        const { message } = parseAxiosError(err);
+        toast.error(message);
+      }
     });
   }
 

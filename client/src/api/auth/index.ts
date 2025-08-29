@@ -7,8 +7,6 @@ import { PlanName } from "@/constants/pricing";
 import { sleep } from "@/lib/sleep";
 import { ApiResponse } from "@/types";
 
-
-
 //  USER SIGNUP
 export async function signUpUser(
   data: SignUpFormData & { plan?: PlanName },
@@ -18,6 +16,8 @@ export async function signUpUser(
     { ...data, fullname: data.name },
     { skipAuthRefresh: true },
   );
+
+  console.log("User signup data: ", res.data);
   return res.data;
 }
 
@@ -26,6 +26,8 @@ export async function signInUser(
   data: SignInFormData,
 ): Promise<ApiResponse<{ accessToken: string }>> {
   const res = await API.post("/auth/signin", data, { skipAuthRefresh: true });
+
+  console.log("User signin data: ", res.data);
   return res.data;
 }
 
@@ -33,17 +35,13 @@ export async function signOutUser() {
   await API.post("/auth/logout");
 }
 
-export async function verifyOTP(pin: number) {
-  //TODO: OTP verification logic here
-
-  await sleep();
-
-  console.log("opt pin: ", pin);
-
-  return {
-    success: true,
-    message: "OTP verification successful",
-  };
+export async function verifyOTP(code: number): Promise<ApiResponse<undefined>> {
+  const res = await API.post(
+    "/verify/otp",
+    { code },
+    { skipAuthRefresh: true },
+  );
+  return res.data;
 }
 
 let RETRY_ATTEMPTS = 3;

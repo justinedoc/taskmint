@@ -26,8 +26,6 @@ const app = new Hono<AppBindings>()
       throw new AuthError("User not found");
     }
 
-    console.log(user)
-
     const isValid = await otpService.verifyOtp(code, user.otpSecret);
 
     if (!isValid) throw new AuthError("Invalid OTP");

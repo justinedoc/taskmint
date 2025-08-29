@@ -1,5 +1,7 @@
 import { CRYPTO } from "@server/index";
-import { authenticator } from "otplib";
+import { authenticator, totp } from "otplib";
+
+totp.options = { step: 300 };
 
 class OTPService {
   public generateUserSecret() {
@@ -8,15 +10,12 @@ class OTPService {
 
   public async generateOtp(secret: string) {
     const decryptedSecret = await CRYPTO.decrypt(secret);
-    return authenticator.generate(decryptedSecret);
+    return totp.generate(decryptedSecret);
   }
 
   public async verifyOtp(otp: number, secret: string) {
     const decryptedSecret = await CRYPTO.decrypt(secret);
-    return authenticator.verify({
-      token: otp.toString(),
-      secret: decryptedSecret,
-    });
+    return totp.check(otp.toString(), decryptedSecret);
   }
 }
 

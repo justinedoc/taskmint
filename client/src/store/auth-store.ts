@@ -1,6 +1,7 @@
 import { signInUser, signOutUser, signUpUser } from "@/api/auth";
 import { SignInFormData } from "@/components/auth/signin-form";
 import { SignUpFormData } from "@/components/auth/signup-form";
+import { PlanName } from "@/constants/pricing";
 import { getCurrentUser } from "@/data/get-current-user";
 import { User } from "@/types";
 import { create } from "zustand";
@@ -18,7 +19,7 @@ export interface AuthState {
   checkAuth: () => Promise<void>;
   markVerified: () => Promise<void>;
   signin: (credentials: SignInFormData) => Promise<void>;
-  signup: (credentials: SignUpFormData) => Promise<void>;
+  signup: (credentials: SignUpFormData & { plan?: PlanName }) => Promise<void>;
   logout: () => Promise<void>;
   setUser: (user: User | null) => void;
   setAccessToken: (token: string) => void;
@@ -51,7 +52,6 @@ export const useAuthStore = create<AuthState>()(
         },
 
         markVerified: async () => {
-          // TODO: add logic here
           set({ isOtpVerified: true });
           await get().checkAuth();
         },
