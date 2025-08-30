@@ -44,22 +44,11 @@ export async function verifyOTP(code: number): Promise<ApiResponse<undefined>> {
   return res.data;
 }
 
-let RETRY_ATTEMPTS = 3;
-
-export async function resendOTP() {
-  //TODO: OTP resend logic here
-
-  if (RETRY_ATTEMPTS <= 0) throw new Error("Retry attempts limit reached");
-
-  await sleep();
-  RETRY_ATTEMPTS -= 1;
-
-  console.log("Resending otp...");
-
-  return {
-    success: true,
-    message: "OTP resent successfully.",
-  };
+export async function resendOTP(): Promise<ApiResponse<undefined>> {
+  const res = await API.get("/verify/otp-resend", {
+    skipAuthRefresh: true,
+  });
+  return res.data;
 }
 
 //  USER FORGOT PASSWORD

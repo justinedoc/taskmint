@@ -7,6 +7,7 @@ import logger from "@server/lib/logger";
 import { zValidator } from "@server/lib/zod-validator";
 import { getServiceForRole } from "@server/services";
 import cookieService from "@server/services/cookie.service";
+import mailer from "@server/services/mailer.service";
 import otpService from "@server/services/otp.service";
 import tokenService from "@server/services/token.service";
 import userService from "@server/services/user.service";
@@ -96,6 +97,15 @@ const app = new Hono()
 
     await cookieService.setAuthCookies(c, { refreshToken, accessToken });
 
+    const otpCode = await otpService.generateOtp(updatedUser.otpSecret);
+
+    await mailer.sendMail({
+      to: user.email,
+      subject: "Your TaskMint OTP",
+      template: "otp",
+      payload: { otp: otpCode },
+    });
+
     console.info(`${updatedUser.fullname} logged in`);
 
     return c.json(
@@ -104,8 +114,6 @@ const app = new Hono()
         message: "Signin successful",
         data: {
           accessToken,
-          otp:
-            isDevMode && (await otpService.generateOtp(updatedUser.otpSecret)),
         },
       },
       OK
