@@ -21,19 +21,21 @@ export function zGetById() {
 
 // Zod schema for updating user data
 export function zUpdateUserData() {
-  return z.object({
+  const zId = z.object({
     id: z.string().refine(isValidObjectId, {
       message: "Invalid User ID format",
     }),
-    data: z
-      .object({
-        firstname: z.string().min(1).max(100),
-        lastname: z.string().min(1).max(100),
-        username: z.string().min(1).max(100),
-        email: z.email("Please use a valid email"),
-      })
-      .partial(),
   });
+
+  const zData = z
+    .object({
+      fullname: z.string().min(1).max(100),
+      username: z.string().min(1).max(100),
+      email: z.email("Please use a valid email"),
+    })
+    .partial();
+
+    return {zId, zData}
 }
 
 export function zBaseUser() {
