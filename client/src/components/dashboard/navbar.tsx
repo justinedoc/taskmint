@@ -14,7 +14,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { getInitials } from "@/lib/get-name-initials";
 import { useAuthStore } from "@/store/auth-store";
 import { Link } from "@tanstack/react-router";
-import { ChevronDown, Search, Settings } from "lucide-react";
+import { Bell, Search, Settings } from "lucide-react";
 
 function Navbar() {
   const user = useAuthStore((state) => state.user);
@@ -32,8 +32,8 @@ function Navbar() {
         <DashboardBreadcrumb />
       </div>
 
-      <div className="ml-auto flex flex-1 items-center justify-end gap-6 md:justify-between">
-        <div className="relative ml-auto hidden max-w-xl flex-1 md:flex">
+      <div className="ml-auto flex flex-1 items-center justify-end gap-4 md:justify-between">
+        <div className="relative ml-auto hidden max-w-lg flex-1 md:flex">
           <Input placeholder="Search for anything..." className="pl-8" />
           <Search
             size={16}
@@ -50,32 +50,40 @@ function Navbar() {
             <MobileSecondarySidebar />
 
             <PopoverTrigger asChild>
+              <Avatar>
+                <AvatarImage src={user?.profileImg} />
+                <AvatarFallback>{getInitials(user.fullname)}</AvatarFallback>
+              </Avatar>
+            </PopoverTrigger>
+          </Box>
+          <PopoverContent className="w-80!">
+            <div className="grid gap-4">
               <div className="flex items-center gap-2">
                 <Avatar>
                   <AvatarImage src={user?.profileImg} />
                   <AvatarFallback>{getInitials(user.fullname)}</AvatarFallback>
                 </Avatar>
-                <h2 className="line-clamp-1 hidden md:block">
-                  {user.fullname}
-                </h2>
-                <ChevronDown size={16} />
+                <div>
+                  <h2 className="font-semibold">{user.fullname}</h2>
+                  <p className="text-muted-foreground text-sm">{user.email}</p>
+                </div>
               </div>
-            </PopoverTrigger>
-          </Box>
-          <PopoverContent className="w-80!">
-            <div className="grid gap-4">
-              <div className="space-y-2">
-                <h4 className="text-xl leading-none font-medium">Profile</h4>
-                <p className="text-muted-foreground text-sm">
-                  Manage your profile.
-                </p>
-              </div>
+
+              <Separator />
+
               <div className="grid gap-2">
                 <Link
                   to="/dashboard/settings"
-                  className="hover:bg-accent/50 inline-flex gap-2 rounded-md px-2 py-3"
+                  className="hover:bg-accent/50 inline-flex items-center gap-2 rounded-full p-2 pl-4 text-base"
                 >
-                  <Settings /> Settings
+                  <Settings size={16} /> Account Settings
+                </Link>
+
+                <Link
+                  to="/dashboard"
+                  className="hover:bg-accent/50 inline-flex items-center gap-2 rounded-full p-2 pl-4 text-base"
+                >
+                  <Bell size={16} /> Notifications
                 </Link>
 
                 <Button variant={"destructive"} onClick={logout}>

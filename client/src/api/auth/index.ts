@@ -45,7 +45,7 @@ export async function verifyOTP(code: number): Promise<ApiResponse<undefined>> {
 }
 
 export async function resendOTP(): Promise<ApiResponse<undefined>> {
-  const res = await API.get("/verify/otp-resend", {
+  const res = await API.get("/verify/resend-otp", {
     skipAuthRefresh: true,
   });
   return res.data;

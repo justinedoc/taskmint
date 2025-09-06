@@ -53,6 +53,15 @@ const app = new Hono()
 
     await cookieService.setAuthCookies(c, { accessToken, refreshToken });
 
+    const otpCode = await otpService.generateOtp(updatedUser.otpSecret);
+
+    await mailer.sendMail({
+      to: user.email,
+      subject: "Welcome to TaskMint",
+      template: "welcome",
+      payload: { otp: otpCode, username: user.fullname },
+    });
+
     console.info(`User ${user.fullname} has been registered`);
 
     return c.json(
@@ -114,6 +123,7 @@ const app = new Hono()
         message: "Signin successful",
         data: {
           accessToken,
+          otp: env.ENV !== "production" && otpCode,
         },
       },
       OK

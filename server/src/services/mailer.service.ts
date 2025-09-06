@@ -7,11 +7,18 @@ const __dirname = import.meta.dir;
 
 type EmailTemplate = "welcome" | "forgot-password" | "password-reset" | "otp";
 
+type EmailOptionsPayload = {
+  otp?: string | number;
+  username?: string;
+  reset_link?: string;
+  login_link?: string;
+};
+
 interface EmailOptions {
   to: string;
   subject: string;
   template: EmailTemplate;
-  payload: { [key: string]: any };
+  payload: EmailOptionsPayload;
 }
 
 export class Mailer {
@@ -21,13 +28,9 @@ export class Mailer {
     this.transporter = nodemailer.createTransport({
       host: env.SMTP_HOST,
       port: 587,
-      secure: env.ENV !== "development",
       auth: {
         user: env.SMTP_USER,
         pass: env.SMTP_PASS,
-      },
-      tls: {
-        rejectUnauthorized: env.ENV !== "development",
       },
     });
   }
@@ -64,9 +67,6 @@ export class Mailer {
   }: EmailOptions): Promise<void> {
     try {
       const emailHtml = await this.loadAndProcessTemplate(template, payload);
-
-      console.log(emailHtml);
-
       const mailOptions = {
         from: '"TaskMint" <no-reply@taskmint.com>',
         to,
