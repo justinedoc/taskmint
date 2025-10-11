@@ -1,6 +1,7 @@
 {
   "name": "client",
   "private": true,
+  "packageManager": "bun@1.2.4",
   "version": "0.0.1",
   "type": "module",
   "scripts": {
