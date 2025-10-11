@@ -47,6 +47,8 @@ export function zBaseUser() {
     refreshToken: z.array(z.string()).optional(),
     profileImg: z.string().optional(),
     twoFactorEnabled: z.boolean(),
+    isVerified: z.boolean().default(false),
+    googleId: z.string(),
     password: z
       .string()
       .min(8)

@@ -22,6 +22,7 @@ const mUserSchema = new mongoose.Schema<mUser>(
     },
     fullname: { type: String, required: true },
     username: String,
+    googleId: String,
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true, trim: true },
     profileImg: String,
@@ -31,6 +32,7 @@ const mUserSchema = new mongoose.Schema<mUser>(
       require: true,
     },
     twoFactorEnabled: { required: true, default: true, type: Boolean },
+    isVerified: { required: true, default: false, type: Boolean },
   },
   { timestamps: true }
 );
@@ -43,7 +45,7 @@ mUserSchema.methods.comparePassword = async function (
 };
 
 mUserSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
+  if (this.isModified("password") && !this.googleId) {
     const hashedPassword = await Bun.password.hash(this.password, {
       algorithm: "bcrypt",
       cost: 10,
@@ -75,12 +77,6 @@ mUserSchema.pre("save", async function (next) {
     this.otpSecret = userSecret;
   }
   next();
-});
-
-mUserSchema.post("findOneAndDelete", async function (deletedUser: User) {
-  if (deletedUser) {
-    await model<User>("User").deleteMany({ user: deletedUser._id });
-  }
 });
 
 const UserModel = mongoose.model<mUser>("User", mUserSchema);

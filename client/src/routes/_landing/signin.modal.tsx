@@ -65,7 +65,10 @@ function SigninModal() {
           </DialogDescription>
         </DialogHeader>
 
-        <AuthFormTabs FormComponent={SigninForm} />
+        <AuthFormTabs
+          formProps={{ useOneTap: false }}
+          FormComponent={SigninForm}
+        />
       </DialogContent>
     </Dialog>
   );

@@ -24,6 +24,8 @@ const EnvSchema = z.object({
   ENCRYPTION_KEY: z.string(),
   OTP_COOKIE_SECRET: z.string(),
   OTP_TOKEN_SECRET: z.string(),
+  GOOGLE_CLIENT_ID: z.string(),
+  GOOGLE_CLIENT_SECRET: z.string(),
 });
 
 const parsedEnv = EnvSchema.safeParse(process.env);

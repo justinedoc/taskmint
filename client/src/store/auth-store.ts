@@ -1,4 +1,4 @@
-import { signInUser, signOutUser, signUpUser } from "@/api/auth";
+import { googleAuth, signInUser, signOutUser, signUpUser } from "@/api/auth";
 import { SignInFormData } from "@/components/auth/signin-form";
 import { SignUpFormData } from "@/components/auth/signup-form";
 import { PlanName } from "@/constants/pricing";
@@ -18,6 +18,7 @@ export interface AuthState {
 
   checkAuth: () => Promise<void>;
   markVerified: (token: string) => Promise<void>;
+  googleLogin: (idToken: string) => Promise<{ message: string }>;
   signin: (
     credentials: SignInFormData,
   ) => Promise<{ twoFactorEnabled: boolean }>;
@@ -68,6 +69,32 @@ export const useAuthStore = create<AuthState>()(
           });
 
           await get().checkAuth();
+        },
+
+        googleLogin: async (idToken: string) => {
+          set({ isSubmitting: true, error: null });
+          try {
+            const response = await googleAuth(idToken);
+            const { accessToken } = response.data;
+
+            set({
+              isAuthed: true,
+              isOtpVerified: true,
+              accessToken: accessToken,
+            });
+            await get().checkAuth();
+            return { message: response.message };
+          } catch (err) {
+            set({
+              error: "Google sign-in failed",
+              isAuthed: false,
+              isOtpVerified: false,
+              accessToken: null,
+            });
+            throw err;
+          } finally {
+            set({ isSubmitting: false });
+          }
         },
 
         signin: async (credentials) => {

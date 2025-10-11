@@ -9,6 +9,7 @@ const queryClient = new QueryClient();
 // Import the generated route tree
 import App from "@/app";
 import AuthProvider from "@/components/providers/auth-provider";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { createRouteMask } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
@@ -50,16 +51,20 @@ if (!rootElement) {
   );
 }
 
+const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
 // Render the app
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
-      </AuthProvider>
+      <GoogleOAuthProvider clientId={googleClientId}>
+        <AuthProvider>
+          <QueryClientProvider client={queryClient}>
+            <App />
+          </QueryClientProvider>
+        </AuthProvider>
+      </GoogleOAuthProvider>
     </StrictMode>,
   );
 }

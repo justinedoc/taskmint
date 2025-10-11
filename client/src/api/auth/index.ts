@@ -7,7 +7,17 @@ import { PlanName } from "@/constants/pricing";
 import { sleep } from "@/lib/sleep";
 import { ApiResponse } from "@/types";
 
-//  USER SIGNUP
+export const googleAuth = async (
+  idToken: string,
+): Promise<ApiResponse<{ accessToken: string }>> => {
+  const response = await API.post(
+    "/auth/google",
+    { idToken },
+    { skipAuthRefresh: true },
+  );
+  return response.data;
+};
+
 export async function signUpUser(
   data: SignUpFormData & { plan?: PlanName },
 ): Promise<void> {
@@ -21,7 +31,6 @@ export async function signUpUser(
   return res.data;
 }
 
-/* USER SIGN IN */
 export async function signInUser(
   data: SignInFormData,
 ): Promise<ApiResponse<{ accessToken: string; twoFactorEnabled: boolean }>> {
@@ -53,7 +62,10 @@ export async function resendOTP(): Promise<ApiResponse<undefined>> {
   return res.data;
 }
 
-//  USER FORGOT PASSWORD
+/*
+DEMO CODES
+*/
+
 export async function forgotPassword(data: ForgotPasswordFormData) {
   await sleep(2000);
   console.log("forgot password data", data);

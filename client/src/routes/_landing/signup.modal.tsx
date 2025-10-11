@@ -69,7 +69,7 @@ function SignupModal() {
           </DialogDescription>
         </DialogHeader>
 
-        <AuthFormTabs formProps={{ plan }} FormComponent={SignupForm} />
+        <AuthFormTabs formProps={{ plan, useOneTap: false }} FormComponent={SignupForm}  />
       </DialogContent>
     </Dialog>
   );

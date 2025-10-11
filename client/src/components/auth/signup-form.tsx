@@ -1,5 +1,6 @@
 import { FormTabs } from "@/components/auth/auth-form-tabs";
 import { Button } from "@/components/ui/button";
+import { FieldGroup, FieldSeparator } from "@/components/ui/field";
 import {
   Form,
   FormControl,
@@ -14,7 +15,8 @@ import { PlanName } from "@/constants/pricing";
 import { parseAxiosError } from "@/lib/parse-axios-error";
 import { useAuthStore } from "@/store/auth-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "@tanstack/react-router";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -38,12 +40,16 @@ export type SignUpFormData = z.infer<typeof formSchema>;
 export default function SignupForm({
   onHandleTabSwitch,
   plan,
+  useOneTap = true,
 }: {
   onHandleTabSwitch: (FormTabs: FormTabs) => void;
   plan?: PlanName;
+  useOneTap: boolean;
 }) {
   const [isPending, startTransition] = useTransition();
   const signUpUser = useAuthStore((s) => s.signup);
+  const navigate = useNavigate();
+  const googleLogin = useAuthStore((s) => s.googleLogin);
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(formSchema),
@@ -64,6 +70,23 @@ export default function SignupForm({
         toast.error(message);
       }
     });
+  }
+
+  async function handleGoogleSuccess(
+    credentialResponse: CredentialResponse,
+  ): Promise<void> {
+    if (!credentialResponse.credential) {
+      toast.error("Google sign-in failed. No credential received.");
+      return;
+    }
+    try {
+      const { message } = await googleLogin(credentialResponse.credential);
+      toast.success(message);
+      navigate({ to: "/dashboard" });
+    } catch (err) {
+      const { message } = parseAxiosError(err);
+      toast.error(message);
+    }
   }
 
   return (
@@ -110,9 +133,32 @@ export default function SignupForm({
           )}
         />
 
-        <Button disabled={isPending} type="submit" size="lg" className="w-full">
-          {isPending ? "Signing up..." : "Signup"} <ChevronRight />
-        </Button>
+        <FieldGroup>
+          <Button
+            disabled={isPending}
+            type="submit"
+            size="lg"
+            className="w-full"
+          >
+            {isPending ? "Signing up..." : "Signup"} <ChevronRight />
+          </Button>
+
+          <FieldSeparator>or</FieldSeparator>
+
+          <GoogleLogin
+            shape="pill"
+            theme="outline"
+            width={"100%"}
+            size="large"
+            text="continue_with"
+            useOneTap={useOneTap}
+            onSuccess={handleGoogleSuccess}
+            onError={() => {
+              console.error("Google login failed");
+              toast.error("Google sign-in failed. Please try again.");
+            }}
+          />
+        </FieldGroup>
 
         <p className="text-muted-foreground text-center text-sm">
           Already have an account?{" "}

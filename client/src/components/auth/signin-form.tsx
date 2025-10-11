@@ -1,6 +1,7 @@
 import { FormTabs } from "@/components/auth/auth-form-tabs";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { FieldGroup, FieldSeparator } from "@/components/ui/field";
 import {
   Form,
   FormControl,
@@ -14,6 +15,7 @@ import { parseAxiosError } from "@/lib/parse-axios-error";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/auth-store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRight, EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState, useTransition } from "react";
@@ -33,14 +35,17 @@ export type SignInFormData = z.infer<typeof formSchema>;
 
 export default function SigninForm({
   onHandleTabSwitch,
+  useOneTap = true
 }: {
   onHandleTabSwitch: (FormTabs: FormTabs) => void;
+  useOneTap?: boolean
 }) {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
 
   const [isPending, startTransition] = useTransition();
   const navigate = useNavigate();
   const signInUser = useAuthStore((s) => s.signin);
+  const googleLogin = useAuthStore((s) => s.googleLogin);
 
   const form = useForm<SignInFormData>({
     resolver: zodResolver(formSchema),
@@ -68,6 +73,23 @@ export default function SigninForm({
         toast.error(message);
       }
     });
+  }
+
+  async function handleGoogleSuccess(
+    credentialResponse: CredentialResponse,
+  ): Promise<void> {
+    if (!credentialResponse.credential) {
+      toast.error("Google sign-in failed. No credential received.");
+      return;
+    }
+    try {
+      const { message } = await googleLogin(credentialResponse.credential);
+      toast.success(message);
+      navigate({ to: "/dashboard" });
+    } catch (err) {
+      const { message } = parseAxiosError(err);
+      toast.error(message);
+    }
   }
 
   return (
@@ -148,9 +170,34 @@ export default function SigninForm({
             )}
           />
         </div>
-        <Button disabled={isPending} type="submit" size="lg" className="w-full">
-          {isPending ? "Signing in..." : "Signin"} <ChevronRight />
-        </Button>
+
+        <FieldGroup>
+          <Button
+            disabled={isPending}
+            type="submit"
+            size="lg"
+            className="w-full"
+          >
+            {isPending ? "Signing in..." : "Signin"} <ChevronRight />
+          </Button>
+
+          <FieldSeparator>or</FieldSeparator>
+
+          <GoogleLogin
+            shape="pill"
+            theme="outline"
+            width={"100%"}
+            size="large"
+            text="continue_with"
+            useOneTap={useOneTap}
+            onSuccess={handleGoogleSuccess}
+            onError={() => {
+              console.error("Google login failed");
+              toast.error("Google sign-in failed. Please try again.");
+            }}
+          />
+        </FieldGroup>
+
         <p className="text-muted-foreground text-center text-sm">
           Don't have an account?{" "}
           <Link
