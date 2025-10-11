@@ -24,10 +24,9 @@ function Dashboard() {
     <div className="w-full space-y-6">
       <div className="space-y-2">
         <h1 className="text-4xl font-semibold">
-          Heyy {user?.fullname.split(" ").at(0)}
+          Hello {user?.fullname.split(" ").at(0)}
         </h1>
-
-        <p className="text-muted-foreground text-sm">Your tasks awaits you</p>
+        <p className="text-muted-foreground">Let's make some progress today!</p>
       </div>
 
       <UserProgress />

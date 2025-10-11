@@ -6,7 +6,6 @@ import z from "zod";
 
 export const zUserSchema = zBaseUser().extend({
   role: UserRole.default("User"),
-  twoFactorEnabled: z.boolean().default(true),
 });
 
 export type User = BaseUser & z.infer<typeof zUserSchema>;

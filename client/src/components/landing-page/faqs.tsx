@@ -44,11 +44,7 @@ function FaqAccordion({
 }) {
   const contentRef = useRef<HTMLDivElement>(null);
   return (
-    <div
-      className={cn("max-w-xl divide-y transition-all duration-600", {
-        "-rotate-1": isOpen,
-      })}
-    >
+    <div className={cn("max-w-xl divide-y transition-all duration-600")}>
       <button
         className="flex w-full items-center justify-between py-5 text-left"
         onClick={onClick}

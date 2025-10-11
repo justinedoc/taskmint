@@ -19,21 +19,24 @@ export default function DashboardSidebar({
 
   return (
     <Sidebar {...props}>
-      <SidebarHeader className="py-[1.01rem] group-data-[collapsible=icon]:my-[0.33rem]">
-        <Link to="/" from="/dashboard">
-          <img
-            src="/taskmint-full.svg"
-            alt="Task mint's logo"
-            data-state={state}
-            className="data-[state=collapsed]:hidden"
-          />
-
+      <SidebarHeader className="group-data-[collapsible=icon]">
+        <Link
+          to="/"
+          from="/dashboard"
+          className="flex items-center gap-2 py-[0.23rem]"
+        >
           <img
             src="/taskmint-half.svg"
             alt="Task mint's logo"
-            data-state={state}
-            className="scale-100 data-[state=expanded]:hidden data-[state=expanded]:scale-0"
+            className="size-10"
           />
+
+          <h1
+            data-state={state}
+            className="text-3xl font-extrabold transition-all data-[state=collapsed]:hidden data-[state=collapsed]:scale-0"
+          >
+            Task<span className="text-primary">mint</span>
+          </h1>
         </Link>
       </SidebarHeader>
 

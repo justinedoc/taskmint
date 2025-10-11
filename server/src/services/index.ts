@@ -5,7 +5,7 @@ import UserModel from "@server/db/models/user.model";
 import type { Role } from "@server/db/schemas";
 import { BaseUserService } from "./base-user.service";
 
-type AnyServiceType = BaseUserService<mUser | mAdmin>;
+type AnyServiceType = BaseUserService<mUser> | BaseUserService<mAdmin>;
 
 const userModelInstance = new BaseUserService<mUser>(UserModel);
 const adminModelInstance = new BaseUserService<mAdmin>(AdminModel);

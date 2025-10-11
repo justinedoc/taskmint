@@ -38,7 +38,7 @@ function Dashboard() {
   }
 
   return (
-    <SidebarProvider>
+    <SidebarProvider defaultOpen={false}>
       <DashboardSidebar />
       <SidebarInset>
         <Navbar />

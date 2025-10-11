@@ -110,7 +110,7 @@ export default function SignupForm({
           )}
         />
 
-        <Button disabled={isPending} type="submit" className="w-full">
+        <Button disabled={isPending} type="submit" size="lg" className="w-full">
           {isPending ? "Signing up..." : "Signup"} <ChevronRight />
         </Button>
 

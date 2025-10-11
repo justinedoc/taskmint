@@ -9,7 +9,7 @@ export default function DashboardCalendar() {
       mode="single"
       selected={date}
       onSelect={setDate}
-      className="rounded-md border shadow-sm mx-auto"
+      className="rounded-md border shadow-sm mx-auto card_gradient"
       captionLayout="dropdown"
     />
   );

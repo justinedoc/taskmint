@@ -19,10 +19,7 @@
 
     // Module resolution
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": false,
-
-    // Silence deprecated baseUrl error for TypeScript 7.0
-    "ignoreDeprecations": "6.0"
+    "allowImportingTsExtensions": false
   },
   "tsc-alias": {
     "resolveFullPaths": true

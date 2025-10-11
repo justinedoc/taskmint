@@ -35,7 +35,7 @@ export function zUpdateUserData() {
     })
     .partial();
 
-    return {zId, zData}
+  return { zId, zData };
 }
 
 export function zBaseUser() {
@@ -46,6 +46,7 @@ export function zBaseUser() {
     email: z.email("Please use a valid email"),
     refreshToken: z.array(z.string()).optional(),
     profileImg: z.string().optional(),
+    twoFactorEnabled: z.boolean(),
     password: z
       .string()
       .min(8)

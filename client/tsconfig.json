@@ -6,7 +6,6 @@
     { "path": "./tsconfig.app.json" }
   ],
   "compilerOptions": {
-    "rootDir": ".",
     "paths": {
       "@/*": ["./src/*"]
     }

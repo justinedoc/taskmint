@@ -13,7 +13,7 @@ const LongTermGoals = () => {
   const COLORS = ["#5624B2", "#270f50dc"];
 
   return (
-    <div className="bg-card mx-auto w-full max-w-sm rounded-xl p-2 shadow-sm md:p-4">
+    <div className="card_gradient border border-border/50 mx-auto w-full max-w-sm rounded-xl p-2 shadow-sm md:p-4">
       <div className="text-foreground flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h2 className="text-lg font-semibold">Long term Goals</h2>

@@ -24,20 +24,20 @@ const sampleUpcomingTasks: upcomingTasks[] = [
     title: "Brainstorming",
     description: "Brainstorming with team on storlly app",
     priority: "high",
-    dueDate: new Date("2025-08-15"),
+    dueDate: new Date("2025-10-12"),
   },
   {
     title: "Re-branding Discussion",
     description: "Discussion on re-branding of dermo Brand",
     priority: "medium",
-    dueDate: new Date("2025-08-19"),
+    dueDate: new Date("2025-10-13"),
   },
 ];
 
 function UpcomingTasksTab() {
   return (
     <section className="space-y-4 py-4">
-      <h1 className="text-3xl font-semibold font-heading">Upcoming Tasks</h1>
+      <h1 className="font-heading text-3xl font-semibold">Upcoming Tasks</h1>
       <UpcomingTasks />
     </section>
   );
@@ -55,7 +55,7 @@ function UpcomingTasks() {
 
 function UpcomingTasksCard({ task }: { task: upcomingTasks }) {
   return (
-    <Card className="border-border/50 rounded-3xl pt-4 pb-0">
+    <Card className="border-border/50 rounded-3xl pt-4 pb-0 shadow-lg">
       <CardHeader className="px-4">
         <UpcomingTaskActions task={task} />
         <CardTitle className="truncate pb-1 text-xl">{task.title}</CardTitle>
@@ -64,7 +64,7 @@ function UpcomingTasksCard({ task }: { task: upcomingTasks }) {
         </CardDescription>
         <StatusButton priority={task.priority}>{task.priority}</StatusButton>
       </CardHeader>
-      <CardContent className="bg-accent/30 mt-auto flex items-center justify-between rounded-[inherit] p-4 text-sm">
+      <CardContent className="from-primary/12 to-accent/20 mt-auto flex items-center justify-between rounded-t-xl rounded-b-[inherit] bg-gradient-to-b p-4 text-sm">
         <div className="flex items-center gap-2">
           <Button variant={"outline"} size={"icon"}>
             <Calendar />
@@ -101,7 +101,7 @@ function UpcomingTaskActions({ task }: { task: upcomingTasks }) {
         {timeLeft(task.dueDate)}
       </Button>
 
-      <Ellipsis size={17} />
+      <Ellipsis size={17} className="" />
     </div>
   );
 }
