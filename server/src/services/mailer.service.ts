@@ -66,6 +66,7 @@ export class Mailer {
     payload,
   }: EmailOptions): Promise<void> {
     try {
+      if (env.ENV === "development") return; // FIXME: remove after configuring email sender
       const emailHtml = await this.loadAndProcessTemplate(template, payload);
       const mailOptions = {
         from: '"TaskMint" <no-reply@taskmint.com>',

@@ -18,6 +18,10 @@ import {
 export const Route = createFileRoute("/dashboard")({
   beforeLoad: async ({ context }) => {
     if (!context.auth.isAuthed || !context.auth.isOtpVerified) {
+      if (context.auth.isAuthed && !context.auth.isOtpVerified) {
+        throw redirect({ to: "/verify-otp" });
+      }
+
       throw redirect({ to: "/signin" });
     }
   },

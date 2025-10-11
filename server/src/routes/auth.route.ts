@@ -38,22 +38,14 @@ const app = new Hono()
 
     const user = await userService.create({ ...incomingUser, otpSecret });
 
-    const { accessToken, refreshToken } = await tokenService.createTokenPair({
+    const otpToken = await tokenService.createOtpToken({
       id: user._id,
       role: user.role,
-      permissions: user.permissions,
     });
 
-    const updatedUser = await userService.addRefreshToken(
-      user._id,
-      refreshToken
-    );
+    await cookieService.setOTPCookie(c, otpToken);
 
-    if (!updatedUser) throw new AuthError("Failed to update refresh token");
-
-    await cookieService.setAuthCookies(c, { accessToken, refreshToken });
-
-    const otpCode = await otpService.generateOtp(updatedUser.otpSecret);
+    const otpCode = await otpService.generateOtp(user.otpSecret);
 
     await mailer.sendMail({
       to: user.email,
@@ -69,9 +61,7 @@ const app = new Hono()
         message: "Signup successful",
         success: true,
         data: {
-          accessToken,
-          otp:
-            isDevMode && (await otpService.generateOtp(updatedUser.otpSecret)),
+          otp: isDevMode && otpCode,
         },
       },
       CREATED
@@ -91,6 +81,40 @@ const app = new Hono()
 
     if (!isPasswordMatch) throw new AuthError("Incorrect credentials");
 
+    const twoFactorEnabled = user.twoFactorEnabled;
+
+    if (twoFactorEnabled) {
+      const otpToken = await tokenService.createOtpToken({
+        id: user._id,
+        role: user.role,
+      });
+
+      await cookieService.setOTPCookie(c, otpToken);
+
+      const otpCode = await otpService.generateOtp(user.otpSecret);
+
+      await mailer.sendMail({
+        to: user.email,
+        subject: "Your TaskMint OTP",
+        template: "otp",
+        payload: { otp: otpCode },
+      });
+
+      console.info(`${user.fullname} needs to verify OTP`);
+
+      return c.json(
+        {
+          success: true,
+          message: "OTP required for signin",
+          data: {
+            otp: isDevMode && otpCode,
+            twoFactorEnabled,
+          },
+        },
+        OK
+      );
+    }
+
     const { accessToken, refreshToken } = await tokenService.createTokenPair({
       id: user._id,
       role: user.role,
@@ -102,18 +126,11 @@ const app = new Hono()
       refreshToken
     );
 
-    if (!updatedUser) throw new AuthError("Failed to update refresh token");
+    if (!updatedUser) {
+      throw new AuthError("Failed to update refresh token");
+    }
 
     await cookieService.setAuthCookies(c, { refreshToken, accessToken });
-
-    const otpCode = await otpService.generateOtp(updatedUser.otpSecret);
-
-    await mailer.sendMail({
-      to: user.email,
-      subject: "Your TaskMint OTP",
-      template: "otp",
-      payload: { otp: otpCode },
-    });
 
     console.info(`${updatedUser.fullname} logged in`);
 
@@ -123,7 +140,7 @@ const app = new Hono()
         message: "Signin successful",
         data: {
           accessToken,
-          otp: env.ENV !== "production" && otpCode,
+          twoFactorEnabled,
         },
       },
       OK

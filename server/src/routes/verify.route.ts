@@ -1,11 +1,14 @@
 import type { AppBindings } from "@server/app/create-app";
 import { AuthError } from "@server/errors/auth.error";
 import { zValidator } from "@server/lib/zod-validator";
-import { authMiddleware } from "@server/middlewares/auth.middleware";
+import { otpMiddleware } from "@server/middlewares/otp.middleware";
+import cookieService from "@server/services/cookie.service";
 import otpService from "@server/services/otp.service";
+import tokenService from "@server/services/token.service";
 import userService from "@server/services/user.service";
 import { Hono } from "hono";
 import { rateLimiter } from "hono-rate-limiter";
+import { FORBIDDEN, OK, UNAUTHORIZED } from "stoker/http-status-codes";
 import z from "zod";
 
 const zUserVerifyOtp = z.object({
@@ -13,29 +16,62 @@ const zUserVerifyOtp = z.object({
 });
 
 const app = new Hono<AppBindings>()
-  .basePath("/verify")
 
-  .use(authMiddleware)
+  .post(
+    "/verify-otp",
+    otpMiddleware,
+    zValidator("json", zUserVerifyOtp),
+    async (c) => {
+      const { code } = c.req.valid("json");
 
-  .post("/otp", zValidator("json", zUserVerifyOtp), async (c) => {
-    const { code } = c.req.valid("json");
-    const { id: userId } = c.get("user");
+      const otpToken = await cookieService.getOtpCookie(c);
 
-    const user = await userService.findById(userId);
+      if (!otpToken) {
+        throw new AuthError(
+          "Session expired or missing. Please sign in again.",
+          UNAUTHORIZED
+        );
+      }
 
-    if (!user) {
-      throw new AuthError("User not found");
+      const decodedToken = await tokenService.verifyOtpToken(otpToken);
+
+      const user = await userService.findById(decodedToken.id);
+
+      if (!user) {
+        throw new AuthError("User not found.", FORBIDDEN);
+      }
+
+      const isOtpValid = otpService.verifyOtp(code, user.otpSecret);
+
+      if (!isOtpValid) {
+        throw new AuthError("Invalid OTP code", UNAUTHORIZED);
+      }
+
+      const { accessToken, refreshToken } = await tokenService.createTokenPair({
+        id: user._id,
+        role: user.role,
+        permissions: user.permissions,
+      });
+
+      const updatedUser = await userService.addRefreshToken(
+        user._id,
+        refreshToken
+      );
+      if (!updatedUser) throw new AuthError("Failed to update refresh token");
+
+      await cookieService.setAuthCookies(c, { refreshToken, accessToken });
+      cookieService.deleteOtpCookie(c);
+
+      return c.json(
+        {
+          success: true,
+          message: "OTP verification successful. Welcome!",
+          data: { accessToken },
+        },
+        OK
+      );
     }
-
-    const isValid = await otpService.verifyOtp(code, user.otpSecret);
-
-    if (!isValid) throw new AuthError("Invalid OTP");
-
-    return c.json({
-      success: true,
-      message: "OTP verification successful",
-    });
-  })
+  )
 
   .use(
     rateLimiter({
@@ -57,8 +93,8 @@ const app = new Hono<AppBindings>()
     })
   )
 
-  .get("resend-otp", async (c) => {
-    const { id: userId } = c.get("user");
+  .get("resend-otp", otpMiddleware, async (c) => {
+    const { id: userId } = c.get("unverifiedUser");
 
     const user = await userService.findById(userId);
 

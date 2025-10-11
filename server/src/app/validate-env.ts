@@ -22,6 +22,8 @@ const EnvSchema = z.object({
   REDIS_PORT: z.string().transform(Number),
   REDIS_PASS: z.string(),
   ENCRYPTION_KEY: z.string(),
+  OTP_COOKIE_SECRET: z.string(),
+  OTP_TOKEN_SECRET: z.string(),
 });
 
 const parsedEnv = EnvSchema.safeParse(process.env);

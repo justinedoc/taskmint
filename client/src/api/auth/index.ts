@@ -10,7 +10,7 @@ import { ApiResponse } from "@/types";
 //  USER SIGNUP
 export async function signUpUser(
   data: SignUpFormData & { plan?: PlanName },
-): Promise<ApiResponse<{ accessToken: string }>> {
+): Promise<void> {
   const res = await API.post(
     "/auth/signup",
     { ...data, fullname: data.name },
@@ -24,7 +24,7 @@ export async function signUpUser(
 /* USER SIGN IN */
 export async function signInUser(
   data: SignInFormData,
-): Promise<ApiResponse<{ accessToken: string }>> {
+): Promise<ApiResponse<{ accessToken: string; twoFactorEnabled: boolean }>> {
   const res = await API.post("/auth/signin", data, { skipAuthRefresh: true });
 
   console.log("User signin data: ", res.data);
@@ -35,9 +35,11 @@ export async function signOutUser() {
   await API.post("/auth/logout");
 }
 
-export async function verifyOTP(code: number): Promise<ApiResponse<undefined>> {
+export async function verifyOTP(
+  code: number,
+): Promise<ApiResponse<{ accessToken: string }>> {
   const res = await API.post(
-    "/verify/otp",
+    "/verify-otp",
     { code },
     { skipAuthRefresh: true },
   );
@@ -45,7 +47,7 @@ export async function verifyOTP(code: number): Promise<ApiResponse<undefined>> {
 }
 
 export async function resendOTP(): Promise<ApiResponse<undefined>> {
-  const res = await API.get("/verify/resend-otp", {
+  const res = await API.get("/resend-otp", {
     skipAuthRefresh: true,
   });
   return res.data;

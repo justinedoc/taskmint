@@ -6,6 +6,7 @@ import z from "zod";
 
 export const zUserSchema = zBaseUser().extend({
   role: UserRole.default("User"),
+  twoFactorEnabled: z.boolean().default(true),
 });
 
 export type User = BaseUser & z.infer<typeof zUserSchema>;
@@ -30,6 +31,7 @@ const mUserSchema = new mongoose.Schema<mUser>(
       type: String,
       require: true,
     },
+    twoFactorEnabled: { required: true, default: true, type: Boolean },
   },
   { timestamps: true }
 );

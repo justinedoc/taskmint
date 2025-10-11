@@ -17,12 +17,14 @@ export interface AuthState {
   accessToken: string | null;
 
   checkAuth: () => Promise<void>;
-  markVerified: () => Promise<void>;
-  signin: (credentials: SignInFormData) => Promise<void>;
+  markVerified: (token: string) => Promise<void>;
+  signin: (
+    credentials: SignInFormData,
+  ) => Promise<{ twoFactorEnabled: boolean }>;
   signup: (credentials: SignUpFormData & { plan?: PlanName }) => Promise<void>;
   logout: () => Promise<void>;
   setUser: (user: User | null) => void;
-  setAccessToken: (token: string) => void;
+  setAccessToken: (token: string | null) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -37,33 +39,61 @@ export const useAuthStore = create<AuthState>()(
         error: null,
         accessToken: null,
 
-        setAccessToken: (token: string) => set({ accessToken: token }),
+        setAccessToken: (token: string | null) => set({ accessToken: token }),
 
         checkAuth: async () => {
           set({ isLoading: true, error: null });
           try {
             const userData = await getCurrentUser();
-            set({ user: userData.data, isAuthed: true, isLoading: false });
+            set({
+              user: userData.data,
+              isAuthed: true,
+              isLoading: false,
+
+              isOtpVerified: true,
+            });
           } catch (err) {
             console.error("Error while checking auth: ", err);
+            set({ isAuthed: false, isOtpVerified: false });
           } finally {
             set({ isLoading: false });
           }
         },
 
-        markVerified: async () => {
-          set({ isOtpVerified: true });
+        markVerified: async (token) => {
+          set({
+            isOtpVerified: true,
+            isAuthed: true,
+            accessToken: token,
+          });
+
           await get().checkAuth();
         },
 
         signin: async (credentials) => {
-          set({ isSubmitting: true, error: null });
+          set({ isSubmitting: true, error: null, isOtpVerified: false });
           try {
             const response = await signInUser(credentials);
+            const { accessToken, twoFactorEnabled } = response.data;
 
-            get().setAccessToken(response.data.accessToken);
+            set({ isAuthed: true, isOtpVerified: false, accessToken: null });
+
+            if (!twoFactorEnabled) {
+              set({
+                isOtpVerified: true,
+                accessToken: accessToken,
+              });
+              await get().checkAuth();
+            }
+
+            return { twoFactorEnabled };
           } catch (err) {
-            set({ error: "Login failed" });
+            set({
+              error: "Login failed",
+              isAuthed: false,
+              isOtpVerified: false,
+              accessToken: null,
+            });
             throw err;
           } finally {
             set({ isSubmitting: false });
@@ -71,13 +101,22 @@ export const useAuthStore = create<AuthState>()(
         },
 
         signup: async (credentials) => {
-          set({ isSubmitting: true, error: null });
+          set({ isSubmitting: true, error: null, isOtpVerified: false });
           try {
-            const response = await signUpUser(credentials);
+            await signUpUser(credentials);
 
-            get().setAccessToken(response.data.accessToken);
+            set({
+              isAuthed: true,
+              isOtpVerified: false,
+              accessToken: null,
+            });
           } catch (err) {
-            set({ error: "Signup failed" });
+            set({
+              error: "Signup failed",
+              isAuthed: false,
+              isOtpVerified: false,
+              accessToken: null,
+            });
             throw err;
           } finally {
             set({ isSubmitting: false });

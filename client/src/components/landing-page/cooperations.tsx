@@ -6,12 +6,13 @@ export default function Cooperations() {
 
   return (
     <article className="flex h-40 flex-col items-center justify-center">
-      <h2 className="text-center text-xl font-semibold text-[#4E4E4E] mb-4">
+      <h2 className="mb-4 text-center text-xl font-semibold text-[#4E4E4E]">
         Trusted by the world's most innovative teams
       </h2>
       <Marquee
         speed={50}
-        gradient={false}
+        gradient={true}
+        gradientColor={"#000"}
         pauseOnHover={true}
         className="inline-flex gap-8"
       >

@@ -14,7 +14,7 @@ import { parseAxiosError } from "@/lib/parse-axios-error";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/auth-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRight, EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -37,8 +37,9 @@ export default function SigninForm({
   onHandleTabSwitch: (FormTabs: FormTabs) => void;
 }) {
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
-  const [isPending, startTransition] = useTransition();
 
+  const [isPending, startTransition] = useTransition();
+  const navigate = useNavigate();
   const signInUser = useAuthStore((s) => s.signin);
 
   const form = useForm<SignInFormData>({
@@ -54,8 +55,14 @@ export default function SigninForm({
   function onSubmit(data: SignInFormData) {
     startTransition(async () => {
       try {
-        await signInUser(data);
-        onHandleTabSwitch("form-otp");
+        const { twoFactorEnabled } = await signInUser(data);
+
+        if (twoFactorEnabled) {
+          onHandleTabSwitch("form-otp");
+          return;
+        }
+
+        navigate({ to: "/dashboard" });
       } catch (err) {
         const { message } = parseAxiosError(err);
         toast.error(message);

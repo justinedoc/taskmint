@@ -5,6 +5,7 @@ import { deleteCookie, getSignedCookie, setSignedCookie } from "hono/cookie";
 class CookieService {
   private REFRESH_COOKIE_MAX_AGE = 7 * 24 * 60 * 60;
   private ACCESS_COOKIE_MAX_AGE = 15 * 60;
+  private OTP_COOKIE_MAX_AGE = 5 * 60;
 
   private cookieOptions = {
     httpOnly: true,
@@ -38,12 +39,24 @@ class CookieService {
     );
   }
 
+  async setOTPCookie(c: Context, optToken: string): Promise<void> {
+    await setSignedCookie(
+      c,
+      "session",
+      optToken,
+      env.OTP_COOKIE_SECRET,
+      {
+        ...this.cookieOptions,
+        maxAge: this.OTP_COOKIE_MAX_AGE,
+      }
+    );
+  }
+
   async setAuthCookies(
     c: Context,
     tokens: { accessToken: string; refreshToken: string }
   ): Promise<void> {
     await Promise.all([
-      // this.setAccessCookie(c, tokens.accessToken),
       this.setRefreshCookie(c, tokens.refreshToken),
     ]);
   }
@@ -54,6 +67,10 @@ class CookieService {
 
   deleteRefreshCookie(c: Context): void {
     deleteCookie(c, "refresh_token");
+  }
+
+  deleteOtpCookie(c: Context): void {
+    deleteCookie(c, "session");
   }
 
   deleteAuthCookies(c: Context): void {
@@ -67,6 +84,10 @@ class CookieService {
 
   async getRefreshCookie(c: Context) {
     return getSignedCookie(c, env.REFRESH_COOKIE_SECRET, "refresh_token");
+  }
+
+  async getOtpCookie(c: Context) {
+    return getSignedCookie(c, env.REFRESH_COOKIE_SECRET, "session");
   }
 }
 

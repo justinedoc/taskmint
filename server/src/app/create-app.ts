@@ -14,6 +14,7 @@ import { defaultHook } from "stoker/openapi";
 export type AppBindings = {
   Variables: {
     user: TokenPayload;
+    unverifiedUser: TokenPayload;
   };
 };
 

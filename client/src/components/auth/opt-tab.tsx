@@ -42,7 +42,7 @@ export default function FormOTP({ navigateTo = "/dashboard" }) {
   const { mutate: tVerifyOTP, isPending: isVerifying } = useMutation({
     mutationFn: verifyOTP,
     onSuccess: async (data) => {
-      await markVerified();
+      await markVerified(data.data.accessToken);
       toast.success(data.message);
       navigate({
         to: navigateTo,
@@ -52,6 +52,7 @@ export default function FormOTP({ navigateTo = "/dashboard" }) {
     onError(err) {
       const { message } = parseAxiosError(err);
       toast.error(message);
+      OTPForm.resetField("pin");
     },
   });
 

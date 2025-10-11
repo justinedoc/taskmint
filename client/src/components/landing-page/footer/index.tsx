@@ -13,7 +13,7 @@ function Footer() {
           © {new Date()?.getFullYear()} Taskmint, Inc. All rights reserved
         </p>
 
-        <h3 className="font-serif font-light">
+        <h3 className="font-light font-mono">
           Built by{" "}
           <a
             className="text-primary"
