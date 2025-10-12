@@ -26,6 +26,10 @@ const profileFormSchema = z.object({
     .string()
     .min(2, { message: "Username must be at least 2 characters." })
     .max(30, { message: "Username must not be longer than 30 characters." }),
+  fullname: z
+    .string()
+    .min(2, { message: "Fullname must be at least 2 characters." })
+    .max(60, { message: "Fullname must not be longer than 60 characters." }),
   email: z.email({ error: "Please enter an email." }),
 });
 
@@ -33,8 +37,13 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export function ProfileForm() {
   const user = useAuthStore((s) => s.user);
+
+  // i want to use tanstack query here and also add profile picture changing cap to the form ui
+
+
   const defaultValues: Partial<ProfileFormValues> = {
-    username: user?.fullname,
+    username: user?.username,
+    fullname: user?.fullname,
     email: user?.email,
   };
 
@@ -48,8 +57,6 @@ export function ProfileForm() {
     console.log("Submitted data:", data);
     alert(JSON.stringify(data, null, 2));
   }
-
-  if (!user) return null;
 
   return (
     <div className="space-y-6">
@@ -75,6 +82,20 @@ export function ProfileForm() {
                 <FormDescription>
                   This is your public display name.
                 </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="fullname"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Fullname</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your fullname" {...field} />
+                </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}

@@ -50,7 +50,6 @@ export const useAuthStore = create<AuthState>()(
               user: userData.data,
               isAuthed: true,
               isLoading: false,
-
               isOtpVerified: true,
             });
           } catch (err) {
@@ -108,7 +107,7 @@ export const useAuthStore = create<AuthState>()(
             if (!twoFactorEnabled) {
               set({
                 isOtpVerified: true,
-                accessToken: accessToken,
+                accessToken,
               });
               await get().checkAuth();
             }
