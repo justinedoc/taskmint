@@ -15,7 +15,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useAuthStore } from "@/store/auth-store";
+import { useUser } from "@/hooks/use-user";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/dashboard/settings/profile")({
   component: ProfileForm,
@@ -36,26 +37,40 @@ const profileFormSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export function ProfileForm() {
-  const user = useAuthStore((s) => s.user);
-
-  // i want to use tanstack query here and also add profile picture changing cap to the form ui
-
-
-  const defaultValues: Partial<ProfileFormValues> = {
-    username: user?.username,
-    fullname: user?.fullname,
-    email: user?.email,
-  };
+  const { data, isLoading, isError } = useUser();
+  const user = data?.data;
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues,
+    defaultValues: {
+      username: "",
+      fullname: "",
+      email: "",
+    },
     mode: "onChange",
   });
+
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        username: user.username,
+        fullname: user.fullname,
+        email: user.email,
+      });
+    }
+  }, [user, form]);
 
   function onSubmit(data: ProfileFormValues) {
     console.log("Submitted data:", data);
     alert(JSON.stringify(data, null, 2));
+  }
+
+  if (isLoading) {
+    return <div>Loading profile...</div>;
+  }
+
+  if (isError || !user) {
+    return <div>Could not load user profile.</div>;
   }
 
   return (

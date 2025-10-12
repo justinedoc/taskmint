@@ -11,16 +11,26 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useUser } from "@/hooks/use-user";
 import { getInitials } from "@/lib/get-name-initials";
 import { useAuthStore } from "@/store/auth-store";
 import { Link } from "@tanstack/react-router";
 import { Bell, Search, Settings } from "lucide-react";
+import { NavbarSkeleton } from "./navbar-skeleton";
 
 function Navbar() {
-  const user = useAuthStore((state) => state.user);
+  const { data: userResponse, isLoading } = useUser();
+  const user = userResponse?.data;
+
   const logout = useAuthStore((s) => s.logout);
 
-  if (!user) return null;
+  if (isLoading) {
+    return <NavbarSkeleton />;
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <nav className="bg-background sticky top-0 z-[50] flex h-16 w-full shrink-0 items-center gap-6 border-b px-4">

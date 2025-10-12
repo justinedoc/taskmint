@@ -1,6 +1,7 @@
 import DashboardTabs from "@/components/dashboard/tabs";
 import UserProgress from "@/components/dashboard/user-progress";
-import { useAuthStore } from "@/store/auth-store";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useUser } from "@/hooks/use-user";
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import z from "zod";
@@ -18,13 +19,32 @@ export const Route = createFileRoute("/dashboard/")({
 
 function Dashboard() {
   const { tab } = Route.useSearch();
-  const user = useAuthStore((s) => s.user);
+  const { data: userResponse, isLoading } = useUser();
+  const user = userResponse?.data;
+
+  if (isLoading) {
+    return (
+      <div className="w-full space-y-6">
+        <div className="space-y-2">
+          <Skeleton className="h-10 w-1/2" />
+          <Skeleton className="h-4 w-1/3" />
+        </div>
+        <Skeleton className="h-24 w-full" />
+        <Skeleton className="h-96 w-full" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="w-full space-y-6">
       <div className="space-y-2">
         <h1 className="text-4xl font-semibold">
-          Hello {user?.fullname.split(" ").at(0)}
+          {/* This logic is now safe because we know `user` exists */}
+          Hello {user.fullname.split(" ").at(0)}
         </h1>
         <p className="text-muted-foreground">Let's make some progress today!</p>
       </div>

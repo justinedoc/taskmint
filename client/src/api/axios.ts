@@ -46,8 +46,6 @@ createAuthRefreshInterceptor(
     } catch (error) {
       console.error("Client Refresh token error:", parseAxiosError(error));
 
-      useAuthStore.getState().logout();
-
       return Promise.reject(error);
     }
   },

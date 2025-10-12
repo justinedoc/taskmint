@@ -1,16 +1,27 @@
 import MobileMenu from "@/components/landing-page/navbar/mobile-menu";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
-import { useAuthStore } from "@/store/auth-store";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, LucideProps, XIcon } from "lucide-react";
 import { useState } from "react";
 
 function NavActions() {
   const [isOpen, setIsOpen] = useState(false);
-  const user = useAuthStore((state) => state.user);
   const isMobile = useIsMobile();
+  const { data: userResponse, isLoading } = useUser();
+  const user = userResponse?.data;
+
+  if (isLoading) {
+    return (
+      <Skeleton className="flex h-10 w-48 items-center gap-4">
+        <Skeleton className="hidden h-10 w-24 animate-pulse rounded-md md:block"></Skeleton>
+        <Skeleton className="h-10 w-20 animate-pulse rounded-md"></Skeleton>
+      </Skeleton>
+    );
+  }
 
   return (
     <div className="flex items-center gap-4">
