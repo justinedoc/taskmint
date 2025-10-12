@@ -8,7 +8,11 @@ export type FormTabs = "form-details" | "form-otp";
 type OnHandleTabSwitch = (value: FormTabs) => void;
 
 export type FormComponentType<Props extends object> = React.ComponentType<
-  Props & { onHandleTabSwitch: OnHandleTabSwitch, plan?: PlanName }
+  Props & {
+    onHandleTabSwitch: OnHandleTabSwitch;
+    plan?: PlanName;
+    useOneTap?: boolean;
+  }
 >;
 
 export type AuthFormTabsProps<FormProps extends object> = {

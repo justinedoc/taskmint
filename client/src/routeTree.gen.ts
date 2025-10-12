@@ -14,12 +14,16 @@ import { Route as LandingLayoutRouteImport } from './routes/_landing/layout'
 import { Route as AuthLayoutRouteImport } from './routes/_auth/layout'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as LandingIndexRouteImport } from './routes/_landing/index'
-import { Route as DashboardSettingsRouteImport } from './routes/dashboard/settings'
+import { Route as LandingAboutRouteImport } from './routes/_landing/about'
 import { Route as AuthVerifyOtpRouteImport } from './routes/_auth/verify-otp'
 import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
 import { Route as AuthSigninRouteImport } from './routes/_auth/signin'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
+import { Route as DashboardSettingsLayoutRouteImport } from './routes/dashboard/settings/layout'
+import { Route as DashboardSettingsIndexRouteImport } from './routes/dashboard/settings/index'
+import { Route as DashboardSettingsProfileRouteImport } from './routes/dashboard/settings/profile'
+import { Route as DashboardSettingsAccountRouteImport } from './routes/dashboard/settings/account'
 import { Route as LandingSignupModalRouteImport } from './routes/_landing/signup.modal'
 import { Route as LandingSigninModalRouteImport } from './routes/_landing/signin.modal'
 
@@ -46,10 +50,10 @@ const LandingIndexRoute = LandingIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LandingLayoutRoute,
 } as any)
-const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => DashboardLayoutRoute,
+const LandingAboutRoute = LandingAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => LandingLayoutRoute,
 } as any)
 const AuthVerifyOtpRoute = AuthVerifyOtpRouteImport.update({
   id: '/verify-otp',
@@ -76,6 +80,28 @@ const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => AuthLayoutRoute,
 } as any)
+const DashboardSettingsLayoutRoute = DashboardSettingsLayoutRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardLayoutRoute,
+} as any)
+const DashboardSettingsIndexRoute = DashboardSettingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardSettingsLayoutRoute,
+} as any)
+const DashboardSettingsProfileRoute =
+  DashboardSettingsProfileRouteImport.update({
+    id: '/profile',
+    path: '/profile',
+    getParentRoute: () => DashboardSettingsLayoutRoute,
+  } as any)
+const DashboardSettingsAccountRoute =
+  DashboardSettingsAccountRouteImport.update({
+    id: '/account',
+    path: '/account',
+    getParentRoute: () => DashboardSettingsLayoutRoute,
+  } as any)
 const LandingSignupModalRoute = LandingSignupModalRouteImport.update({
   id: '/signup/modal',
   path: '/signup/modal',
@@ -89,16 +115,20 @@ const LandingSigninModalRoute = LandingSigninModalRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardLayoutRouteWithChildren
+  '/dashboard/settings': typeof DashboardSettingsLayoutRouteWithChildren
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/reset-password': typeof AuthResetPasswordRoute
   '/signin': typeof AuthSigninRoute
   '/signup': typeof AuthSignupRoute
   '/verify-otp': typeof AuthVerifyOtpRoute
-  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/about': typeof LandingAboutRoute
   '/': typeof LandingIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/signin/modal': typeof LandingSigninModalRoute
   '/signup/modal': typeof LandingSignupModalRoute
+  '/dashboard/settings/account': typeof DashboardSettingsAccountRoute
+  '/dashboard/settings/profile': typeof DashboardSettingsProfileRoute
+  '/dashboard/settings/': typeof DashboardSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/forgot-password': typeof AuthForgotPasswordRoute
@@ -106,42 +136,53 @@ export interface FileRoutesByTo {
   '/signin': typeof AuthSigninRoute
   '/signup': typeof AuthSignupRoute
   '/verify-otp': typeof AuthVerifyOtpRoute
-  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/about': typeof LandingAboutRoute
   '/': typeof LandingIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/signin/modal': typeof LandingSigninModalRoute
   '/signup/modal': typeof LandingSignupModalRoute
+  '/dashboard/settings/account': typeof DashboardSettingsAccountRoute
+  '/dashboard/settings/profile': typeof DashboardSettingsProfileRoute
+  '/dashboard/settings': typeof DashboardSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthLayoutRouteWithChildren
   '/_landing': typeof LandingLayoutRouteWithChildren
   '/dashboard': typeof DashboardLayoutRouteWithChildren
+  '/dashboard/settings': typeof DashboardSettingsLayoutRouteWithChildren
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_auth/signin': typeof AuthSigninRoute
   '/_auth/signup': typeof AuthSignupRoute
   '/_auth/verify-otp': typeof AuthVerifyOtpRoute
-  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/_landing/about': typeof LandingAboutRoute
   '/_landing/': typeof LandingIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/_landing/signin/modal': typeof LandingSigninModalRoute
   '/_landing/signup/modal': typeof LandingSignupModalRoute
+  '/dashboard/settings/account': typeof DashboardSettingsAccountRoute
+  '/dashboard/settings/profile': typeof DashboardSettingsProfileRoute
+  '/dashboard/settings/': typeof DashboardSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/dashboard'
+    | '/dashboard/settings'
     | '/forgot-password'
     | '/reset-password'
     | '/signin'
     | '/signup'
     | '/verify-otp'
-    | '/dashboard/settings'
+    | '/about'
     | '/'
     | '/dashboard/'
     | '/signin/modal'
     | '/signup/modal'
+    | '/dashboard/settings/account'
+    | '/dashboard/settings/profile'
+    | '/dashboard/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/forgot-password'
@@ -149,26 +190,33 @@ export interface FileRouteTypes {
     | '/signin'
     | '/signup'
     | '/verify-otp'
-    | '/dashboard/settings'
+    | '/about'
     | '/'
     | '/dashboard'
     | '/signin/modal'
     | '/signup/modal'
+    | '/dashboard/settings/account'
+    | '/dashboard/settings/profile'
+    | '/dashboard/settings'
   id:
     | '__root__'
     | '/_auth'
     | '/_landing'
     | '/dashboard'
+    | '/dashboard/settings'
     | '/_auth/forgot-password'
     | '/_auth/reset-password'
     | '/_auth/signin'
     | '/_auth/signup'
     | '/_auth/verify-otp'
-    | '/dashboard/settings'
+    | '/_landing/about'
     | '/_landing/'
     | '/dashboard/'
     | '/_landing/signin/modal'
     | '/_landing/signup/modal'
+    | '/dashboard/settings/account'
+    | '/dashboard/settings/profile'
+    | '/dashboard/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -214,12 +262,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LandingIndexRouteImport
       parentRoute: typeof LandingLayoutRoute
     }
-    '/dashboard/settings': {
-      id: '/dashboard/settings'
-      path: '/settings'
-      fullPath: '/dashboard/settings'
-      preLoaderRoute: typeof DashboardSettingsRouteImport
-      parentRoute: typeof DashboardLayoutRoute
+    '/_landing/about': {
+      id: '/_landing/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof LandingAboutRouteImport
+      parentRoute: typeof LandingLayoutRoute
     }
     '/_auth/verify-otp': {
       id: '/_auth/verify-otp'
@@ -255,6 +303,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/forgot-password'
       preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof AuthLayoutRoute
+    }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsLayoutRouteImport
+      parentRoute: typeof DashboardLayoutRoute
+    }
+    '/dashboard/settings/': {
+      id: '/dashboard/settings/'
+      path: '/'
+      fullPath: '/dashboard/settings/'
+      preLoaderRoute: typeof DashboardSettingsIndexRouteImport
+      parentRoute: typeof DashboardSettingsLayoutRoute
+    }
+    '/dashboard/settings/profile': {
+      id: '/dashboard/settings/profile'
+      path: '/profile'
+      fullPath: '/dashboard/settings/profile'
+      preLoaderRoute: typeof DashboardSettingsProfileRouteImport
+      parentRoute: typeof DashboardSettingsLayoutRoute
+    }
+    '/dashboard/settings/account': {
+      id: '/dashboard/settings/account'
+      path: '/account'
+      fullPath: '/dashboard/settings/account'
+      preLoaderRoute: typeof DashboardSettingsAccountRouteImport
+      parentRoute: typeof DashboardSettingsLayoutRoute
     }
     '/_landing/signup/modal': {
       id: '/_landing/signup/modal'
@@ -294,12 +370,14 @@ const AuthLayoutRouteWithChildren = AuthLayoutRoute._addFileChildren(
 )
 
 interface LandingLayoutRouteChildren {
+  LandingAboutRoute: typeof LandingAboutRoute
   LandingIndexRoute: typeof LandingIndexRoute
   LandingSigninModalRoute: typeof LandingSigninModalRoute
   LandingSignupModalRoute: typeof LandingSignupModalRoute
 }
 
 const LandingLayoutRouteChildren: LandingLayoutRouteChildren = {
+  LandingAboutRoute: LandingAboutRoute,
   LandingIndexRoute: LandingIndexRoute,
   LandingSigninModalRoute: LandingSigninModalRoute,
   LandingSignupModalRoute: LandingSignupModalRoute,
@@ -309,13 +387,31 @@ const LandingLayoutRouteWithChildren = LandingLayoutRoute._addFileChildren(
   LandingLayoutRouteChildren,
 )
 
+interface DashboardSettingsLayoutRouteChildren {
+  DashboardSettingsAccountRoute: typeof DashboardSettingsAccountRoute
+  DashboardSettingsProfileRoute: typeof DashboardSettingsProfileRoute
+  DashboardSettingsIndexRoute: typeof DashboardSettingsIndexRoute
+}
+
+const DashboardSettingsLayoutRouteChildren: DashboardSettingsLayoutRouteChildren =
+  {
+    DashboardSettingsAccountRoute: DashboardSettingsAccountRoute,
+    DashboardSettingsProfileRoute: DashboardSettingsProfileRoute,
+    DashboardSettingsIndexRoute: DashboardSettingsIndexRoute,
+  }
+
+const DashboardSettingsLayoutRouteWithChildren =
+  DashboardSettingsLayoutRoute._addFileChildren(
+    DashboardSettingsLayoutRouteChildren,
+  )
+
 interface DashboardLayoutRouteChildren {
-  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardSettingsLayoutRoute: typeof DashboardSettingsLayoutRouteWithChildren
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardLayoutRouteChildren: DashboardLayoutRouteChildren = {
-  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardSettingsLayoutRoute: DashboardSettingsLayoutRouteWithChildren,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 

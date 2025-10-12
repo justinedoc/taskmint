@@ -1,5 +1,7 @@
 import LongTermGoals from "@/components/dashboard/achievement-pie";
 import ProductivityChart from "@/components/dashboard/performance-chart";
+import Board from "@/components/dashboard/tabs/board";
+import Notes from "@/components/dashboard/tabs/notes";
 import UpcomingTasksTab from "@/components/dashboard/tabs/upcoming-tasks";
 import Box from "@/components/ui/box";
 import { Button } from "@/components/ui/button";
@@ -43,15 +45,19 @@ function DashboardTabs({ tab }: { tab: (typeof TABS)[number] }) {
 
       <TabsContent value="upcoming">
         <UpcomingTasksTab />
+        <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-2">
+          <ProductivityChart data={chartData} />
+          <LongTermGoals />
+        </div>
       </TabsContent>
 
-      <TabsContent value="board">Manage your task board here.</TabsContent>
-      <TabsContent value="notes">View your notes here.</TabsContent>
+      <TabsContent value="board">
+        <Board />
+      </TabsContent>
 
-      <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-2">
-        <ProductivityChart data={chartData} />
-        <LongTermGoals />
-      </div>
+      <TabsContent value="notes">
+        <Notes />
+      </TabsContent>
     </Tabs>
   );
 }

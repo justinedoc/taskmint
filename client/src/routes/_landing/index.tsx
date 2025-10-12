@@ -1,3 +1,10 @@
+import Cooperations from "@/components/landing-page/cooperations";
+import Faqs from "@/components/landing-page/faqs";
+import Features from "@/components/landing-page/features";
+import Hero from "@/components/landing-page/hero";
+import Interface from "@/components/landing-page/interface";
+import Pricing from "@/components/landing-page/pricing";
+import Testimonial from "@/components/landing-page/testimonial";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_landing/")({
@@ -5,5 +12,16 @@ export const Route = createFileRoute("/_landing/")({
 });
 
 function Index() {
-  return <Outlet />;
+  return (
+    <>
+      <Hero />
+      <Cooperations />
+      <Features />
+      <Interface />
+      <Testimonial />
+      <Pricing />
+      <Faqs />
+      <Outlet />
+    </>
+  );
 }
