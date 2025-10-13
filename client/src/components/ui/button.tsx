@@ -25,7 +25,7 @@ const buttonVariants = cva(
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 gap-1.5 rounded-md px-3 hover:translate-x-0 has-[>svg]:px-2.5 [&_svg]:group-hover:translate-x-0",
         lg: "h-10 rounded-full px-6 has-[>svg]:px-4",
-        icon: "size-9 hover:translate-x-0! [&_svg]:group-hover:translate-x-0!",
+        icon: "size-9",
       },
     },
     defaultVariants: {

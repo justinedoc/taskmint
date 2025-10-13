@@ -31,7 +31,6 @@ export function zUpdateUserData() {
     .object({
       fullname: z.string().min(1).max(100),
       username: z.string().min(1).max(100),
-      email: z.email("Please use a valid email"),
     })
     .partial();
 

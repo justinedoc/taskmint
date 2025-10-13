@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,8 +16,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useUser } from "@/hooks/use-user";
-import { useEffect } from "react";
+import { Spinner } from "@/components/ui/spinner";
+import {
+  useUpdateProfilePicture,
+  useUpdateUser,
+  useUser,
+} from "@/hooks/use-user";
+import { getInitials } from "@/lib/get-name-initials";
+import { Edit2 } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 export const Route = createFileRoute("/dashboard/settings/profile")({
   component: ProfileForm,
@@ -36,8 +44,12 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-export function ProfileForm() {
+function ProfileForm() {
   const { data, isLoading, isError } = useUser();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const updateUserMutation = useUpdateUser();
+  const updateProfilePictureMutation = useUpdateProfilePicture();
+  // const [imagePreview, setImagePreview] = useState<string | null>(null);
   const user = data?.data;
 
   const form = useForm<ProfileFormValues>({
@@ -61,12 +73,25 @@ export function ProfileForm() {
   }, [user, form]);
 
   function onSubmit(data: ProfileFormValues) {
-    console.log("Submitted data:", data);
-    alert(JSON.stringify(data, null, 2));
+    if (!user) return;
+    updateUserMutation.mutate({ userId: user.id, data });
   }
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && user) {
+      const formData = new FormData();
+      formData.append("profileImg", file);
+      updateProfilePictureMutation.mutate(formData);
+    }
+  };
+
   if (isLoading) {
-    return <div>Loading profile...</div>;
+    return (
+      <div className="grid place-items-center">
+        <Spinner />
+      </div>
+    );
   }
 
   if (isError || !user) {
@@ -85,6 +110,34 @@ export function ProfileForm() {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div className="relative w-fit">
+            <Avatar className="size-32">
+              <AvatarImage src={user.profileImg} />
+              <AvatarFallback>{getInitials(user.fullname)}</AvatarFallback>
+            </Avatar>
+            <Button
+              type="button"
+              size={"icon"}
+              variant={"secondary"}
+              className="absolute right-0 bottom-0 rounded-full"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={updateProfilePictureMutation.isPending}
+            >
+              {updateProfilePictureMutation.isPending ? (
+                <Spinner className="size-4" />
+              ) : (
+                <Edit2 className="size-4" />
+              )}
+            </Button>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              className="hidden"
+              accept="image/png, image/jpeg, image/gif"
+            />
+          </div>
+
           <FormField
             control={form.control}
             name="username"
@@ -122,7 +175,12 @@ export function ProfileForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="Your email" {...field} />
+                  <Input
+                    type="email"
+                    placeholder="Your email"
+                    disabled
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>
                   We will use this email for notifications.

@@ -36,7 +36,7 @@ const accountFormSchema = z
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
-export function AccountForm() {
+function AccountForm() {
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
     defaultValues: { password: "", confirmPassword: "" },

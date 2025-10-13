@@ -10,6 +10,10 @@ import { Hono } from "hono";
 import { BAD_REQUEST, FORBIDDEN, OK } from "stoker/http-status-codes";
 import z from "zod";
 
+const profileImageSchema = z.object({
+  profileImg: z.instanceof(File).optional(),
+});
+
 const app = new Hono<AppBindings>()
   .basePath("/user")
 
@@ -41,8 +45,21 @@ const app = new Hono<AppBindings>()
   // update user profile image
   .patch(
     "/profile-picture",
-    zValidator("form", z.object({ profileImg: z.string() })),
-    async () => {}
+    zValidator("form", profileImageSchema),
+    async (c) => {
+      const data = c.req.valid("form");
+      const currentUser = c.get("user");
+
+      console.log(currentUser, data)
+
+      return c.json(
+        {
+          success: true,
+          message: "Profile picture updated successfully",
+        },
+        OK
+      );
+    }
   )
 
   // update user information
