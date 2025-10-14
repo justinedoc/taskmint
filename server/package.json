@@ -2,6 +2,7 @@
   "name": "server",
   "version": "0.0.1",
   "main": "dist/index.js",
+  "packageManager": "bun@1.2.4",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc && tsc-alias",
