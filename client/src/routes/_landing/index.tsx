@@ -4,7 +4,7 @@ import Features from "@/components/landing-page/features";
 import Hero from "@/components/landing-page/hero";
 import Interface from "@/components/landing-page/interface";
 import Pricing from "@/components/landing-page/pricing";
-import Testimonial from "@/components/landing-page/testimonial";
+import Testimonial from "@/components/landing-page/testimonials";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_landing/")({
