@@ -1,7 +1,7 @@
 import Section from "@/components/globals/section";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { testimonialInfo } from "@/constants/testimonials";
+import testimonialInfo from "@/constants/testimonials";
 import Marquee from "react-fast-marquee";
 
 function Testimonial() {
