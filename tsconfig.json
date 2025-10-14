@@ -9,7 +9,6 @@
     "allowJs": true,
 
     // Path resolution
-    "rootDir": ".",
     "paths": {
       "@server/*": ["./server/src/*"],
       "@client/*": ["./client/src/*"],
