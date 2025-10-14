@@ -1,7 +1,7 @@
 import Section from "@/components/globals/section";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { testimonialInfo } from "@/constants/testimonials";
+import { testimonialData } from "@/constants/testimonials";
 import Marquee from "react-fast-marquee";
 
 function Testimonial() {
@@ -19,7 +19,7 @@ function Testimonial() {
           pauseOnHover={true}
           className="inline-flex"
         >
-          {testimonialInfo.map((testimonial, idx) => (
+          {testimonialData.map((testimonial, idx) => (
             <Card key={idx} className="bg-card/30 mx-2 max-w-sm">
               <CardContent>{testimonial.content}</CardContent>
 
