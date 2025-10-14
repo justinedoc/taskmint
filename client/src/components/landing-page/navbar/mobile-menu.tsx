@@ -85,7 +85,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
     };
   }, [isOpen]);
 
-  const user = useAuthStore((state) => state.user);
+  const isAuthed = useAuthStore((state) => state.isAuthed);
 
   const variants = {
     open: { opacity: 1, y: 20 },
@@ -170,7 +170,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
             </AccordionItem>
           </Accordion>
 
-          {user ? (
+          {isAuthed ? (
             <Link
               to="/dashboard"
               className={cn(buttonVariants({ size: "lg" }), "mx-auto mt-6")}

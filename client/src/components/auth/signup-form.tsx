@@ -44,7 +44,7 @@ export default function SignupForm({
 }: {
   onHandleTabSwitch: (FormTabs: FormTabs) => void;
   plan?: PlanName;
-  useOneTap: boolean;
+  useOneTap?: boolean;
 }) {
   const [isPending, startTransition] = useTransition();
   const signUpUser = useAuthStore((s) => s.signup);

@@ -117,7 +117,7 @@ export default function NavigationLinks() {
             <ul className="grid w-[300px] gap-4">
               <li>
                 <NavigationMenuLink asChild>
-                  <Link to="/features">
+                  <Link to={"/" + "#features"}>
                     <div className="font-medium">All Features</div>
                     <div className="text-muted-foreground">
                       Browse TaskMint capabilities and workflows.
@@ -125,7 +125,7 @@ export default function NavigationLinks() {
                   </Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>
-                  <Link to="/pricing">
+                  <Link to={"/" + "#pricing"}>
                     <div className="font-medium">Pricing</div>
                     <div className="text-muted-foreground">
                       See plans — Free, Flex, and Premium.
@@ -133,7 +133,8 @@ export default function NavigationLinks() {
                   </Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>
-                  <Link to="/blog">
+                  {/* FIXME: change to appropriate link */}
+                  <Link to="/">
                     <div className="font-medium">Blog</div>
                     <div className="text-muted-foreground">
                       Tips, case studies, and productivity guides.
@@ -152,13 +153,13 @@ export default function NavigationLinks() {
             <ul className="grid w-[200px] gap-4">
               <li>
                 <NavigationMenuLink asChild>
-                  <Link to="/blogs">Blogs</Link>
+                  <Link to="/">Blogs</Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>
-                  <Link to="/guides">Guides</Link>
+                  <Link to="/">Guides</Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink asChild>
-                  <Link to="/community">Community</Link>
+                  <Link to="/">Community</Link>
                 </NavigationMenuLink>
               </li>
             </ul>

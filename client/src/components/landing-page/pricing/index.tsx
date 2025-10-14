@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 function Pricing() {
   return (
-    <Section className="from-background to-primary min-h-screen bg-gradient-to-b">
+    <Section id="pricing" className="from-background to-primary min-h-screen bg-gradient-to-b">
       <Section.Header>
         <Section.Title>Price that suits your needs</Section.Title>
         <Section.Description>

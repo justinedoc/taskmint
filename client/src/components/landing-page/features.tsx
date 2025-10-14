@@ -9,7 +9,7 @@ import { featuresInfo, FeaturesTypes } from "@/constants/features";
 
 function Features() {
   return (
-    <Section className="bg-background min-h-screen">
+    <Section id="features" className="bg-background min-h-screen">
       <Section.Header>
         <Section.Title>Everything you need</Section.Title>
         <Section.Description>
