@@ -1,6 +1,6 @@
 import Banner from "@/components/globals/banner";
 import { buttonVariants } from "@/components/ui/button";
-// import GridPattern from "@/components/ui/grid-pattern";
+import heroEllipse from "@/assets/images/hero-ellipse.png"
 import Tag from "@/components/ui/tag";
 import { TextShimmer } from "@/components/ui/text-shimmer";
 import { Link } from "@tanstack/react-router";
@@ -43,7 +43,7 @@ function Hero() {
       </Banner.Header>
 
       <Banner.OverlayImg
-        src={"src/assets/images/hero-ellipse.png"}
+        src={heroEllipse}
         alt="Hero overlay"
         loading="eager"
         height={800}
