@@ -35,7 +35,7 @@ export class UserService extends BaseUserService<mUser> {
     if (existingLocalUser) {
       if (existingLocalUser.password) {
         throw new AuthError(
-          "Email already registered with a password. Please sign in locally first."
+          "Email already registered with a password. Please sign in first."
         );
       }
 

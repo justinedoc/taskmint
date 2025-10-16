@@ -12,7 +12,7 @@ interface TestimonialsType {
   username: string;
 }
 
-export const testimonialInfo: TestimonialsType[] = [
+export const testimonialData: TestimonialsType[] = [
   {
     image: testimonialImg1,
     name: "Emma Johnson",

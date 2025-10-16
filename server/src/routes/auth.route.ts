@@ -125,7 +125,7 @@ const app = new Hono()
 
     const user = await userService.findByField("email", userCredentials.email);
 
-    if (!user) throw new AuthError("Incorrect credentials");
+    if (!user || !user?.password) throw new AuthError("Incorrect credentials");
 
     const isPasswordMatch = await user.comparePassword(
       userCredentials.password
