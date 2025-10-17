@@ -14,6 +14,7 @@ export const Route = createFileRoute("/_landing/")({
 function Index() {
   return (
     <>
+      <Outlet />
       <Hero />
       <Cooperations />
       <Features />
@@ -21,7 +22,6 @@ function Index() {
       <Testimonial />
       <Pricing />
       <Faqs />
-      <Outlet />
     </>
   );
 }
