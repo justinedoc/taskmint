@@ -103,5 +103,43 @@
     "bun.lock",
     "tsconfig.json"
   ],
-  "globalEnv": ["NODE_ENV", "CI", "TURBO_TOKEN", "TURBO_TEAM", "TURBO_REMOTE_ONLY"]
+  "globalEnv": [
+    "NODE_ENV",
+    "CI",
+    "TURBO_TOKEN",
+    "TURBO_TEAM",
+    "TURBO_REMOTE_ONLY",
+    "ENV",
+
+    "PORT",
+
+    "NODEJS_HELPERS",
+
+    "MONGODB_URI",
+
+    "ACCESS_TOKEN_SECRET",
+
+    "REFRESH_TOKEN_SECRET",
+
+    "OTP_TOKEN_SECRET",
+
+    "REFRESH_COOKIE_SECRET",
+
+    "ACCESS_COOKIE_SECRET",
+
+    "OTP_COOKIE_SECRET",
+
+    "ENCRYPTION_KEY",
+    "SUPERADMIN_EMAIL",
+    "SUPERADMIN_PASS",
+    "SMTP_USER",
+    "SMTP_HOST",
+    "SMTP_PASS",
+    "EMAIL_ADDR",
+    "REDIS_URL",
+    "REDIS_PORT",
+    "REDIS_PASS",
+    "GOOGLE_CLIENT_SECRET",
+    "GOOGLE_CLIENT_ID"
+  ]
 }

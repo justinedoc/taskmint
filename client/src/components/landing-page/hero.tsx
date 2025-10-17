@@ -46,6 +46,7 @@ function Hero() {
         src={heroEllipse}
         alt="Hero overlay"
         loading="eager"
+        fetchPriority="high"
         height={800}
         className="-bottom-4 left-1/2 h-[50%] w-full -translate-x-1/2 md:h-auto"
       />
