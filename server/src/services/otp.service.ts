@@ -1,4 +1,4 @@
-import { CRYPTO } from "@server/app";
+import { CRYPTO } from "@server/index";
 import { authenticator, totp } from "otplib";
 
 totp.options = { step: 300 };

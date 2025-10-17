@@ -1,5 +1,5 @@
+import { type AppType } from "@server/index";
 import { hc } from "hono/client";
-import { type AppType } from "@server/app";
 
 export type Client = ReturnType<typeof hc<AppType>>;
 

@@ -25,7 +25,7 @@ export function createRouter() {
   }).basePath("/api");
 }
 
-export async function createApp() {
+export async function createApp(_Hono: any) {
   await connectDb();
   const app = createRouter();
 

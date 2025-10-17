@@ -1,5 +1,5 @@
 import { UserRole, zBaseUser, type BaseUser } from "@server/db/schemas";
-import { CRYPTO } from "@server/app";
+import { CRYPTO } from "@server/index";
 import { RolePermissions } from "@server/lib/permissions";
 import mongoose, { model, type Document } from "mongoose";
 import z from "zod";
