@@ -104,6 +104,7 @@
     "tsconfig.json"
   ],
   "globalEnv": [
+    "VITE_*",
     "NODE_ENV",
     "CI",
     "TURBO_TOKEN",
