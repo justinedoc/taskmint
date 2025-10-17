@@ -13,8 +13,8 @@ export class UserService extends BaseUserService<mUser> {
   }
 
   profile(user: User) {
-    const { _id, fullname, email, role, username, profileImg } = user;
-    return { id: _id, fullname, email, role, username, profileImg };
+    const { _id, fullname, email, role, username, profileImg, twoFactorEnabled } = user;
+    return { id: _id, fullname, email, role, username, profileImg, twoFactorEnabled };
   }
 
   private async generateUniqueUsername(email: string): Promise<string> {

@@ -17,10 +17,15 @@ export async function updateUser(
 export async function updateProfilePicture(
   formData: FormData,
 ): Promise<ApiResponse<{ user: User }>> {
-  const res = await API.patch(`/user/profile-picture`, formData, {
+  const res = await API.post(`/user/profile-picture`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
   });
+  return res.data;
+}
+
+export async function toggleTwoFactorAuth(): Promise<ApiResponse<{ twoFactorEnabled: boolean }>> {
+  const res = await API.post(`/user/toggle-2fa`);
   return res.data;
 }

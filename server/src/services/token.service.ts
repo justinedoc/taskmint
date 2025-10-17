@@ -7,6 +7,7 @@ import type { Types } from "mongoose";
 export interface TokenPayload extends JWTPayload {
   id: string;
   role: Role;
+  twoFactorEnabled: boolean;
   permissions?: string[];
 }
 
@@ -20,15 +21,18 @@ export class TokenService {
     id,
     role,
     permissions,
+    twoFactorEnabled,
   }: {
     id: Types.ObjectId | string;
     role: Role;
     permissions?: string[];
+    twoFactorEnabled: boolean;
   }): Promise<TokenPair> {
     const payload: TokenPayload = {
       id: id.toString(),
       role,
       permissions,
+      twoFactorEnabled,
     };
 
     const now = Math.floor(Date.now() / 1000);
@@ -51,15 +55,18 @@ export class TokenService {
     id,
     role,
     permissions,
+    twoFactorEnabled,
   }: {
     id: Types.ObjectId | string;
     role: Role;
     permissions?: string[];
+    twoFactorEnabled: boolean;
   }): Promise<string> {
     const payload: TokenPayload = {
       id: id.toString(),
       role,
       permissions,
+      twoFactorEnabled,
     };
 
     const now = Math.floor(Date.now() / 1000);

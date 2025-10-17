@@ -51,6 +51,7 @@ const app = new Hono<AppBindings>()
         id: user._id,
         role: user.role,
         permissions: user.permissions,
+        twoFactorEnabled: user.twoFactorEnabled,
       });
 
       const updatedUser = await userService.addRefreshToken(

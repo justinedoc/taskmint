@@ -4,7 +4,11 @@ import tokenService from "@server/services/token.service";
 import type { Context, Next } from "hono";
 import { JwtTokenExpired } from "hono/utils/jwt/types";
 import { model } from "mongoose";
-import { FORBIDDEN, UNAUTHORIZED } from "stoker/http-status-codes";
+import {
+  FORBIDDEN,
+  INTERNAL_SERVER_ERROR,
+  UNAUTHORIZED,
+} from "stoker/http-status-codes";
 
 export async function authMiddleware(c: Context, next: Next) {
   const accessToken = c.req.header("Authorization")?.split(" ")[1];
@@ -46,6 +50,18 @@ export async function authMiddleware(c: Context, next: Next) {
     }
 
     logger.error("An unexpected error occurred during authentication");
-    throw err;
+    console.log(err);
+
+    return c.json(
+      {
+        success: false,
+        message:
+          (err as Error)?.message ||
+          "An unexpected error occurred during authentication",
+        code: "UNEXPECTED_ERROR",
+        error: err,
+      },
+      INTERNAL_SERVER_ERROR
+    );
   }
 }

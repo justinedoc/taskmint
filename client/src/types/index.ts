@@ -12,4 +12,5 @@ export type User = {
   role: "User" | "Admin" | "Guest" | "Superadmin";
   username: string | undefined;
   profileImg: string | undefined;
+  twoFactorEnabled: boolean;
 };

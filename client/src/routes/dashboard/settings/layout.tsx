@@ -15,10 +15,6 @@ const sidebarNavItems = [
     title: "Account",
     href: "/dashboard/settings/account",
   },
-  {
-    title: "Appearance",
-    href: "/dashboard/settings/appearance", // Example for future expansion
-  },
 ];
 
 function SettingsLayout() {

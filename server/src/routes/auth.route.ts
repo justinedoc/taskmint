@@ -52,6 +52,7 @@ const app = new Hono()
       id: user._id,
       role: user.role,
       permissions: user.permissions,
+      twoFactorEnabled: user.twoFactorEnabled,
     });
 
     const updatedUser = await userService.addRefreshToken(
@@ -93,6 +94,7 @@ const app = new Hono()
     const otpToken = await tokenService.createOtpToken({
       id: user._id,
       role: user.role,
+      twoFactorEnabled: user.twoFactorEnabled,
     });
 
     await cookieService.setOTPCookie(c, otpToken);
@@ -139,6 +141,7 @@ const app = new Hono()
       const otpToken = await tokenService.createOtpToken({
         id: user._id,
         role: user.role,
+        twoFactorEnabled: user.twoFactorEnabled,
       });
 
       await cookieService.setOTPCookie(c, otpToken);
@@ -171,6 +174,7 @@ const app = new Hono()
       id: user._id,
       role: user.role,
       permissions: user.permissions,
+      twoFactorEnabled: user.twoFactorEnabled,
     });
 
     const updatedUser = await userService.addRefreshToken(

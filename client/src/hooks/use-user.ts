@@ -1,5 +1,6 @@
 import {
   UpdateUserPayload,
+  toggleTwoFactorAuth,
   updateProfilePicture,
   updateUser,
 } from "@/api/user";
@@ -42,6 +43,22 @@ export const useUpdateUser = () => {
     onSuccess: () => {
       toast.success("Profile updated successfully!");
       queryClient.invalidateQueries({ queryKey: userQueryOptions().queryKey });
+    },
+    onError: (error) => {
+      const { message } = parseAxiosError(error);
+      toast.error(message);
+    },
+  });
+};
+
+export const useToggle2FA = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: toggleTwoFactorAuth,
+    onSuccess(data) {
+      queryClient.invalidateQueries({ queryKey: userQueryOptions().queryKey });
+      toast.success(data.message);
     },
     onError: (error) => {
       const { message } = parseAxiosError(error);

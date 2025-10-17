@@ -1,13 +1,13 @@
+import "dotenv/config";
+
 import { createApp } from "@server/app/create-app";
 import authRoutes from "@server/routes/auth.route";
 import refreshRoute from "@server/routes/refresh.route";
 import userRoutes from "@server/routes/user.route";
 import verificationRoutes from "@server/routes/verify.route";
-import { handle } from "hono/vercel";
 import { NOT_FOUND, OK } from "stoker/http-status-codes";
 
 import { getCryptoService } from "@server/services/crypto.service";
-import "dotenv/config";
 
 const app = await createApp();
 
@@ -46,4 +46,4 @@ app.notFound((c) => {
 
 export type AppType = typeof app;
 
-export default handle(app);
+export default app;
