@@ -16,7 +16,8 @@
         "package.json",
         "bun.lock",
         "eslint.config.js",
-        "index.html"
+        "index.html",
+        ".env*"
       ],
       "outputs": ["dist/**", "build/**", ".turbo/**"],
       "env": ["NODE_ENV", "VITE_*"]
