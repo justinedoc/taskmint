@@ -2,7 +2,7 @@ import type { mAdmin } from "@server/db/models/admin.model";
 import AdminModel from "@server/db/models/admin.model";
 import type { mUser } from "@server/db/models/user.model";
 import UserModel from "@server/db/models/user.model";
-import type { Role } from "@server/db/schemas";
+import type { Role } from "@server/db/z-schemas/user.schemas";
 import { BaseUserService } from "./base-user.service";
 
 type AnyServiceType = BaseUserService<mUser> | BaseUserService<mAdmin>;

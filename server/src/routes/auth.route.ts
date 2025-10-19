@@ -1,6 +1,6 @@
 import env from "@server/app/validate-env";
 import { zUserSchema } from "@server/db/models/user.model";
-import { zSignin } from "@server/db/schemas";
+import { zSignin } from "@server/db/z-schemas/user.schemas";
 import { AuthError } from "@server/errors/auth.error";
 import { tokenDecoder } from "@server/lib/decode-token";
 import logger from "@server/lib/logger";

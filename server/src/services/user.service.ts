@@ -1,6 +1,6 @@
 import type { mUser, User } from "@server/db/models/user.model";
 import UserModel from "@server/db/models/user.model";
-import type { Role } from "@server/db/schemas";
+import type { Role } from "@server/db/z-schemas/user.schemas";
 import { AuthError } from "@server/errors/auth.error";
 import { BaseUserService } from "@server/services/base-user.service";
 import type { GoogleUserProfile } from "@server/services/google-auth.service";
@@ -13,8 +13,24 @@ export class UserService extends BaseUserService<mUser> {
   }
 
   profile(user: User) {
-    const { _id, fullname, email, role, username, profileImg, twoFactorEnabled } = user;
-    return { id: _id, fullname, email, role, username, profileImg, twoFactorEnabled };
+    const {
+      _id,
+      fullname,
+      email,
+      role,
+      username,
+      profileImg,
+      twoFactorEnabled,
+    } = user;
+    return {
+      id: _id,
+      fullname,
+      email,
+      role,
+      username,
+      profileImg,
+      twoFactorEnabled,
+    };
   }
 
   private async generateUniqueUsername(email: string): Promise<string> {

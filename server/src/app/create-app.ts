@@ -1,6 +1,6 @@
 import { compress } from "@hono/bun-compress";
 import { OpenAPIHono } from "@hono/zod-openapi";
-import connectDb from "@server/db";
+import connectDb from "@server/config/mongodb";
 import { onError } from "@server/middlewares/on-error.middleware";
 import type { TokenPayload } from "@server/services/token.service";
 import { rateLimiter } from "hono-rate-limiter";

@@ -1,4 +1,4 @@
-import type { Role } from "@server/db/schemas";
+import type { Role } from "@server/db/z-schemas/user.schemas";
 import { AuthError } from "@server/errors/auth.error";
 import type { TokenPayload } from "@server/services/token.service";
 import { FORBIDDEN } from "stoker/http-status-codes";

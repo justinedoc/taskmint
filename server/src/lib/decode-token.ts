@@ -1,4 +1,4 @@
-import type { Role } from "@server/db/schemas";
+import type { Role } from "@server/db/z-schemas/user.schemas";
 import type { TokenPayload } from "@server/services/token.service";
 import { decode } from "hono/jwt";
 

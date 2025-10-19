@@ -3,6 +3,7 @@ import "dotenv/config";
 import { createApp } from "@server/app/create-app";
 import authRoutes from "@server/routes/auth.route";
 import refreshRoute from "@server/routes/refresh.route";
+import tasksRoutes from "@server/routes/tasks.route";
 import userRoutes from "@server/routes/user.route";
 import verificationRoutes from "@server/routes/verify.route";
 import { NOT_FOUND, OK } from "stoker/http-status-codes";
@@ -39,6 +40,7 @@ app.doc("/doc", {
 app.route("/v1", authRoutes);
 app.route("/v1", userRoutes);
 app.route("/v1", refreshRoute);
+app.route("/v1", tasksRoutes);
 app.route("/v1", verificationRoutes);
 
 app.notFound((c) => {

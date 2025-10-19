@@ -1,38 +1,104 @@
 import type { AppBindings } from "@server/app/create-app";
+import {
+  zTask,
+  zTaskById,
+  zTasksParams,
+} from "@server/db/z-schemas/task.schemas";
+import { zValidator } from "@server/lib/zod-validator";
 import { authMiddleware } from "@server/middlewares/auth.middleware";
+import taskService from "@server/services/task.service";
 import { Hono } from "hono";
+import { OK } from "stoker/http-status-codes";
 
 const app = new Hono<AppBindings>()
   .basePath("/tasks")
 
   .use(authMiddleware)
 
+  .get("/", zValidator("query", zTasksParams), async (c) => {
+    const query = c.req.valid("query");
+    const { id: userId } = c.get("user");
 
-  .get("/", async (c) => {
-    // Placeholder response
+    const data = await taskService.getAll(query, userId);
+
     return c.json(
       {
         success: true,
-        message: "Fetched all tasks",
-        data: [
-          { id: 1, title: "Sample Task 1", completed: false },
-          { id: 2, title: "Sample Task 2", completed: true },
-        ],
+        message: "Tasks retrieved successfully",
+        data,
       },
-      200
+      OK
     );
   })
 
-  .get("/:id", async (c) => {
-    const taskId = c.req.param("id");
+  .get("/:taskId", zValidator("param", zTaskById), async (c) => {
+    const { id: userId } = c.get("user");
+    const { taskId } = c.req.valid("param");
 
-    // Placeholder response
+    const task = await taskService.getById(taskId, userId);
+
     return c.json(
       {
         success: true,
         message: `Fetched task with ID: ${taskId}`,
-        data: { id: taskId, title: "Sample Task", completed: false },
+        data: { task },
       },
-      200
+      OK
     );
   })
+
+  .post("/", zValidator("json", zTask), async (c) => {
+    const { id: userId } = c.get("user");
+    const data = c.req.valid("json");
+
+    const task = await taskService.create(data, userId);
+
+    return c.json(
+      {
+        success: true,
+        message: "Task created successfully",
+        data: { task },
+      },
+      OK
+    );
+  })
+
+  .patch(
+    "/:taskId",
+    zValidator("param", zTaskById),
+    zValidator("json", zTask.partial()),
+    async (c) => {
+      const { id: userId } = c.get("user");
+      const { taskId } = c.req.valid("param");
+      const taskDetails = c.req.valid("json");
+
+      const task = await taskService.update(taskDetails, taskId, userId);
+
+      return c.json(
+        {
+          success: true,
+          message: "Task updated successfully",
+          data: { task },
+        },
+        OK
+      );
+    }
+  )
+
+  .delete("/:taskId", zValidator("param", zTaskById), async (c) => {
+    const { taskId } = c.req.valid("param");
+    const userId = c.get("user").id;
+
+    const task = await taskService.delete(taskId, userId);
+
+    return c.json(
+      {
+        success: true,
+        message: "Task deleted successfully",
+        data: { task },
+      },
+      OK
+    );
+  });
+
+export default app;

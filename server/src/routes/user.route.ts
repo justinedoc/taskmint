@@ -1,7 +1,7 @@
 import type { AppBindings } from "@server/app/create-app";
 import cloudinary from "@server/config/cloudinary";
 import UserModel from "@server/db/models/user.model";
-import { zGetById, zUpdateUserData } from "@server/db/schemas";
+import { zGetById, zUpdateUserData } from "@server/db/z-schemas/user.schemas";
 import { enforcePermission, Permission } from "@server/lib/permissions";
 import { zValidator } from "@server/lib/zod-validator";
 import { authMiddleware } from "@server/middlewares/auth.middleware";

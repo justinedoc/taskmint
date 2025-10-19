@@ -1,5 +1,5 @@
 import env from "@server/app/validate-env";
-import type { Role } from "@server/db/schemas";
+import type { Role } from "@server/db/z-schemas/user.schemas";
 import { sign, verify } from "hono/jwt";
 import type { JWTPayload } from "hono/utils/jwt/types";
 import type { Types } from "mongoose";
