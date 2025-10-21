@@ -2,6 +2,7 @@ import type { mUser, User } from "@server/db/models/user.model";
 import UserModel from "@server/db/models/user.model";
 import type { Role } from "@server/db/z-schemas/user.schemas";
 import { AuthError } from "@server/errors/auth.error";
+import { CRYPTO } from "@server/index";
 import { BaseUserService } from "@server/services/base-user.service";
 import type { GoogleUserProfile } from "@server/services/google-auth.service";
 import otpService from "@server/services/otp.service";
@@ -73,6 +74,8 @@ export class UserService extends BaseUserService<mUser> {
       return updatedUser;
     }
 
+    const userOtpSecret = await CRYPTO.encrypt(otpService.generateUserSecret());
+
     const user = await UserModel.findOneAndUpdate(
       { googleId },
       {
@@ -83,7 +86,7 @@ export class UserService extends BaseUserService<mUser> {
           isVerified: true,
           twoFactorEnabled: false,
           profileImg: picture,
-          otpSecret: otpService.generateUserSecret(),
+          otpSecret: userOtpSecret,
           username: await this.generateUniqueUsername(email),
         },
       },

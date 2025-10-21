@@ -6,33 +6,29 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { StatusButton, TASK_PRIORITY } from "@/components/ui/priority-btn";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import { StatusButton } from "@/components/ui/priority-btn";
+import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton
+import { Task } from "@/data/get-tasks";
+import { useTasks } from "@/hooks/use-tasks";
 import { formatTime, timeLeft } from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { AlarmClock, Calendar, Clock, Ellipsis } from "lucide-react";
-
-type upcomingTasks = {
-  title: string;
-  description: string;
-  priority: (typeof TASK_PRIORITY)[number];
-  dueDate: Date;
-};
-
-const sampleUpcomingTasks: upcomingTasks[] = [
-  {
-    title: "Brainstorming",
-    description: "Brainstorming with team on storlly app",
-    priority: "high",
-    dueDate: new Date("2025-10-12"),
-  },
-  {
-    title: "Re-branding Discussion",
-    description: "Discussion on re-branding of dermo Brand",
-    priority: "medium",
-    dueDate: new Date("2025-10-13"),
-  },
-];
+import {
+  AlarmClock,
+  AlertTriangle,
+  Calendar,
+  Clock,
+  Ellipsis,
+  Inbox,
+} from "lucide-react";
 
 function UpcomingTasksTab() {
   return (
@@ -44,16 +40,67 @@ function UpcomingTasksTab() {
 }
 
 function UpcomingTasks() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const { data, isPending, isError } = useTasks({
+    dueDate: today.toISOString(),
+  });
+
+  if (isPending) {
+    return (
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <UpcomingTaskSkeletonCard key={i} />
+        ))}
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
+        <div className="bg-destructive/10 flex h-20 w-20 items-center justify-center rounded-full">
+          <AlertTriangle className="text-destructive h-10 w-10" />
+        </div>
+        <h2 className="mt-6 text-xl font-semibold">Error Loading Tasks</h2>
+        <p className="text-muted-foreground mt-2 text-center text-sm">
+          Something went wrong while fetching your tasks. Please try again
+          later.
+        </p>
+      </div>
+    );
+  }
+
+  if (!data || data.data.tasks.length === 0) {
+    return (
+      <Empty>
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <Inbox />
+          </EmptyMedia>
+          <EmptyTitle>No Upcoming Tasks</EmptyTitle>
+          <EmptyDescription>
+            You're all caught up! There are no tasks scheduled.
+          </EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent>
+          <Button>Add Tasks</Button>
+        </EmptyContent>
+      </Empty>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-      {sampleUpcomingTasks.map((task) => (
-        <UpcomingTasksCard key={task.title} task={task} />
+      {data.data.tasks.map((task) => (
+        <UpcomingTasksCard key={task._id} task={task} />
       ))}
     </div>
   );
 }
 
-function UpcomingTasksCard({ task }: { task: upcomingTasks }) {
+function UpcomingTasksCard({ task }: { task: Task }) {
   return (
     <Card className="border-border/50 rounded-3xl pt-4 pb-0 shadow-lg">
       <CardHeader className="px-4">
@@ -83,7 +130,7 @@ function UpcomingTasksCard({ task }: { task: upcomingTasks }) {
   );
 }
 
-function UpcomingTaskActions({ task }: { task: upcomingTasks }) {
+function UpcomingTaskActions({ task }: { task: Task }) {
   return (
     <div className="flex items-center justify-between">
       <Button
@@ -103,6 +150,35 @@ function UpcomingTaskActions({ task }: { task: upcomingTasks }) {
 
       <Ellipsis size={17} className="" />
     </div>
+  );
+}
+
+function UpcomingTaskSkeletonCard() {
+  return (
+    <Card className="border-border/50 rounded-3xl pt-4 pb-0 shadow-lg">
+      <CardHeader className="px-4">
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-6 w-24 rounded-md" />
+          <Skeleton className="h-5 w-5 rounded-full" />
+        </div>
+        <Skeleton className="h-7 w-3/4 rounded-md" />
+        <div className="space-y-2 pt-1">
+          <Skeleton className="h-4 w-full rounded-md" />
+          <Skeleton className="h-4 w-5/6 rounded-md" />
+        </div>
+        <Skeleton className="h-7 w-20 rounded-full" />
+      </CardHeader>
+      <CardContent className="from-primary/12 to-accent/20 mt-auto flex items-center justify-between rounded-t-xl rounded-b-[inherit] bg-gradient-to-b p-4 text-sm">
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-9 w-9 rounded-md" />
+          <Skeleton className="h-5 w-24 rounded-md" />
+        </div>
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-9 w-9 rounded-md" />
+          <Skeleton className="h-5 w-16 rounded-md" />
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 

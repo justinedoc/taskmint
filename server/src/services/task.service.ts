@@ -1,12 +1,11 @@
 import Task, { type mTask } from "@server/db/models/task.model";
-import type { BaseTask, zTasksParams } from "@server/db/z-schemas/task.schemas";
+import type { BaseTask } from "@server/db/z-schemas/task.schemas";
 import { TaskError } from "@server/errors/tasks.error";
+import type { AllTasksQuery } from "@shared/types/index";
 import type { FilterQuery } from "mongoose";
 import { BAD_REQUEST, NOT_FOUND } from "stoker/http-status-codes";
-import type { z } from "zod";
 
 type TNewTask = Omit<BaseTask, "_id" | "user">;
-type TAllTasksQuery = z.infer<typeof zTasksParams>;
 
 class TaskService {
   async create(taskDetails: TNewTask, userId: string) {
@@ -26,11 +25,7 @@ class TaskService {
     return task;
   }
 
-  async update(
-    taskDetails: Partial<TNewTask>,
-    taskId: string,
-    userId: string
-  ) {
+  async update(taskDetails: Partial<TNewTask>, taskId: string, userId: string) {
     const task = await Task.findOneAndUpdate(
       { _id: taskId, user: userId },
       taskDetails,
@@ -62,7 +57,7 @@ class TaskService {
     return task;
   }
 
-  async getAll(query: TAllTasksQuery, userId: string) {
+  async getAll(query: AllTasksQuery, userId: string) {
     const {
       status,
       sortOrder,
@@ -97,17 +92,17 @@ class TaskService {
 
     if (search) {
       const pattern = new RegExp(search, "i");
-      filterQuery.$or = [
-        { title: pattern },
-        { description: pattern },
-        { notes: pattern },
-      ];
+      filterQuery.$or = [{ title: pattern }, { description: pattern }];
     }
 
     const tasks = Task.find(filterQuery)
       .populate<{
         user: BaseTask;
-      }>("user", "-refreshToken -comparePassword -__v -password -otpSecret -permissions -createdAt -updatedAt -twoFactorEnabled -isVerified -profileImg").select("-__v")
+      }>(
+        "user",
+        "-refreshToken -comparePassword -__v -password -otpSecret -permissions -createdAt -updatedAt -twoFactorEnabled -isVerified -profileImg"
+      )
+      .select("-__v")
       .sort(sortQuery)
       .skip(skip)
       .limit(limit)
