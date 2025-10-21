@@ -2,6 +2,7 @@ import type { AppBindings } from "@server/app/create-app";
 import cloudinary from "@server/config/cloudinary";
 import UserModel from "@server/db/models/user.model";
 import { zGetById, zUpdateUserData } from "@server/db/z-schemas/user.schemas";
+import { MAX_IMG_SIZE, zImage } from "@server/lib/img-validator";
 import { enforcePermission, Permission } from "@server/lib/permissions";
 import { zValidator } from "@server/lib/zod-validator";
 import { authMiddleware } from "@server/middlewares/auth.middleware";
@@ -20,7 +21,7 @@ import {
 import z from "zod";
 
 const profileImageSchema = z.object({
-  profileImg: z.instanceof(File),
+  profileImg: zImage,
 });
 
 const app = new Hono<AppBindings>()
@@ -55,12 +56,12 @@ const app = new Hono<AppBindings>()
   .post(
     "/profile-picture",
     bodyLimit({
-      maxSize: 3 * 1024 * 1024,
+      maxSize: MAX_IMG_SIZE,
       onError: (c) => {
         return c.json(
           {
             success: false,
-            message: "File size limit of 3MB exceeded.",
+            message: `File size limit of ${MAX_IMG_SIZE / 1024 / 1024}MB exceeded.`,
           },
           BAD_REQUEST
         );
