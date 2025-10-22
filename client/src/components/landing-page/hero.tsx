@@ -19,12 +19,11 @@ function Hero() {
         </Tag>
 
         <Banner.Title className="font-heading py-2">
-          One Task. <br />
-          Big Momentum.
+          From To-Do <br /> to Done.
         </Banner.Title>
 
-        <Banner.Description>
-          Track progress, celebrate tiny wins, and stay focused — one task at a
+        <Banner.Description className="max-w-[95%]">
+          Track progress, celebrate tiny wins, and stay focused - one task at a
           time.
         </Banner.Description>
 

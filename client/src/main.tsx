@@ -64,6 +64,9 @@ if (!rootElement) {
 }
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const testEnv = import.meta.env.VITE_NEW_STUFF;
+
+console.log(testEnv)
 
 // Render the app
 if (!rootElement.innerHTML) {

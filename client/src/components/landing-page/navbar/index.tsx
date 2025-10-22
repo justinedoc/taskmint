@@ -10,11 +10,10 @@ function Navbar() {
         <img
           src="/taskmint-half.svg"
           alt="Task mint's logo"
-          data-state={isMobile}
           className="size-10"
         />
-        <h1 className="text-3xl font-extrabold">
-          Task<span className="text-primary">mint</span>
+        <h1 data-state={isMobile} className="text-3xl font-extrabold data-[state=true]:hidden">
+          task<span className="text-primary">mint</span>
         </h1>
       </div>
 
