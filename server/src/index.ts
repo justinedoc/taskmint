@@ -6,6 +6,7 @@ import refreshRoute from "@server/routes/refresh.route";
 import tasksRoutes from "@server/routes/tasks.route";
 import userRoutes from "@server/routes/user.route";
 import verificationRoutes from "@server/routes/verify.route";
+import analyticsRoutes from "@server/routes/analytics.route";
 import { NOT_FOUND, OK } from "stoker/http-status-codes";
 
 import { Hono } from "hono";
@@ -41,6 +42,7 @@ app.route("/v1", authRoutes);
 app.route("/v1", userRoutes);
 app.route("/v1", refreshRoute);
 app.route("/v1", tasksRoutes);
+app.route("/v1", analyticsRoutes);
 app.route("/v1", verificationRoutes);
 
 app.notFound((c) => {

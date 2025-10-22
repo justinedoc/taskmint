@@ -11,20 +11,8 @@ import { Route as DashboardRoute, TABS } from "@/routes/dashboard";
 import { Link } from "@tanstack/react-router";
 import { RotateCcw, SlidersHorizontal } from "lucide-react";
 
-export type ChartDataPoint = {
-  label: string;
-  value: number;
-};
 
-const chartData: ChartDataPoint[] = [
-  { label: "16 Mar", value: 23 },
-  { label: "17 Mar", value: 82 },
-  { label: "18 Mar", value: 97 },
-  { label: "19 Mar", value: 72 },
-  { label: "20 Mar", value: 48 },
-  { label: "21 Mar", value: 60 },
-  { label: "22 Mar", value: 58 },
-];
+
 
 function DashboardTabs({ tab }: { tab: (typeof TABS)[number] }) {
   return (
@@ -46,7 +34,7 @@ function DashboardTabs({ tab }: { tab: (typeof TABS)[number] }) {
       <TabsContent value="upcoming">
         <UpcomingTasksTab />
         <div className="grid grid-cols-1 items-center gap-4 md:grid-cols-2">
-          <ProductivityChart data={chartData} />
+          <ProductivityChart />
           <LongTermGoals />
         </div>
       </TabsContent>

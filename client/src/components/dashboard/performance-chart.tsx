@@ -1,4 +1,5 @@
-import { ChartDataPoint } from "@/components/dashboard/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useWeeklyProductivity } from "@/hooks/use-analytics";
 import {
   Bar,
   BarChart,
@@ -27,8 +28,32 @@ const CustomTooltip = ({ active, payload }: any) => {
   return null;
 };
 
-const ProductivityChart = ({ data }: { data: ChartDataPoint[] }) => {
-  const peakProductivity = data.reduce(
+const ProductivityChart = () => {
+  const { data, isPending, isError } = useWeeklyProductivity();
+
+  const chartData = data?.data;
+
+  if (isPending) {
+    return <Skeleton className="h-80 w-full" />;
+  }
+
+  if (!chartData || chartData.length === 0) {
+    return (
+      <p className="text-muted-foreground text-center">
+        No productivity data available.
+      </p>
+    );
+  }
+
+  if (isError) {
+    return (
+      <p className="text-center text-red-500">
+        Failed to load productivity data.
+      </p>
+    );
+  }
+
+  const peakProductivity = chartData.reduce(
     (max, current, index) => {
       if (current.value > max.value) {
         return { value: current.value, index };
@@ -38,7 +63,7 @@ const ProductivityChart = ({ data }: { data: ChartDataPoint[] }) => {
     { value: -Infinity, index: -1 },
   );
 
-  const chartData = data.map((item, index) => ({
+  const chart = chartData.map((item, index) => ({
     ...item,
     isHighlighted: index === peakProductivity.index,
   }));
@@ -48,7 +73,7 @@ const ProductivityChart = ({ data }: { data: ChartDataPoint[] }) => {
       <div className="h-80">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
-            data={chartData}
+            data={chart}
             margin={{ top: 20, right: 20, left: 0, bottom: 0 }}
           >
             <YAxis
@@ -74,7 +99,7 @@ const ProductivityChart = ({ data }: { data: ChartDataPoint[] }) => {
               radius={[100, 100, 100, 100]}
               className="hover:bg-muted"
             >
-              {chartData.map((entry, index) => (
+              {chart.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={entry.isHighlighted ? "#5624B2" : "#220D45"}

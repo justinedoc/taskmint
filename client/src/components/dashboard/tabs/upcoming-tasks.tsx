@@ -85,7 +85,7 @@ function UpcomingTasks() {
           </EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
-          <Button>Add Tasks</Button>
+          <Button>Go to Tasks</Button>
         </EmptyContent>
       </Empty>
     );

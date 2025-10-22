@@ -19,10 +19,10 @@ export const Route = createFileRoute("/dashboard/")({
 
 function Dashboard() {
   const { tab } = Route.useSearch();
-  const { data: userResponse, isLoading } = useUser();
+  const { data: userResponse, isPending } = useUser();
   const user = userResponse?.data;
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="w-full space-y-6">
         <div className="space-y-2">
@@ -35,16 +35,11 @@ function Dashboard() {
     );
   }
 
-  if (!user) {
-    return null;
-  }
-
   return (
     <div className="w-full space-y-6">
       <div className="space-y-2">
         <h1 className="text-4xl font-semibold">
-          {/* This logic is now safe because we know `user` exists */}
-          Hello {user.fullname.split(" ").at(0)}
+          Hello {user?.fullname.split(" ").at(0)}
         </h1>
         <p className="text-muted-foreground">Let's make some progress today!</p>
       </div>
