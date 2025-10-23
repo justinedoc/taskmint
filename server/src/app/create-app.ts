@@ -10,6 +10,7 @@ import { prettyJSON } from "hono/pretty-json";
 import { secureHeaders } from "hono/secure-headers";
 import { serveEmojiFavicon } from "stoker/middlewares";
 import { defaultHook } from "stoker/openapi";
+import { APP_ORIGINS } from "../config/app-origins";
 
 export type AppBindings = {
   Variables: {
@@ -53,11 +54,7 @@ export async function createApp(_Hono: any) {
 
   app.use(
     cors({
-      origin: [
-        "http://localhost:5173",
-        "http://localhost:4173",
-        "http://localhost:3000",
-      ],
+      origin: APP_ORIGINS,
       credentials: true,
     })
   );
