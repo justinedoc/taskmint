@@ -26,19 +26,16 @@ class AnalyticsService {
     const productivityData = [];
     const today = new Date();
 
-    // Loop from 6 days ago up to today (7 days total)
     for (let i = 6; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
 
-      // Define start and end of the day
       const startOfDay = new Date(date);
       startOfDay.setHours(0, 0, 0, 0);
 
       const endOfDay = new Date(date);
       endOfDay.setHours(23, 59, 59, 999);
 
-      // 1. Find all tasks due on this day
       const totalTasksDue = await Task.countDocuments({
         user: userId,
         dueDate: {
@@ -47,7 +44,6 @@ class AnalyticsService {
         },
       });
 
-      // 2. Find tasks completed that were due on this day
       const completedTasksDue = await Task.countDocuments({
         user: userId,
         completed: true,
@@ -57,7 +53,6 @@ class AnalyticsService {
         },
       });
 
-      // 3. Calculate percentage
       let percentage = 0;
       if (totalTasksDue > 0) {
         percentage = (completedTasksDue / totalTasksDue) * 100;

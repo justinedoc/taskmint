@@ -16,10 +16,10 @@ import { Hono } from "hono";
 import { CONFLICT, CREATED, OK, UNAUTHORIZED } from "stoker/http-status-codes";
 import z from "zod";
 
-const zUserSignup = zUserSchema.omit({
-  role: true,
-  refreshToken: true,
-  permissions: true,
+const zUserSignup = zUserSchema.pick({
+  fullname: true,
+  email: true,
+  password: true,
 });
 
 const zGoogleAuth = z.object({

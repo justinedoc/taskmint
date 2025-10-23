@@ -23,10 +23,7 @@ export class BaseUserService<T extends Document> {
   }
 
   async create(
-    data: Omit<
-      User,
-      "_id" | "role" | "refreshToken" | "comparePassword" | "otpSecret"
-    > & { otpSecret: string }
+    data: Pick<User, "fullname" | "password" | "email"> & { otpSecret: string }
   ) {
     const user = new this.model(data);
     await user.save();

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -20,6 +20,7 @@ import { Task } from "@/data/get-tasks";
 import { useTasks } from "@/hooks/use-tasks";
 import { formatTime, timeLeft } from "@/lib/date";
 import { cn } from "@/lib/utils";
+import { Link } from "@tanstack/react-router";
 import { format } from "date-fns";
 import {
   AlarmClock,
@@ -85,7 +86,9 @@ function UpcomingTasks() {
           </EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
-          <Button>Go to Tasks</Button>
+          <Link className={cn(buttonVariants())} to={"/dashboard/tasks"}>
+            Go to Tasks
+          </Link>
         </EmptyContent>
       </Empty>
     );

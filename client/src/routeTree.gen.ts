@@ -14,6 +14,7 @@ import { Route as LandingLayoutRouteImport } from './routes/_landing/layout'
 import { Route as AuthLayoutRouteImport } from './routes/_auth/layout'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as LandingIndexRouteImport } from './routes/_landing/index'
+import { Route as DashboardTasksRouteImport } from './routes/dashboard/tasks'
 import { Route as LandingAboutRouteImport } from './routes/_landing/about'
 import { Route as AuthVerifyOtpRouteImport } from './routes/_auth/verify-otp'
 import { Route as AuthSignupRouteImport } from './routes/_auth/signup'
@@ -49,6 +50,11 @@ const LandingIndexRoute = LandingIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => LandingLayoutRoute,
+} as any)
+const DashboardTasksRoute = DashboardTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => DashboardLayoutRoute,
 } as any)
 const LandingAboutRoute = LandingAboutRouteImport.update({
   id: '/about',
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/signup': typeof AuthSignupRoute
   '/verify-otp': typeof AuthVerifyOtpRoute
   '/about': typeof LandingAboutRoute
+  '/dashboard/tasks': typeof DashboardTasksRoute
   '/': typeof LandingIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/signin/modal': typeof LandingSigninModalRoute
@@ -137,6 +144,7 @@ export interface FileRoutesByTo {
   '/signup': typeof AuthSignupRoute
   '/verify-otp': typeof AuthVerifyOtpRoute
   '/about': typeof LandingAboutRoute
+  '/dashboard/tasks': typeof DashboardTasksRoute
   '/': typeof LandingIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/signin/modal': typeof LandingSigninModalRoute
@@ -157,6 +165,7 @@ export interface FileRoutesById {
   '/_auth/signup': typeof AuthSignupRoute
   '/_auth/verify-otp': typeof AuthVerifyOtpRoute
   '/_landing/about': typeof LandingAboutRoute
+  '/dashboard/tasks': typeof DashboardTasksRoute
   '/_landing/': typeof LandingIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/_landing/signin/modal': typeof LandingSigninModalRoute
@@ -176,6 +185,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify-otp'
     | '/about'
+    | '/dashboard/tasks'
     | '/'
     | '/dashboard/'
     | '/signin/modal'
@@ -191,6 +201,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/verify-otp'
     | '/about'
+    | '/dashboard/tasks'
     | '/'
     | '/dashboard'
     | '/signin/modal'
@@ -210,6 +221,7 @@ export interface FileRouteTypes {
     | '/_auth/signup'
     | '/_auth/verify-otp'
     | '/_landing/about'
+    | '/dashboard/tasks'
     | '/_landing/'
     | '/dashboard/'
     | '/_landing/signin/modal'
@@ -261,6 +273,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof LandingIndexRouteImport
       parentRoute: typeof LandingLayoutRoute
+    }
+    '/dashboard/tasks': {
+      id: '/dashboard/tasks'
+      path: '/tasks'
+      fullPath: '/dashboard/tasks'
+      preLoaderRoute: typeof DashboardTasksRouteImport
+      parentRoute: typeof DashboardLayoutRoute
     }
     '/_landing/about': {
       id: '/_landing/about'
@@ -407,11 +426,13 @@ const DashboardSettingsLayoutRouteWithChildren =
 
 interface DashboardLayoutRouteChildren {
   DashboardSettingsLayoutRoute: typeof DashboardSettingsLayoutRouteWithChildren
+  DashboardTasksRoute: typeof DashboardTasksRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardLayoutRouteChildren: DashboardLayoutRouteChildren = {
   DashboardSettingsLayoutRoute: DashboardSettingsLayoutRouteWithChildren,
+  DashboardTasksRoute: DashboardTasksRoute,
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
