@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "src/index.ts": {
+      "runtime": "@vercel/bun@latest"
+    }
+  },
+  "routes": [
+    { "src": "/(.*)", "dest": "/src/index.ts" }
+  ]
+}
